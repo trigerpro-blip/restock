@@ -1,5 +1,5 @@
 /* Restock service worker — app shell cached so the list opens without signal. */
-const CACHE = 'restock-v1';
+const CACHE = 'restock-v2';
 const SHELL = [
   './',
   './index.html',
