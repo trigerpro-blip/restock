@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Restock</title>
+<meta name="theme-color" content="#EFF2EA">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Restock">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16211C;
+  --ink-2:#4A5B52;
+  --paper:#EFF2EA;
+  --card:#FFFFFF;
+  --line:#DCE2D6;
+  --violet:#5B45D6;
+  --violet-soft:#EDE9FD;
+  --amber:#C97A06;
+  --amber-soft:#FBEFD8;
+  --green:#2E7D5B;
+  --green-soft:#E1F0E7;
+  --red:#B3261E;
+  --shadow:0 1px 0 rgba(22,33,28,.05), 0 6px 18px -12px rgba(22,33,28,.35);
+  --r:14px;
+  --display:"Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--display);font-size:16px;line-height:1.35;overscroll-behavior-y:contain}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:none;background:none}
+:focus-visible{outline:2.5px solid var(--violet);outline-offset:2px;border-radius:6px}
+
+.app{max-width:720px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column}
+header{position:sticky;top:0;z-index:20;background:rgba(239,242,234,.93);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line);padding:calc(env(safe-area-inset-top) + 12px) 14px 10px}
+.head-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.wordmark{font-weight:700;letter-spacing:-.02em;font-size:20px;display:flex;align-items:baseline;gap:8px}
+.wordmark span{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--ink-2);letter-spacing:.08em;text-transform:uppercase}
+.head-acts{display:flex;align-items:center;gap:2px}
+.sync{font-family:var(--mono);font-size:11px;color:var(--ink-2);display:flex;align-items:center;gap:6px;padding:7px 9px;border-radius:9px}
+.sync:hover{background:#0000000a}
+.icon-btn{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--ink-2)}
+.icon-btn:hover{background:#0000000a}
+.icon-btn svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex:none}
+.dot.warn{background:var(--amber)}
+.dot.err{background:var(--red)}
+.dot.off{background:#B6C0B8}
+.dot.busy{background:var(--violet);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.25}}
+
+main{flex:1;padding:16px 14px 120px}
+.view{display:none}
+.view.on{display:block;animation:fade .18s ease-out}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}}
+
+nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:8px 8px calc(env(safe-area-inset-bottom) + 8px)}
+.nav-inner{max-width:720px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.tab{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border-radius:12px;color:var(--ink-2);font-size:12px;font-weight:500}
+.tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.tab.on{color:var(--violet);background:var(--violet-soft)}
+.tab .count{font-family:var(--mono);font-size:10px}
+
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin:0 0 8px}
+.empty{text-align:center;padding:40px 20px;color:var(--ink-2)}
+.empty strong{display:block;color:var(--ink);font-size:17px;margin-bottom:6px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--violet);color:#fff;font-weight:500;padding:13px 18px;border-radius:12px;min-height:46px}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn.quiet{background:transparent;color:var(--ink-2);padding:10px 12px;min-height:auto}
+.btn[disabled]{opacity:.5;pointer-events:none}
+input[type=text],input[type=search],input[type=number],input[type=password],select,textarea{width:100%;background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 14px;min-height:46px;font-size:16px}
+input::placeholder{color:#9AA79F}
+label.fld{display:block;margin-bottom:14px}
+label.fld > span{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+label.fld > em{display:block;font-style:normal;font-size:12.5px;color:var(--ink-2);margin-top:6px;line-height:1.4}
+
+.quickadd{display:flex;gap:8px;margin-bottom:18px}
+.quickadd input{flex:1}
+.quickadd .btn{flex:none;width:52px;padding:0;font-size:22px;font-weight:400}
+.aisle{margin-bottom:22px}
+.aisle h3{margin:0 0 8px;font-size:12px;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);display:flex;justify-content:space-between}
+.rows{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+.row{display:flex;align-items:center;gap:12px;padding:12px 12px 12px 14px;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:none}
+.row.going{opacity:0;transform:translateX(28px);transition:all .25s ease-in}
+.tick{width:26px;height:26px;flex:none;border:2px solid var(--line);border-radius:50%;position:relative;background:#fff}
+.tick:hover{border-color:var(--violet)}
+.tick.on{background:var(--violet);border-color:var(--violet)}
+.tick.on::after{content:"";position:absolute;inset:0;background:no-repeat center/13px url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'><path d='M20 6L9 17l-5-5'/></svg>")}
+.row .name{flex:1;min-width:0}
+.row .name b{font-weight:500;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .name small{color:var(--ink-2);font-family:var(--mono);font-size:11px}
+.qty{font-family:var(--mono);font-size:12px;color:var(--ink-2);background:var(--paper);border-radius:7px;padding:3px 7px;flex:none}
+.kill{flex:none;width:32px;height:32px;border-radius:8px;color:#A9B4AC;font-size:19px;line-height:1}
+.kill:hover{background:#0000000a;color:var(--red)}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cap{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 14px;text-align:left;display:flex;flex-direction:column;gap:8px;min-height:132px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.cap:active{transform:translateY(1px)}
+.cap svg{width:26px;height:26px;stroke:var(--violet);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.cap b{font-weight:500;font-size:15px}
+.cap small{color:var(--ink-2);font-size:12.5px;line-height:1.3}
+.cap::after{content:"";position:absolute;right:-30px;top:-30px;width:80px;height:80px;border-radius:50%;background:var(--violet-soft);opacity:.55}
+.cap > *{position:relative;z-index:1}
+
+.tools{display:flex;gap:8px;margin-bottom:14px}
+.tools input{flex:1}
+.tools select{width:auto;flex:none;padding-right:30px}
+.ix{padding:13px 14px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center}
+.ix:last-child{border-bottom:none}
+.ix-main{flex:1;min-width:0}
+.ix-top{display:flex;align-items:baseline;gap:8px}
+.ix-top b{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tag{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:5px;flex:none}
+.tag.due{background:var(--violet-soft);color:var(--violet)}
+.tag.soon{background:var(--amber-soft);color:var(--amber)}
+.tag.ok{background:var(--green-soft);color:var(--green)}
+.tag.new{background:var(--paper);color:var(--ink-2)}
+.meter{height:5px;border-radius:3px;background:var(--paper);margin:8px 0 6px;overflow:hidden;border:1px solid var(--line)}
+.meter i{display:block;height:100%;background:var(--green);transition:width .4s ease}
+.meter i.soon{background:var(--amber)}
+.meter i.due{background:var(--violet)}
+.meter.unknown{background:repeating-linear-gradient(45deg,#fff,#fff 4px,var(--paper) 4px,var(--paper) 8px)}
+.ix-stats{font-family:var(--mono);font-size:11px;color:var(--ink-2);display:flex;gap:10px;flex-wrap:wrap}
+.ix-acts{display:flex;flex-direction:column;gap:6px;flex:none}
+.mini{width:36px;height:32px;border-radius:9px;border:1px solid var(--line);background:#fff;font-size:17px;line-height:1;color:var(--ink-2);display:flex;align-items:center;justify-content:center}
+.mini.plus{border-color:var(--violet);color:var(--violet)}
+.mini.on{background:var(--violet);color:#fff;border-color:var(--violet)}
+.data{margin-top:26px;display:flex;gap:8px;flex-wrap:wrap}
+
+.scrim{position:fixed;inset:0;background:rgba(22,33,28,.42);z-index:40;opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--paper);border-radius:20px 20px 0 0;max-width:720px;margin:0 auto;max-height:90dvh;display:flex;flex-direction:column;transform:translateY(102%);transition:transform .26s cubic-bezier(.3,.8,.35,1);padding-bottom:env(safe-area-inset-bottom)}
+.sheet.on{transform:translateY(0)}
+.sheet-head{padding:14px 16px 10px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.sheet-head h2{margin:0;font-size:17px;font-weight:700;letter-spacing:-.01em}
+.sheet-body{padding:16px;overflow:auto;flex:1;-webkit-overflow-scrolling:touch}
+.sheet-foot{padding:12px 16px 16px;border-top:1px solid var(--line);display:flex;gap:10px}
+.sheet-foot .btn{flex:1}
+.grip{width:38px;height:4px;border-radius:2px;background:var(--line);margin:8px auto 0}
+
+.pick{display:flex;align-items:center;gap:12px;padding:12px 14px;background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:8px}
+.pick input[type=checkbox]{width:22px;height:22px;accent-color:var(--violet);flex:none}
+.pick .p-name{flex:1;min-width:0}
+.pick .p-name b{font-weight:500;display:block}
+.pick .p-name small{font-family:var(--mono);font-size:11px;color:var(--ink-2)}
+.pick input[type=text]{width:78px;flex:none;padding:8px 10px;min-height:38px;font-family:var(--mono);font-size:13px;text-align:center}
+
+#scanwrap{position:relative;border-radius:14px;overflow:hidden;background:#000;aspect-ratio:4/3}
+#scanwrap video, #scanwrap canvas{width:100%;height:100%;object-fit:cover;display:block}
+#reader{width:100%}
+.reticle{position:absolute;inset:20% 10%;border:2px solid rgba(255,255,255,.9);border-radius:12px;box-shadow:0 0 0 2000px rgba(0,0,0,.26);pointer-events:none}
+.reticle::after{content:"";position:absolute;left:0;right:0;top:50%;height:2px;background:var(--violet);animation:sweep 1.8s ease-in-out infinite}
+@keyframes sweep{0%,100%{top:10%}50%{top:90%}}
+
+.note{font-size:13px;color:var(--ink-2);line-height:1.45}
+.thinking{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12.5px;color:var(--ink-2);padding:22px 4px}
+.spin{width:16px;height:16px;border:2px solid var(--line);border-top-color:var(--violet);border-radius:50%;animation:spin .7s linear infinite;flex:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.err{background:#FCEDEC;border:1px solid #F1CFCC;color:var(--red);border-radius:12px;padding:12px 14px;font-size:13.5px;line-height:1.45}
+.ok-note{background:var(--green-soft);border:1px solid #C3DFD0;color:var(--green);border-radius:12px;padding:12px 14px;font-size:13.5px}
+.shot{width:100%;max-height:170px;object-fit:cover;border-radius:12px;margin-bottom:14px;border:1px solid var(--line)}
+.banner{background:var(--amber-soft);border:1px solid #EAD9B4;color:#6B4A02;border-radius:12px;padding:11px 13px;font-size:13px;margin-bottom:14px;line-height:1.45}
+.banner button{text-decoration:underline;font-weight:500;color:inherit}
+.split{display:flex;gap:10px}
+.split > *{flex:1}
+hr.sep{border:none;border-top:1px solid var(--line);margin:22px 0 18px}
+
+#toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 84px);transform:translate(-50%,20px);background:var(--ink);color:#fff;border-radius:12px;padding:11px 14px;z-index:60;display:flex;align-items:center;gap:14px;font-size:14px;max-width:calc(100% - 28px);opacity:0;pointer-events:none;transition:all .2s;box-shadow:0 10px 30px -10px rgba(0,0,0,.5)}
+#toast.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+#toast span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#toast button{color:#B9A8FF;font-weight:600;font-size:13px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;flex:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (min-width:600px){.grid2{grid-template-columns:repeat(4,1fr)}main{padding-bottom:110px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="head-row">
+      <div class="wordmark">Restock <span id="hdrCount">—</span></div>
+      <div class="head-acts">
+        <button class="sync" id="syncBtn" aria-label="Sync now"><i class="dot off" id="syncDot"></i><span id="syncTxt">local</span></button>
+        <button class="icon-btn" id="setBtn" aria-label="Settings">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.6 1.6 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.6 1.6 0 00-1.8-.3 1.6 1.6 0 00-1 1.5V21a2 2 0 11-4 0v-.1A1.6 1.6 0 008 19.4a1.6 1.6 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.6 1.6 0 00.3-1.8 1.6 1.6 0 00-1.5-1H2a2 2 0 110-4h.1A1.6 1.6 0 004.6 8a1.6 1.6 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.6 1.6 0 001.8.3H9a1.6 1.6 0 001-1.5V2a2 2 0 114 0v.1a1.6 1.6 0 001 1.5 1.6 1.6 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.6 1.6 0 00-.3 1.8V9a1.6 1.6 0 001.5 1H22a2 2 0 110 4h-.1a1.6 1.6 0 00-1.5 1z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="view on" id="v-list">
+      <div id="warnBox"></div>
+      <div class="quickadd">
+        <input type="text" id="quickName" placeholder="Add an item…" list="knownItems" autocomplete="off" enterkeyhint="done">
+        <datalist id="knownItems"></datalist>
+        <button class="btn" id="quickAdd" aria-label="Add to list">+</button>
+      </div>
+      <div id="listBody"></div>
+    </section>
+
+    <section class="view" id="v-add">
+      <div id="addWarn"></div>
+      <p class="eyebrow">Capture</p>
+      <div class="grid2">
+        <button class="cap" id="capBarcode">
+          <svg viewBox="0 0 24 24"><path d="M3 7V5.5A1.5 1.5 0 014.5 4H6M18 4h1.5A1.5 1.5 0 0121 5.5V7M21 17v1.5a1.5 1.5 0 01-1.5 1.5H18M6 20H4.5A1.5 1.5 0 013 18.5V17"/><path d="M7 8v8M10 8v8M13 8v8M17 8v8"/></svg>
+          <b>Scan a barcode</b>
+          <small>Looks up the product, free, no key</small>
+        </button>
+        <button class="cap" id="capCamera">
+          <svg viewBox="0 0 24 24"><path d="M3 8.5A2.5 2.5 0 015.5 6h1.2a2 2 0 001.7-.9l.6-1a2 2 0 011.7-.9h2.6a2 2 0 011.7.9l.6 1a2 2 0 001.7.9h1.2A2.5 2.5 0 0121 8.5v8A2.5 2.5 0 0118.5 19h-13A2.5 2.5 0 013 16.5z"/><circle cx="12" cy="12.5" r="3.4"/></svg>
+          <b>Take a photo</b>
+          <small>A product, a shelf, a written list</small>
+        </button>
+        <button class="cap" id="capPhoto">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 15l4.5-4.5a2 2 0 012.8 0L15 15"/><path d="M14 13.5l1.6-1.6a2 2 0 012.8 0L21 15"/><circle cx="8.5" cy="8.5" r="1.4"/></svg>
+          <b>Photo or screenshot</b>
+          <small>Recipes, WhatsApp lists, bills</small>
+        </button>
+        <button class="cap" id="capType">
+          <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h7"/></svg>
+          <b>Type a few</b>
+          <small>One per line, straight to the list</small>
+        </button>
+      </div>
+      <p class="note" style="margin-top:16px">Barcodes are checked against your own index first, then Open Food Facts. Photos are read by Gemini and you confirm every item before it lands on the list.</p>
+    </section>
+
+    <section class="view" id="v-index">
+      <div class="tools">
+        <input type="search" id="ixSearch" placeholder="Search your index…" autocomplete="off">
+        <select id="ixSort" aria-label="Sort index">
+          <option value="due">Due first</option>
+          <option value="az">A–Z</option>
+          <option value="often">Most bought</option>
+          <option value="recent">Recently bought</option>
+        </select>
+      </div>
+      <div id="ixBody"></div>
+      <div class="data">
+        <button class="btn ghost" id="btnExport">Export a backup</button>
+        <button class="btn ghost" id="btnImport">Restore from file</button>
+        <input type="file" id="fileImport" accept="application/json,.json" hidden>
+      </div>
+    </section>
+  </main>
+
+  <nav>
+    <div class="nav-inner">
+      <button class="tab on" data-view="list">
+        <svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></svg>
+        <span>To buy <i class="count" id="tabCount"></i></span>
+      </button>
+      <button class="tab" data-view="add">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
+        <span>Add</span>
+      </button>
+      <button class="tab" data-view="index">
+        <svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 015.5 4H18a2 2 0 012 2v12a2 2 0 01-2 2H5.5A1.5 1.5 0 014 18.5z"/><path d="M8 4v16M11.5 9h5M11.5 13h3"/></svg>
+        <span>Index</span>
+      </button>
+    </div>
+  </nav>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+  <div class="grip"></div>
+  <div class="sheet-head"><h2 id="sheetTitle"></h2><button class="btn quiet" id="sheetX">Close</button></div>
+  <div class="sheet-body" id="sheetBody"></div>
+  <div class="sheet-foot" id="sheetFoot"></div>
+</div>
+
+<div id="toast"><span id="toastMsg"></span><button id="toastAct" hidden></button></div>
+
+<input type="file" id="inCamera" accept="image/*" capture="environment" hidden>
+<input type="file" id="inPhoto" accept="image/*" hidden>
+
+<script>
+/* ==========================================================
+   Restock — grocery list + buying index
+   Local-first. Optional sync through a private GitHub Gist.
+   Photo reading through Google Gemini. Barcodes through
+   your own index, then Open Food Facts.
+   ========================================================== */
+
+const LKEY = 'restock:data:v1';
+const CKEY = 'restock:conf:v1';
+const GIST_FILE = 'restock.json';
+const DAY = 86400000;
+
+const CATS = [
+  'Vegetables & fruit',
+  'Atta, rice & dal',
+  'Masala & spices',
+  'Oils & ghee',
+  'Dairy & eggs',
+  'Bread & bakery',
+  'Meat & fish',
+  'Snacks & namkeen',
+  'Tea, coffee & drinks',
+  'Frozen & ready',
+  'Cleaning & household',
+  'Personal care',
+  'Puja & sundries',
+  'Other'
+];
+
+const CAT_RULES = [
+  ['Vegetables & fruit', /\b(aloo|potato|pyaz|onion|tamatar|tomato|bhindi|okra|lauki|tori|karela|baingan|brinjal|eggplant|gobi|cauliflower|patta gobi|cabbage|matar|peas|gajar|carrot|shimla|capsicum|mirchi|chilli|chili|adrak|ginger|lehsun|garlic|dhania patta|coriander leaves|pudina|mint|methi|palak|spinach|saag|kaddu|pumpkin|kheera|cucumber|nimbu|lemon|lime|kela|banana|seb|apple|angoor|grapes|santra|orange|aam|mango|papita|papaya|anar|pomegranate|nariyal|coconut|drumstick|curry leaves|kadi patta|sprouts|beans|mushroom|broccoli|avocado|berries?|watermelon|tarbooj|guava|amrood|chikoo|sabzi|vegetables?|fruits?)\b/],
+  ['Atta, rice & dal', /\b(atta|maida|besan|suji|sooji|rava|rice|chawal|basmati|poha|daliya|dalia|ragi|bajra|jowar|quinoa|oats|dal|daal|toor|tur|arhar|moong|masoor|urad|chana|rajma|chhole|chole|lobia|sabudana|vermicelli|semiya|pasta|noodles?|macaroni|flour|millet|idli rava|upma)\b/],
+  ['Masala & spices', /\b(masala|haldi|turmeric|jeera|cumin|dhania powder|coriander powder|mirch|garam masala|hing|asafoetida|rai|sarson|mustard seed|methi dana|ajwain|elaichi|cardamom|laung|clove|dalchini|cinnamon|tej patta|bay leaf|kali mirch|black pepper|saunf|fennel|kasuri|chaat masala|sambar|rasam|amchur|imli|tamarind|salt|namak|baking soda|baking powder|kesar|saffron|spice)\b/],
+  ['Oils & ghee', /\b(oil|tel|ghee|butter|makhan|refined|mustard oil|sarson ka tel|coconut oil|sunflower|groundnut|til oil|sesame oil|olive oil|vanaspati|dalda)\b/],
+  ['Dairy & eggs', /\b(milk|doodh|dahi|curd|yogh?urt|paneer|cheese|cream|malai|lassi|buttermilk|chaas|khoya|condensed milk|amul|egg|ande|anda)\b/],
+  ['Bread & bakery', /\b(bread|pav|bun|roti|chapati|paratha|khakhra|rusk|toast|cake|pastry|biscuit|cookie|croissant|tortilla|pita|naan|kulcha)\b/],
+  ['Meat & fish', /\b(chicken|murgi|mutton|lamb|goat|keema|fish|machli|prawn|jhinga|shrimp|pomfret|rohu|surmai|crab|beef|pork|bacon|sausage|salami|tuna)\b/],
+  ['Snacks & namkeen', /\b(namkeen|bhujia|sev|mixture|chips|kurkure|chocolate|toffee|candy|chikki|laddu|barfi|sweets?|mithai|popcorn|nuts|badam|almond|kaju|cashew|akhrot|walnut|kishmish|raisin|pista|dates|khajur|makhana|peanuts?|moongphali|papad|khari|energy bar|granola|protein bar)\b/],
+  ['Tea, coffee & drinks', /\b(tea|chai|chai patti|green tea|coffee|filter coffee|bru|nescafe|horlicks|bournvita|boost|complan|juice|soft drink|cola|pepsi|thums|sprite|soda|water bottle|mineral water|energy drink|beer|wine|whisky|rum|kombucha|glucon|electral|ors)\b/],
+  ['Frozen & ready', /\b(frozen|ice cream|kulfi|french fries|nuggets|ready to eat|instant|maggi|cup noodles|momos|paratha frozen|green peas frozen|batter|idli batter|dosa batter)\b/],
+  ['Cleaning & household', /\b(detergent|surf|ariel|tide|rin|vim|dishwash|bartan|harpic|lizol|phenyl|colin|bleach|toilet cleaner|floor cleaner|scrub|sponge|jhadu|broom|pocha|mop|garbage bag|dustbin bag|trash bag|foil|cling|tissue|paper towel|napkin|matchbox|candle|battery|bulb|mosquito|all out|hit|naphthalene|gas cylinder|water filter)\b/],
+  ['Personal care', /\b(soap|sabun|shampoo|conditioner|toothpaste|colgate|brush|dant|floss|deodorant|deo|perfume|razor|blade|shaving|cream face|lotion|moisturis|sunscreen|talc|powder body|hair oil|coconut hair|sanitary|pad|whisper|stayfree|tampon|diaper|wipes|handwash|sanitizer|face wash|hair colour|mehendi|condom|dettol)\b/],
+  ['Puja & sundries', /\b(agarbatti|incense|dhoop|camphor|kapoor|diya|batti|puja|pooja|kumkum|haldi kumkum|coconut puja|flowers|phool|prasad|rakhi|kalava|matchstick)\b/]
+];
+
+let state = { list: [], index: [], tombs: [] };
+let conf  = { geminiKey: '', geminiModel: 'gemini-2.5-flash', ghToken: '', gistId: '', useOFF: true };
+let saveTimer = null, pushTimer = null, undoTimer = null, lastUndo = null;
+let pushing = false, lastPushed = '';
+
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const now = () => Date.now();
+const uid = () => Math.random().toString(36).slice(2, 9) + now().toString(36).slice(-4);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm = s => String(s || '').trim().toLowerCase().replace(/\s+/g, ' ');
+const days = ms => Math.max(0, Math.round((now() - ms) / DAY));
+const titled = s => String(s || '').replace(/\s+/g, ' ').trim().replace(/^./, c => c.toUpperCase());
+
+/* ---------------- local persistence ---------------- */
+function loadLocal(){
+  try {
+    const raw = localStorage.getItem(LKEY);
+    if (raw){
+      const d = JSON.parse(raw);
+      if (d && Array.isArray(d.list)) state = { list: d.list, index: d.index || [], tombs: d.tombs || [] };
+    }
+    const c = localStorage.getItem(CKEY);
+    if (c) conf = Object.assign(conf, JSON.parse(c));
+  } catch (e){ console.warn('load failed', e); }
+}
+function writeLocal(){
+  try { localStorage.setItem(LKEY, JSON.stringify(state)); }
+  catch (e){ toast('This browser is blocking storage'); }
+}
+function writeConf(){
+  try { localStorage.setItem(CKEY, JSON.stringify(conf)); } catch (e){}
+}
+
+/* ---------------- merge ---------------- */
+function blank(){ return { list: [], index: [], tombs: [] }; }
+
+function mergeArrays(a, b, dead){
+  const map = new Map();
+  for (const it of [...(a||[]), ...(b||[])]){
+    if (!it || !it.id) continue;
+    const prev = map.get(it.id);
+    if (!prev || (it.mtime || 0) > (prev.mtime || 0)) map.set(it.id, it);
+  }
+  return Array.from(map.values()).filter(it => !(dead.has(it.id) && dead.get(it.id) >= (it.mtime || 0)));
+}
+function mergeState(local, remote){
+  const tombs = [...(local.tombs||[]), ...(remote.tombs||[])].filter(t => t && now() - t.t < 30 * DAY);
+  const dead = new Map();
+  for (const t of tombs) dead.set(t.id, Math.max(dead.get(t.id) || 0, t.t));
+  return {
+    list: mergeArrays(local.list, remote.list, dead),
+    index: mergeArrays(local.index, remote.index, dead),
+    tombs: Array.from(dead, ([id, t]) => ({ id, t }))
+  };
+}
+
+/* ---------------- gist sync ---------------- */
+function gistReady(){ return !!(conf.ghToken && conf.gistId); }
+
+async function gh(path, opts){
+  const r = await fetch('https://api.github.com' + path, Object.assign({
+    headers: {
+      'Authorization': 'Bearer ' + conf.ghToken,
+      'Accept': 'application/vnd.github+json',
+      'Content-Type': 'application/json'
+    }
+  }, opts || {}));
+  if (!r.ok){
+    let msg = r.status === 401 ? 'GitHub rejected the token. Check it has gist access.'
+            : r.status === 404 ? 'That gist ID was not found under this token.'
+            : 'GitHub returned ' + r.status + '.';
+    throw new Error(msg);
+  }
+  return r.json();
+}
+
+async function createGist(){
+  const g = await gh('/gists', {
+    method: 'POST',
+    body: JSON.stringify({
+      description: 'Restock — grocery list data',
+      public: false,
+      files: { [GIST_FILE]: { content: JSON.stringify(state) } }
+    })
+  });
+  conf.gistId = g.id;
+  writeConf();
+  return g.id;
+}
+
+async function pull(quiet){
+  if (!gistReady()){ setSync('off', 'local'); return; }
+  if (!navigator.onLine){ setSync('warn', 'offline'); return; }
+  setSync('busy', 'syncing');
+  try {
+    const g = await gh('/gists/' + conf.gistId);
+    const f = g.files && g.files[GIST_FILE];
+    let text = '';
+    if (f){
+      text = f.truncated ? await (await fetch(f.raw_url)).text() : f.content;
+    }
+    const remote = text ? JSON.parse(text) : blank();
+    const before = JSON.stringify(state);
+    state = mergeState(state, remote);
+    const after = JSON.stringify(state);
+    if (before !== after){ writeLocal(); renderAll(); }
+    lastPushed = JSON.stringify(remote);
+    setSync('ok', 'synced');
+    if (after !== lastPushed) queuePush();
+  } catch (e){
+    setSync('err', 'sync error');
+    if (!quiet) toast(e.message);
+  }
+}
+
+function queuePush(){
+  if (!gistReady()) return;
+  clearTimeout(pushTimer);
+  pushTimer = setTimeout(push, 1500);
+}
+
+async function push(){
+  if (!gistReady() || pushing) return;
+  if (!navigator.onLine){ setSync('warn', 'offline'); return; }
+  const payload = JSON.stringify(state);
+  if (payload === lastPushed){ setSync('ok', 'synced'); return; }
+  pushing = true;
+  setSync('busy', 'saving');
+  try {
+    await gh('/gists/' + conf.gistId, {
+      method: 'PATCH',
+      body: JSON.stringify({ files: { [GIST_FILE]: { content: payload } } })
+    });
+    lastPushed = payload;
+    setSync('ok', 'synced');
+  } catch (e){
+    setSync('err', 'sync error');
+  } finally { pushing = false; }
+}
+
+function setSync(kind, txt){
+  $('#syncDot').className = 'dot' + (kind === 'ok' ? '' : ' ' + kind);
+  $('#syncTxt').textContent = txt;
+}
+
+/* ---------------- items ---------------- */
+function findIndexItem(name){
+  const n = norm(name);
+  return state.index.find(i => norm(i.name) === n);
+}
+
+function guessCat(name){
+  const n = ' ' + norm(name) + ' ';
+  for (const [cat, re] of CAT_RULES) if (re.test(n)) return cat;
+  return 'Other';
+}
+
+function addToList(name, qty, cat){
+  name = titled(name);
+  if (!name) return null;
+  const dupe = state.list.find(i => norm(i.name) === norm(name));
+  if (dupe){ dupe.qty = qty || dupe.qty; dupe.mtime = now(); return dupe; }
+  const known = findIndexItem(name);
+  const item = {
+    id: uid(),
+    name: known ? known.name : name,
+    qty: qty || '',
+    cat: cat || (known && known.cat) || guessCat(name),
+    added: now(),
+    mtime: now()
+  };
+  state.list.unshift(item);
+  return item;
+}
+
+function markBought(id){
+  const i = state.list.findIndex(x => x.id === id);
+  if (i < 0) return;
+  const item = state.list[i];
+  const snap = { item: JSON.parse(JSON.stringify(item)), entry: null, created: false };
+
+  let entry = findIndexItem(item.name);
+  if (entry) snap.entry = JSON.parse(JSON.stringify(entry));
+  else {
+    entry = { id: uid(), name: item.name, cat: item.cat, count: 0, last: 0, gaps: [], codes: [], mtime: now() };
+    state.index.push(entry);
+    snap.created = true;
+  }
+  if (entry.last){
+    const gap = Math.round((now() - entry.last) / DAY);
+    if (gap >= 1){ entry.gaps.push(gap); entry.gaps = entry.gaps.slice(-8); }
+  }
+  entry.count = (entry.count || 0) + 1;
+  entry.last = now();
+  entry.cat = item.cat || entry.cat;
+  entry.mtime = now();
+
+  state.list.splice(i, 1);
+  state.tombs.push({ id: item.id, t: now() });
+  lastUndo = snap;
+  save();
+  toast('Bought — ' + item.name, 'Undo', undoBuy);
+}
+
+function undoBuy(){
+  if (!lastUndo) return;
+  const { item, entry, created } = lastUndo;
+  item.mtime = now();
+  state.list.unshift(item);
+  state.tombs = state.tombs.filter(t => t.id !== item.id);
+  if (created) state.index = state.index.filter(x => norm(x.name) !== norm(item.name));
+  else if (entry){
+    const cur = state.index.find(x => x.id === entry.id);
+    if (cur) Object.assign(cur, entry, { mtime: now() });
+  }
+  lastUndo = null;
+  save();
+  toast('Put back on the list');
+}
+
+function dropFromList(id){
+  const item = state.list.find(x => x.id === id);
+  state.list = state.list.filter(x => x.id !== id);
+  state.tombs.push({ id, t: now() });
+  save();
+  if (item) toast('Removed ' + item.name);
+}
+function dropFromIndex(id){
+  state.index = state.index.filter(x => x.id !== id);
+  state.tombs.push({ id, t: now() });
+  save();
+  toast('Removed from your index');
+}
+
+function rhythm(entry){
+  if (!entry.gaps || !entry.gaps.length) return null;
+  const g = [...entry.gaps].sort((a, b) => a - b);
+  const m = Math.floor(g.length / 2);
+  return g.length % 2 ? g[m] : Math.round((g[m - 1] + g[m]) / 2);
+}
+
+function dueState(entry){
+  const avg = rhythm(entry);
+  const since = entry.last ? days(entry.last) : null;
+  if (!avg || since == null) return { level: 'new', pct: 0, avg, since, label: since == null ? 'never bought' : 'bought once' };
+  const ratio = since / avg;
+  const left = avg - since;
+  if (ratio >= 1) return { level: 'due', pct: 100, avg, since, ratio, label: left === 0 ? 'due today' : Math.abs(left) + 'd overdue' };
+  if (ratio >= .7) return { level: 'soon', pct: ratio * 100, avg, since, ratio, label: 'due in ' + left + 'd' };
+  return { level: 'ok', pct: ratio * 100, avg, since, ratio, label: 'due in ' + left + 'd' };
+}
+
+function save(){
+  writeLocal();
+  renderAll();
+  queuePush();
+}
+
+/* ---------------- rendering ---------------- */
+function renderAll(){ renderList(); renderIndexView(); renderKnown(); renderWarnings(); }
+
+function renderWarnings(){
+  $('#warnBox').innerHTML = gistReady() ? '' :
+    '<div class="banner">Sync is off — this list stays on this device only. <button data-open-settings>Set up sync</button></div>';
+  $('#addWarn').innerHTML = conf.geminiKey ? '' :
+    '<div class="banner">Photo reading needs a Gemini key. Barcodes and typing work without one. <button data-open-settings>Add a key</button></div>';
+}
+
+function renderList(){
+  const body = $('#listBody');
+  const n = state.list.length;
+  $('#tabCount').textContent = n ? n : '';
+  $('#hdrCount').textContent = n ? n + (n === 1 ? ' item' : ' items') : 'empty list';
+
+  if (!n){
+    body.innerHTML = '<div class="empty"><strong>Nothing to buy yet.</strong>Scan a barcode, snap a photo, or type an item above.</div>';
+    return;
+  }
+  const groups = {};
+  for (const it of state.list) (groups[it.cat || 'Other'] ||= []).push(it);
+
+  let html = '';
+  for (const cat of CATS){
+    const items = groups[cat];
+    if (!items) continue;
+    html += '<div class="aisle"><h3><span>' + esc(cat) + '</span><span>' + items.length + '</span></h3><div class="rows">';
+    for (const it of items){
+      html += '<div class="row" data-id="' + it.id + '">'
+        + '<button class="tick" data-buy="' + it.id + '" aria-label="Mark ' + esc(it.name) + ' as bought"></button>'
+        + '<span class="name"><b>' + esc(it.name) + '</b>' + (it.note ? '<small>' + esc(it.note) + '</small>' : '') + '</span>'
+        + (it.qty ? '<span class="qty">' + esc(it.qty) + '</span>' : '')
+        + '<button class="kill" data-del="' + it.id + '" aria-label="Remove ' + esc(it.name) + '">&times;</button>'
+        + '</div>';
+    }
+    html += '</div></div>';
+  }
+  body.innerHTML = html;
+}
+
+function renderKnown(){
+  $('#knownItems').innerHTML = state.index.slice()
+    .sort((a, b) => (b.count || 0) - (a.count || 0)).slice(0, 80)
+    .map(i => '<option value="' + esc(i.name) + '">').join('');
+}
+
+function renderIndexView(){
+  const q = norm($('#ixSearch').value);
+  const sort = $('#ixSort').value;
+  const items = state.index.filter(i => !q || norm(i.name).includes(q));
+  const rank = { due: 0, soon: 1, ok: 2, new: 3 };
+  items.sort((a, b) => {
+    if (sort === 'az') return a.name.localeCompare(b.name);
+    if (sort === 'often') return (b.count || 0) - (a.count || 0);
+    if (sort === 'recent') return (b.last || 0) - (a.last || 0);
+    const A = dueState(a), B = dueState(b);
+    if (rank[A.level] !== rank[B.level]) return rank[A.level] - rank[B.level];
+    return (B.ratio || 0) - (A.ratio || 0);
+  });
+
+  const body = $('#ixBody');
+  if (!state.index.length){
+    body.innerHTML = '<div class="empty"><strong>Your index is empty.</strong>Everything you tick off the list gets recorded here with how often you buy it.</div>';
+    return;
+  }
+  if (!items.length){ body.innerHTML = '<div class="empty">Nothing matches that.</div>'; return; }
+
+  const onList = new Set(state.list.map(i => norm(i.name)));
+  let html = '<div class="rows">';
+  for (const it of items){
+    const d = dueState(it);
+    const here = onList.has(norm(it.name));
+    html += '<div class="ix">'
+      + '<div class="ix-main">'
+        + '<div class="ix-top"><b>' + esc(it.name) + '</b><span class="tag ' + d.level + '">' + esc(d.label) + '</span></div>'
+        + '<div class="meter' + (d.level === 'new' ? ' unknown' : '') + '"><i class="' + d.level + '" style="width:' + Math.min(100, d.pct).toFixed(0) + '%"></i></div>'
+        + '<div class="ix-stats">'
+          + '<span>' + (it.count || 0) + '&times; bought</span>'
+          + '<span>' + (it.last ? days(it.last) + 'd ago' : '—') + '</span>'
+          + (d.avg ? '<span>every ~' + d.avg + 'd</span>' : '')
+          + (it.codes && it.codes.length ? '<span>barcode saved</span>' : '')
+        + '</div>'
+      + '</div>'
+      + '<div class="ix-acts">'
+        + '<button class="mini plus' + (here ? ' on' : '') + '" data-ixadd="' + it.id + '" aria-label="Add ' + esc(it.name) + ' to list">' + (here ? '&#10003;' : '+') + '</button>'
+        + '<button class="mini" data-ixedit="' + it.id + '" aria-label="Edit ' + esc(it.name) + '">&#8230;</button>'
+      + '</div>'
+    + '</div>';
+  }
+  body.innerHTML = html + '</div>';
+}
+
+/* ---------------- toast + sheet ---------------- */
+function toast(msg, actLabel, fn){
+  const t = $('#toast'), a = $('#toastAct');
+  $('#toastMsg').textContent = msg;
+  clearTimeout(undoTimer);
+  if (actLabel){ a.hidden = false; a.textContent = actLabel; a.onclick = () => { t.classList.remove('on'); fn && fn(); }; }
+  else a.hidden = true;
+  t.classList.add('on');
+  undoTimer = setTimeout(() => t.classList.remove('on'), actLabel ? 6000 : 2600);
+}
+
+let sheetCleanup = null;
+function openSheet(title, bodyHTML, footHTML, cleanup){
+  if (sheetCleanup && cleanup !== sheetCleanup){ try { sheetCleanup(); } catch(e){} sheetCleanup = null; }
+  $('#sheetTitle').textContent = title;
+  $('#sheetBody').innerHTML = bodyHTML;
+  $('#sheetFoot').innerHTML = footHTML || '';
+  $('#sheet').classList.add('on');
+  $('#scrim').classList.add('on');
+  if (cleanup) sheetCleanup = cleanup;
+}
+function closeSheet(){
+  $('#sheet').classList.remove('on');
+  $('#scrim').classList.remove('on');
+  if (sheetCleanup){ try { sheetCleanup(); } catch(e){} sheetCleanup = null; }
+  setTimeout(() => { if (!$('#sheet').classList.contains('on')) $('#sheetBody').innerHTML = ''; }, 300);
+}
+$('#scrim').onclick = closeSheet;
+$('#sheetX').onclick = closeSheet;
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
+
+function sheetError(msg, retry){
+  $('#sheetBody').innerHTML = '<div class="err">' + esc(msg) + '</div>';
+  $('#sheetFoot').innerHTML = (retry ? '<button class="btn ghost" id="retry">Try again</button>' : '')
+    + '<button class="btn" id="okErr">Close</button>';
+  $('#okErr').onclick = closeSheet;
+  if (retry) $('#retry').onclick = retry;
+}
+
+/* ---------------- image → items (Gemini) ---------------- */
+function shrink(file, max){
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        let w = img.width, h = img.height;
+        const scale = Math.min(1, max / Math.max(w, h));
+        w = Math.round(w * scale); h = Math.round(h * scale);
+        const c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        c.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(c.toDataURL('image/jpeg', 0.82).split(',')[1]);
+      };
+      img.onerror = () => reject(new Error('That image could not be opened.'));
+      img.src = r.result;
+    };
+    r.onerror = () => reject(new Error('That file could not be read.'));
+    r.readAsDataURL(file);
+  });
+}
+
+function visionPrompt(kind){
+  const known = state.index.slice().sort((a,b)=>(b.count||0)-(a.count||0)).slice(0,80).map(i => i.name);
+  return 'This is a grocery capture from a shopper in India. It may be a product, a fridge or kitchen shelf, a handwritten or printed list, a kirana bill, a recipe, or a screenshot of a message.\n\n'
+    + 'List every distinct item the person plausibly wants to buy.\n'
+    + '- Use short everyday Indian shopping names ("toor dal", "curd", "atta"), not full pack titles. Keep a brand only when it is the identity of the thing (Maggi, Amul cheese).\n'
+    + '- Skip prices, totals, GST, shop names and anything not buyable.\n'
+    + '- For a shelf or fridge photo, list only what looks empty, nearly empty or opened.\n'
+    + '- qty is a short string in metric: "1 kg", "500 g", "1 L", "2", "6 pack", or "" if not stated.\n'
+    + '- category must be exactly one of: ' + CATS.join(', ') + '.\n'
+    + (known.length ? '- Reuse these existing names verbatim when the item matches one: ' + known.join(', ') + '.\n' : '')
+    + (kind === 'barcode' ? '- The image is a product label or barcode. Identify the one product, and return its barcode digits as "code" if legible.\n' : '')
+    + '\nReturn JSON only: {"items":[{"name":"","qty":"","category":""' + (kind === 'barcode' ? ',"code":""' : '') + '}]}\n'
+    + 'If nothing is readable, return {"items":[]}.';
+}
+
+async function askGemini(b64, kind){
+  if (!conf.geminiKey) throw new Error('No Gemini key saved yet. Open settings and paste one — it is free from Google AI Studio.');
+  const url = 'https://generativelanguage.googleapis.com/v1beta/models/'
+    + encodeURIComponent(conf.geminiModel || 'gemini-2.5-flash')
+    + ':generateContent?key=' + encodeURIComponent(conf.geminiKey);
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [
+        { inline_data: { mime_type: 'image/jpeg', data: b64 } },
+        { text: visionPrompt(kind) }
+      ]}],
+      generationConfig: { temperature: 0.2, response_mime_type: 'application/json' }
+    })
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok){
+    const m = data && data.error && data.error.message ? data.error.message : ('Gemini returned ' + res.status);
+    if (res.status === 400 && /API key/i.test(m)) throw new Error('That Gemini key was rejected. Check it in settings.');
+    if (res.status === 429) throw new Error('Free-tier limit hit for now. Try again in a minute, or add items by barcode.');
+    if (res.status === 404) throw new Error('Model "' + (conf.geminiModel) + '" not found for this key. Try gemini-2.5-flash or gemini-2.0-flash in settings.');
+    throw new Error(m);
+  }
+  const cand = data.candidates && data.candidates[0];
+  const text = cand && cand.content && cand.content.parts ? cand.content.parts.map(p => p.text || '').join('') : '';
+  const clean = text.replace(/```json/gi, '').replace(/```/g, '').trim();
+  const s = clean.indexOf('{'), e = clean.lastIndexOf('}');
+  if (s < 0 || e < 0) throw new Error('Nothing readable came back. Try a closer, brighter shot.');
+  const parsed = JSON.parse(clean.slice(s, e + 1));
+  return Array.isArray(parsed.items) ? parsed.items : [];
+}
+
+async function readImage(file, kind, onDone){
+  openSheet('Reading the image', '<div class="thinking"><i class="spin"></i>Opening the picture…</div>', '');
+  let b64;
+  try { b64 = await shrink(file, 1100); }
+  catch (e){ return sheetError(e.message); }
+  $('#sheetBody').innerHTML = '<img class="shot" src="data:image/jpeg;base64,' + b64 + '" alt="">'
+    + '<div class="thinking"><i class="spin"></i>Working out what is in there…</div>';
+  try {
+    const items = await askGemini(b64, kind);
+    if (onDone) return onDone(items, b64);
+    showPicker(items, b64);
+  } catch (e){
+    sheetError(e.message, () => readImage(file, kind, onDone));
+  }
+}
+
+function showPicker(items, b64){
+  if (!items.length) return sheetError('No items found in that image. A closer shot of the label or list usually does it.');
+  let html = (b64 ? '<img class="shot" src="data:image/jpeg;base64,' + b64 + '" alt="">' : '')
+    + '<p class="eyebrow">Found ' + items.length + ' — untick anything you do not want</p>';
+  items.forEach((it, i) => {
+    const cat = CATS.includes(it.category) ? it.category : guessCat(it.name);
+    html += '<label class="pick">'
+      + '<input type="checkbox" checked data-i="' + i + '">'
+      + '<span class="p-name"><b>' + esc(titled(it.name) || 'Item') + '</b><small>' + esc(cat) + '</small></span>'
+      + '<input type="text" value="' + esc(it.qty || '') + '" placeholder="qty" data-q="' + i + '">'
+      + '</label>';
+  });
+  openSheet('Add to your list', html, '<button class="btn ghost" id="pickCancel">Cancel</button><button class="btn" id="pickAdd">Add to list</button>');
+  $('#pickCancel').onclick = closeSheet;
+  $('#pickAdd').onclick = () => {
+    let n = 0;
+    $$('#sheetBody input[type=checkbox]').forEach(cb => {
+      if (!cb.checked) return;
+      const i = +cb.dataset.i;
+      const q = $('#sheetBody input[data-q="' + i + '"]');
+      const it = items[i];
+      addToList(it.name, q ? q.value.trim() : '', CATS.includes(it.category) ? it.category : null);
+      n++;
+    });
+    save(); closeSheet(); showView('list');
+    toast(n === 1 ? 'Added 1 item' : 'Added ' + n + ' items');
+  };
+}
+
+/* ---------------- barcode ---------------- */
+let scanStop = null;
+
+function stopScan(){ if (scanStop){ try { scanStop(); } catch(e){} scanStop = null; } }
+
+function loadScript(src){
+  return new Promise((res, rej) => {
+    if (document.querySelector('script[data-src="' + src + '"]')) return res();
+    const s = document.createElement('script');
+    s.src = src; s.dataset.src = src;
+    s.onload = () => res();
+    s.onerror = () => rej(new Error('Scanner library could not load. Photograph the barcode instead.'));
+    document.head.appendChild(s);
+  });
+}
+
+async function startScan(){
+  openSheet('Scan a barcode',
+    '<div id="scanwrap"><video id="scanvid" playsinline muted></video><div class="reticle"></div></div>'
+    + '<p class="note" style="margin-top:12px">Hold the barcode inside the frame. Unknown codes are looked up on Open Food Facts, and if that misses you name it once.</p>',
+    '<button class="btn ghost" id="scanPhoto">Photograph it</button><button class="btn ghost" id="scanManual">Enter digits</button>',
+    stopScan);
+  $('#scanPhoto').onclick = () => { stopScan(); $('#inCamera').dataset.kind = 'barcode'; $('#inCamera').click(); };
+  $('#scanManual').onclick = () => { stopScan(); manualCode(); };
+
+  if ('BarcodeDetector' in window){
+    try { return await nativeScan(); } catch (e){ /* fall through */ }
+  }
+  await fallbackScan();
+}
+
+async function nativeScan(){
+  let stream;
+  try { stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' } } }); }
+  catch (e){ return sheetError('The camera was blocked. Allow camera access for this site, or photograph the barcode instead.'); }
+  const vid = $('#scanvid');
+  if (!vid){ stream.getTracks().forEach(t => t.stop()); return; }
+  vid.srcObject = stream;
+  await vid.play().catch(() => {});
+
+  let detector;
+  try { detector = new window.BarcodeDetector({ formats: ['ean_13','ean_8','upc_a','upc_e','code_128','code_39','itf'] }); }
+  catch (e){ detector = new window.BarcodeDetector(); }
+
+  let alive = true;
+  scanStop = () => { alive = false; stream.getTracks().forEach(t => t.stop()); };
+  const tick = async () => {
+    if (!alive || !document.body.contains(vid)) return;
+    try {
+      const codes = await detector.detect(vid);
+      if (codes && codes.length && codes[0].rawValue){ stopScan(); return onCode(String(codes[0].rawValue)); }
+    } catch (e){}
+    setTimeout(tick, 200);
+  };
+  tick();
+}
+
+async function fallbackScan(){
+  const wrap = $('#scanwrap');
+  if (!wrap) return;
+  wrap.innerHTML = '<div id="reader"></div>';
+  try {
+    await loadScript('https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js');
+  } catch (e){ return sheetError(e.message); }
+  if (!window.Html5Qrcode) return sheetError('Scanner library did not start. Photograph the barcode instead.');
+  const h = new window.Html5Qrcode('reader', { verbose: false });
+  let done = false;
+  scanStop = () => { try { h.stop().then(() => h.clear()).catch(() => {}); } catch(e){} };
+  try {
+    await h.start({ facingMode: 'environment' }, { fps: 10, qrbox: { width: 260, height: 160 } },
+      txt => { if (done) return; done = true; stopScan(); onCode(String(txt)); },
+      () => {});
+  } catch (e){
+    sheetError('The camera was blocked or is in use. Allow camera access for this site, or photograph the barcode instead.');
+  }
+}
+
+function manualCode(){
+  openSheet('Enter the digits',
+    '<label class="fld"><span>Barcode number</span><input type="text" id="mcode" inputmode="numeric" placeholder="e.g. 8901058000108"></label>',
+    '<button class="btn ghost" id="mcancel">Cancel</button><button class="btn" id="mok">Look it up</button>');
+  $('#mcancel').onclick = closeSheet;
+  $('#mok').onclick = () => { const v = $('#mcode').value.trim(); if (v) onCode(v); };
+  setTimeout(() => { const el = $('#mcode'); if (el) el.focus(); }, 250);
+}
+
+async function lookupOFF(code){
+  if (!conf.useOFF || !navigator.onLine) return null;
+  try {
+    const r = await fetch('https://world.openfoodfacts.org/api/v2/product/' + encodeURIComponent(code)
+      + '.json?fields=product_name,product_name_en,generic_name,brands,quantity,categories_tags');
+    if (!r.ok) return null;
+    const j = await r.json();
+    if (!j || j.status !== 1 || !j.product) return null;
+    const p = j.product;
+    let name = (p.product_name_en || p.product_name || p.generic_name || '').trim();
+    if (!name && p.brands) name = String(p.brands).split(',')[0].trim();
+    if (!name) return null;
+    if (name.length > 42) name = name.slice(0, 42).trim();
+    return { name: titled(name), qty: (p.quantity || '').trim(), tags: p.categories_tags || [] };
+  } catch (e){ return null; }
+}
+
+function catFromTags(tags, name){
+  const t = (tags || []).join(' ');
+  if (/dairy|milk|cheese|yogurt|curd|paneer|butter/i.test(t)) return 'Dairy & eggs';
+  if (/beverage|drink|water|juice|tea|coffee/i.test(t)) return 'Tea, coffee & drinks';
+  if (/snack|biscuit|chocolate|confection|chips|namkeen/i.test(t)) return 'Snacks & namkeen';
+  if (/cereal|flour|rice|pulse|legume|pasta|noodle/i.test(t)) return 'Atta, rice & dal';
+  if (/spice|condiment|masala|seasoning/i.test(t)) return 'Masala & spices';
+  if (/oil|fat|ghee/i.test(t)) return 'Oils & ghee';
+  if (/frozen|ready|meal/i.test(t)) return 'Frozen & ready';
+  if (/bread|bakery/i.test(t)) return 'Bread & bakery';
+  if (/meat|fish|seafood|poultry/i.test(t)) return 'Meat & fish';
+  return guessCat(name);
+}
+
+async function onCode(code){
+  const hit = state.index.find(i => (i.codes || []).includes(code));
+  if (hit){
+    addToList(hit.name, '', hit.cat);
+    save(); closeSheet(); showView('list');
+    return toast('Added ' + hit.name);
+  }
+  openSheet('Barcode ' + code, '<div class="thinking"><i class="spin"></i>Looking it up…</div>', '');
+  const found = await lookupOFF(code);
+  const suggested = found ? found.name : '';
+  const cat = found ? catFromTags(found.tags, found.name) : 'Other';
+
+  openSheet(found ? 'Found it' : 'New barcode',
+    '<p class="eyebrow">Code</p><p style="font-family:var(--mono);font-size:15px;margin:0 0 16px">' + esc(code) + '</p>'
+    + (found ? '<div class="ok-note" style="margin-bottom:14px">Open Food Facts knows this one. Rename it to whatever you actually call it.</div>' : '')
+    + '<label class="fld"><span>What is it?</span><input type="text" id="bname" list="knownItems" value="' + esc(suggested) + '" placeholder="e.g. toor dal" autocomplete="off"></label>'
+    + '<label class="fld"><span>Quantity</span><input type="text" id="bqty" value="' + esc(found ? found.qty : '') + '" placeholder="1 kg"></label>'
+    + '<label class="fld"><span>Aisle</span><select id="bcat">' + CATS.map(c => '<option' + (c === cat ? ' selected' : '') + '>' + c + '</option>').join('') + '</select></label>'
+    + '<p class="note">Named once — after this, the same code goes straight onto your list.</p>',
+    '<button class="btn ghost" id="bphoto">Read the label</button><button class="btn" id="bsave">Save &amp; add</button>');
+  setTimeout(() => { const el = $('#bname'); if (el && !suggested) el.focus(); }, 250);
+
+  $('#bphoto').onclick = () => { $('#inCamera').dataset.kind = 'barcode'; $('#inCamera').dataset.code = code; $('#inCamera').click(); };
+  $('#bsave').onclick = () => {
+    const name = titled($('#bname').value);
+    if (!name){ $('#bname').focus(); return; }
+    saveCoded(name, $('#bcat').value, code, $('#bqty').value.trim());
+  };
+}
+
+function saveCoded(name, cat, code, qty){
+  let entry = findIndexItem(name);
+  if (!entry){
+    entry = { id: uid(), name, cat, count: 0, last: 0, gaps: [], codes: [], mtime: now() };
+    state.index.push(entry);
+  }
+  if (code) entry.codes = Array.from(new Set([...(entry.codes || []), String(code)]));
+  entry.cat = cat || entry.cat;
+  entry.mtime = now();
+  addToList(name, qty || '', entry.cat);
+  save(); closeSheet(); showView('list');
+  toast('Added ' + name + (code ? ' — barcode saved' : ''));
+}
+
+/* ---------------- typed batch ---------------- */
+function typeMany(){
+  openSheet('Type a few items',
+    '<label class="fld"><span>One per line</span><textarea id="bulk" rows="8" placeholder="toor dal 1 kg&#10;dahi&#10;bhindi 500 g&#10;agarbatti"></textarea></label>'
+    + '<p class="note">Numbers become quantities: “2 kg atta”, “bananas x6”, “milk 1 L”.</p>',
+    '<button class="btn ghost" id="bulkCancel">Cancel</button><button class="btn" id="bulkAdd">Add to list</button>');
+  setTimeout(() => { const el = $('#bulk'); if (el) el.focus(); }, 250);
+  $('#bulkCancel').onclick = closeSheet;
+  $('#bulkAdd').onclick = () => {
+    const lines = $('#bulk').value.split('\n').map(s => s.trim()).filter(Boolean);
+    let n = 0;
+    for (const line of lines) if (parseLine(line)) n++;
+    save(); closeSheet(); showView('list');
+    toast(n ? (n === 1 ? 'Added 1 item' : 'Added ' + n + ' items') : 'Nothing to add');
+  };
+}
+
+function parseLine(line){
+  let name = line, qty = '';
+  let m = line.match(/^(\d+(?:\.\d+)?\s*(?:kg|g|gm|gms|l|ltr|litre|ml|pkt|packet|pack|dozen|x)?)\s+(.+)$/i);
+  if (m){ qty = m[1].trim(); name = m[2].trim(); }
+  else {
+    m = line.match(/^(.+?)\s+(\d+(?:\.\d+)?\s*(?:kg|g|gm|gms|l|ltr|litre|ml|pkt|packet|pack|dozen))$/i);
+    if (m){ name = m[1].trim(); qty = m[2].trim(); }
+    else {
+      m = line.match(/^(.+?)\s*[x×]\s*(\d+)$/i);
+      if (m){ name = m[1].trim(); qty = m[2]; }
+    }
+  }
+  return addToList(name, qty);
+}
+
+/* ---------------- index editing ---------------- */
+function editIndexItem(id){
+  const it = state.index.find(x => x.id === id);
+  if (!it) return;
+  const d = dueState(it);
+  openSheet('Edit item',
+    '<label class="fld"><span>Name</span><input type="text" id="ename" value="' + esc(it.name) + '"></label>'
+    + '<label class="fld"><span>Aisle</span><select id="ecat">' + CATS.map(c => '<option' + (c === it.cat ? ' selected' : '') + '>' + c + '</option>').join('') + '</select></label>'
+    + '<label class="fld"><span>Buy roughly every (days)</span><input type="number" id="egap" min="1" max="365" value="' + (d.avg || '') + '" placeholder="learned from your habits"><em>Leave blank to let it learn from when you tick it off.</em></label>'
+    + '<p class="note">Bought ' + (it.count || 0) + ' times' + (it.last ? ', last ' + days(it.last) + ' days ago' : '')
+    + (it.codes && it.codes.length ? '. Barcodes saved: ' + it.codes.length : '') + '.</p>',
+    '<button class="btn ghost" id="edel">Delete</button><button class="btn" id="esave">Save</button>');
+  $('#esave').onclick = () => {
+    const name = titled($('#ename').value);
+    if (name) it.name = name;
+    it.cat = $('#ecat').value;
+    const g = parseInt($('#egap').value, 10);
+    if (g > 0) it.gaps = [g];
+    it.mtime = now();
+    save(); closeSheet(); toast('Saved');
+  };
+  $('#edel').onclick = () => { dropFromIndex(id); closeSheet(); };
+}
+
+/* ---------------- settings ---------------- */
+function openSettings(){
+  openSheet('Settings',
+    '<p class="eyebrow">Photo reading</p>'
+    + '<label class="fld"><span>Gemini API key</span><input type="password" id="sKey" value="' + esc(conf.geminiKey) + '" placeholder="AIza…" autocomplete="off">'
+    + '<em>Free from Google AI Studio. Stored only in this browser, never sent anywhere except Google.</em></label>'
+    + '<label class="fld"><span>Model</span><input type="text" id="sModel" value="' + esc(conf.geminiModel) + '" placeholder="gemini-2.5-flash">'
+    + '<em>gemini-2.5-flash is the free-tier workhorse. Swap to gemini-2.0-flash if your key rejects it.</em></label>'
+    + '<div class="split"><button class="btn ghost" id="sTestKey">Test the key</button></div>'
+    + '<hr class="sep">'
+    + '<p class="eyebrow">Sync across devices</p>'
+    + '<label class="fld"><span>GitHub token</span><input type="password" id="sTok" value="' + esc(conf.ghToken) + '" placeholder="ghp_…" autocomplete="off">'
+    + '<em>A classic token with only the <b>gist</b> scope. It writes to one private gist and nothing else.</em></label>'
+    + '<label class="fld"><span>Gist ID</span><input type="text" id="sGist" value="' + esc(conf.gistId) + '" placeholder="leave blank to create one" autocomplete="off">'
+    + '<em>Create it once here, then paste the same ID into the app on your other device.</em></label>'
+    + '<div class="split"><button class="btn ghost" id="sMakeGist">Create a gist</button><button class="btn ghost" id="sTestSync">Test sync</button></div>'
+    + '<div id="sMsg" style="margin-top:14px"></div>'
+    + '<hr class="sep">'
+    + '<p class="eyebrow">Data</p>'
+    + '<label class="fld"><span><input type="checkbox" id="sOFF"' + (conf.useOFF ? ' checked' : '') + ' style="width:auto;min-height:auto;margin-right:8px;accent-color:var(--violet)"> Look barcodes up on Open Food Facts</span></label>'
+    + '<div class="split"><button class="btn ghost" id="sExport">Export backup</button><button class="btn ghost" id="sWipe">Clear this device</button></div>',
+    '<button class="btn" id="sSave">Save settings</button>');
+
+  const msg = t => { $('#sMsg').innerHTML = t; };
+
+  $('#sSave').onclick = () => {
+    conf.geminiKey = $('#sKey').value.trim();
+    conf.geminiModel = $('#sModel').value.trim() || 'gemini-2.5-flash';
+    conf.ghToken = $('#sTok').value.trim();
+    conf.gistId = $('#sGist').value.trim();
+    conf.useOFF = $('#sOFF').checked;
+    writeConf(); renderWarnings(); closeSheet();
+    toast('Settings saved');
+    if (gistReady()) pull(false); else setSync('off', 'local');
+  };
+
+  $('#sTestKey').onclick = async () => {
+    conf.geminiKey = $('#sKey').value.trim();
+    conf.geminiModel = $('#sModel').value.trim() || 'gemini-2.5-flash';
+    if (!conf.geminiKey) return msg('<div class="err">Paste a key first.</div>');
+    msg('<div class="thinking"><i class="spin"></i>Checking with Google…</div>');
+    const c = document.createElement('canvas'); c.width = c.height = 40;
+    const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0,0,40,40);
+    try {
+      await askGemini(c.toDataURL('image/jpeg', .8).split(',')[1], 'photo');
+      writeConf(); msg('<div class="ok-note">Key works.</div>');
+    } catch (e){ msg('<div class="err">' + esc(e.message) + '</div>'); }
+  };
+
+  $('#sMakeGist').onclick = async () => {
+    conf.ghToken = $('#sTok').value.trim();
+    if (!conf.ghToken) return msg('<div class="err">Paste a GitHub token first.</div>');
+    msg('<div class="thinking"><i class="spin"></i>Creating a private gist…</div>');
+    try {
+      const id = await createGist();
+      $('#sGist').value = id;
+      msg('<div class="ok-note">Made it. Gist ID: <b style="font-family:var(--mono)">' + esc(id) + '</b><br>Paste that ID into this app on your other device.</div>');
+    } catch (e){ msg('<div class="err">' + esc(e.message) + '</div>'); }
+  };
+
+  $('#sTestSync').onclick = async () => {
+    conf.ghToken = $('#sTok').value.trim();
+    conf.gistId = $('#sGist').value.trim();
+    if (!gistReady()) return msg('<div class="err">Both a token and a gist ID are needed.</div>');
+    msg('<div class="thinking"><i class="spin"></i>Talking to GitHub…</div>');
+    try { await gh('/gists/' + conf.gistId); writeConf(); msg('<div class="ok-note">Sync is working.</div>'); }
+    catch (e){ msg('<div class="err">' + esc(e.message) + '</div>'); }
+  };
+
+  $('#sExport').onclick = exportData;
+  $('#sWipe').onclick = () => {
+    msg('<div class="err">This wipes the list and index on this device. Synced copies come back on the next sync.<br><br>'
+      + '<button class="btn" id="sWipeYes" style="background:var(--red)">Yes, clear it</button></div>');
+    setTimeout(() => {
+      const b = $('#sWipeYes');
+      if (b) b.onclick = () => { state = blank(); writeLocal(); renderAll(); closeSheet(); toast('Cleared'); };
+    }, 30);
+  };
+}
+
+/* ---------------- backup ---------------- */
+function exportData(){
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'restock-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  toast('Backup downloaded');
+}
+function importData(file){
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const incoming = JSON.parse(r.result);
+      if (!incoming || !Array.isArray(incoming.list)) throw new Error('bad file');
+      state = mergeState(state, incoming);
+      save();
+      toast('Backup merged in');
+    } catch (e){ toast('That file is not a Restock backup'); }
+  };
+  r.readAsText(file);
+}
+
+/* ---------------- events ---------------- */
+function showView(v){
+  $$('.view').forEach(s => s.classList.toggle('on', s.id === 'v-' + v));
+  $$('.tab').forEach(t => t.classList.toggle('on', t.dataset.view === v));
+  window.scrollTo(0, 0);
+}
+$$('.tab').forEach(t => t.onclick = () => showView(t.dataset.view));
+
+$('#quickAdd').onclick = () => {
+  const el = $('#quickName');
+  if (!el.value.trim()) return el.focus();
+  parseLine(el.value.trim());
+  el.value = '';
+  save();
+  el.focus();
+};
+$('#quickName').addEventListener('keydown', e => { if (e.key === 'Enter') $('#quickAdd').click(); });
+
+$('#listBody').addEventListener('click', e => {
+  const open = e.target.closest('[data-open-settings]');
+  if (open) return openSettings();
+  const buy = e.target.closest('[data-buy]');
+  if (buy){
+    buy.classList.add('on');
+    buy.closest('.row').classList.add('going');
+    const id = buy.dataset.buy;
+    setTimeout(() => markBought(id), 240);
+    return;
+  }
+  const del = e.target.closest('[data-del]');
+  if (del) dropFromList(del.dataset.del);
+});
+
+$('#addWarn').addEventListener('click', e => { if (e.target.closest('[data-open-settings]')) openSettings(); });
+
+$('#ixBody').addEventListener('click', e => {
+  const add = e.target.closest('[data-ixadd]');
+  if (add){
+    const it = state.index.find(x => x.id === add.dataset.ixadd);
+    if (!it) return;
+    if (state.list.some(l => norm(l.name) === norm(it.name))){
+      const gone = state.list.filter(l => norm(l.name) === norm(it.name));
+      gone.forEach(g => state.tombs.push({ id: g.id, t: now() }));
+      state.list = state.list.filter(l => norm(l.name) !== norm(it.name));
+      save(); return toast('Taken off the list');
+    }
+    addToList(it.name, '', it.cat);
+    save(); toast('Added ' + it.name);
+    return;
+  }
+  const ed = e.target.closest('[data-ixedit]');
+  if (ed) editIndexItem(ed.dataset.ixedit);
+});
+
+$('#ixSearch').addEventListener('input', renderIndexView);
+$('#ixSort').addEventListener('change', renderIndexView);
+
+$('#capCamera').onclick = () => { const i = $('#inCamera'); i.dataset.kind = 'photo'; delete i.dataset.code; i.click(); };
+$('#capPhoto').onclick = () => $('#inPhoto').click();
+$('#capBarcode').onclick = startScan;
+$('#capType').onclick = typeMany;
+
+function handleFile(input){
+  const file = input.files && input.files[0];
+  const kind = input.dataset.kind || 'photo';
+  const pendingCode = input.dataset.code;
+  input.value = '';
+  delete input.dataset.code;
+  if (!file) return;
+
+  if (kind === 'barcode'){
+    readImage(file, 'barcode', (items) => {
+      if (!items.length) return sheetError('That label could not be read. Try filling the frame with it.');
+      const it = items[0];
+      const code = pendingCode || it.code || '';
+      const cat = CATS.includes(it.category) ? it.category : guessCat(it.name);
+      saveCoded(titled(it.name), cat, code ? String(code) : '', it.qty || '');
+    });
+    return;
+  }
+  readImage(file, 'photo');
+}
+$('#inCamera').addEventListener('change', () => handleFile($('#inCamera')));
+$('#inPhoto').addEventListener('change', () => { $('#inPhoto').dataset.kind = 'photo'; handleFile($('#inPhoto')); });
+
+$('#btnExport').onclick = exportData;
+$('#btnImport').onclick = () => $('#fileImport').click();
+$('#fileImport').addEventListener('change', e => { const f = e.target.files[0]; if (f) importData(f); e.target.value = ''; });
+$('#setBtn').onclick = openSettings;
+$('#syncBtn').onclick = () => { if (gistReady()) pull(false); else openSettings(); };
+
+document.addEventListener('visibilitychange', () => { if (!document.hidden) pull(true); });
+window.addEventListener('focus', () => pull(true));
+window.addEventListener('online', () => { pull(true); });
+window.addEventListener('offline', () => setSync('warn', 'offline'));
+
+/* ---------------- boot ---------------- */
+(function boot(){
+  loadLocal();
+  renderAll();
+  if (gistReady()) pull(true); else setSync('off', 'local');
+  setInterval(() => { if (!document.hidden && gistReady()) pull(true); }, 30000);
+  if ('serviceWorker' in navigator){
+    window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+  }
+})();
+</script>
+</body>
+</html>
