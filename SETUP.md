@@ -1,8 +1,8 @@
 # Restock — setup
 
-Five files, hosted once, then it's an app on your phone and your computer. Cost: ₹0.
+Six files, hosted once, then it's an app on your phone and your computer. Cost: ₹0.
 
-**Updating?** Upload all five again over the old ones. Your data survives and is converted automatically — anything that was in your old index becomes part of *Things I've bought*, and anything that had an expiry date set becomes part of *Things I have*. Nothing is lost.
+**Updating?** Upload all six over the old ones — `icon-512-maskable.png` is new, so make sure it goes up too. Your data survives and is converted automatically — anything that was in your old index becomes part of *Things I've bought*, and anything that had an expiry date set becomes part of *Things I have*. Nothing is lost.
 
 ---
 
@@ -31,7 +31,7 @@ Free HTTPS hosting — needed, because the camera refuses to work over `file://`
 
 1. Sign in at **github.com**.
 2. **+ → New repository**, name it `restock`, **Public**, Create.
-3. **uploading an existing file** → drag in `index.html`, `manifest.webmanifest`, `sw.js`, `icon-192.png`, `icon-512.png`. Commit.
+3. **uploading an existing file** → drag in all six: `index.html`, `manifest.webmanifest`, `sw.js`, `icon-192.png`, `icon-512.png`, `icon-512-maskable.png`. Commit.
 4. **Settings → Pages** → *Deploy from a branch*, `main`, `/ (root)`. Save.
 5. A minute later: `https://YOURNAME.github.io/restock/`
 
@@ -51,7 +51,9 @@ Free HTTPS hosting — needed, because the camera refuses to work over `file://`
 
 **Adding.** The **+ Add** button in the header holds all five routes: photo of a whole list, photo of one item, gallery/screenshot, typing, barcode. You can also copy a screenshot anywhere and paste it straight into the page.
 
-Everything that comes in — photo or typed — asks one question first: **To buy / I have it / Record only.** So a photo of your fridge shelf goes to *I have*, a photo of your written list goes to *To buy*, and a recipe you might cook next month goes to *Record only*.
+Everything that comes in — photo or typed — ends with three buttons instead of one: **To buy · I have it · Record only.** There is no default and no plain "Add", so nothing can quietly land in the wrong place. A photo of your fridge shelf → *I have it*. A photo of your written list → *To buy*. A recipe for next month → *Record only*.
+
+**After a shop.** Photograph the bill, hit **I have it**, and it walks you straight through the perishables one at a time — pick a number of days, *Save & next*, repeat, *Skip* anything you don't care about. **Remember this shelf life** is ticked by default, so each item only ever needs dating once; from the next purchase on, its countdown starts by itself.
 
 **Use-by dates.** Any item in the house without one shows a dashed **+ use by** chip. Tap it, pick a number of days or a date. The row then carries a countdown bar that recolours as it drains — green, amber under 5 days, red under 2 or past. Tick **Remember this shelf life** and every future purchase of that item starts its own countdown automatically.
 
@@ -91,4 +93,5 @@ Lost phone: revoke the token at github.com/settings/tokens and the key at aistud
 - **Live barcode scanning won't start on iPhone** — Safari can't do it in-page; *Photograph it* works everywhere.
 - **A web image won't save** — some sites block other pages from reading their pictures, so the link is kept instead and needs signal. Screenshot it and paste the screenshot for a proper offline copy.
 - **"sync error"** — token expired or lost its `gist` scope. Make a new one.
-- **New files don't show up** — close all tabs and reopen, or bump `CACHE = 'restock-v3'` in `sw.js`.
+- **New files don't show up** — close all tabs and reopen, or bump `CACHE = 'restock-v5'` in `sw.js`.
+- **Home-screen icon still the old one** — icons are cached hard. Remove the app from your home screen and add it again after the new files are live.

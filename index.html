@@ -163,6 +163,7 @@ label.fld > em{display:block;font-style:normal;font-size:12.5px;color:var(--ink-
 .sheet-body{padding:16px;overflow:auto;flex:1;-webkit-overflow-scrolling:touch}
 .sheet-foot{padding:12px 16px 16px;border-top:1px solid var(--line);display:flex;gap:10px}
 .sheet-foot .btn{flex:1}
+.sheet-foot .btn.pickdest{font-size:13.5px;padding:13px 6px}
 .grip{width:38px;height:4px;border-radius:2px;background:var(--line);margin:8px auto 0}
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:14px}
 .seg button{padding:9px 6px;border-radius:9px;font-size:13px;color:var(--ink-2);font-weight:500}
@@ -941,15 +942,8 @@ async function readImage(file, kind, onDone){
 let pickDest = 'buy';
 function showPicker(items, b64, sourceFile){
   if (!items.length) return sheetError('No items found in that image. A closer, brighter shot usually does it.');
-  pickDest = 'buy';
   const single = items.length === 1;
   let html = (b64 ? '<img class="shot" src="data:image/jpeg;base64,' + b64 + '" alt="">' : '')
-    + '<p class="eyebrow">Where do these go?</p>'
-    + '<div class="seg" id="destSeg">'
-      + '<button data-dest="buy" class="on">To buy</button>'
-      + '<button data-dest="have">I have it</button>'
-      + '<button data-dest="record">Record only</button>'
-    + '</div>'
     + '<div class="selrow"><p class="eyebrow" style="margin:0">Found ' + items.length + '</p><button class="btn quiet" id="selAll">Untick all</button></div>';
   items.forEach((it, i) => {
     const cat = CATS.includes(it.category) ? it.category : guessCat(it.name);
@@ -959,23 +953,22 @@ function showPicker(items, b64, sourceFile){
   });
   if (single && b64) html += '<label class="pick" style="margin-top:12px"><input type="checkbox" id="useThumb" checked>'
     + '<span class="p-name"><b>Use this photo as its picture</b><small>112px, about 3 KB</small></span></label>';
+  html += '<p class="eyebrow" style="margin:18px 0 0">Where do these go?</p>';
 
-  openSheet('Confirm', html, '<button class="btn ghost" id="pickCancel">Cancel</button><button class="btn" id="pickGo">Add</button>');
+  openSheet('Confirm', html,
+    '<button class="btn pickdest" id="goBuy">To buy</button>'
+    + '<button class="btn pickdest" id="goHave">I have it</button>'
+    + '<button class="btn pickdest ghost" id="goRec">Record only</button>');
 
-  $('#destSeg').addEventListener('click', e => {
-    const b = e.target.closest('[data-dest]');
-    if (!b) return;
-    pickDest = b.dataset.dest;
-    $$('#destSeg button').forEach(x => x.classList.toggle('on', x === b));
-  });
   let allOn = true;
   $('#selAll').onclick = () => {
     allOn = !allOn;
     $$('#sheetBody input[type=checkbox][data-i]').forEach(cb => cb.checked = allOn);
     $('#selAll').textContent = allOn ? 'Untick all' : 'Tick all';
   };
-  $('#pickCancel').onclick = closeSheet;
-  $('#pickGo').onclick = async () => {
+
+  const go = async (dest) => {
+    pickDest = dest;
     const chosen = [];
     $$('#sheetBody input[type=checkbox][data-i]').forEach(cb => {
       if (!cb.checked) return;
@@ -986,19 +979,40 @@ function showPicker(items, b64, sourceFile){
     });
     if (!chosen.length) return closeSheet();
     chosen.forEach(c => {
-      if (pickDest === 'buy'){ ensureBought(c.name, c.cat); addToBuy(c.name, c.qty, c.cat); }
-      else if (pickDest === 'have') recordPurchase(c.name, c.qty, c.cat);
+      if (dest === 'buy'){ ensureBought(c.name, c.cat); addToBuy(c.name, c.qty, c.cat); }
+      else if (dest === 'have') recordPurchase(c.name, c.qty, c.cat);
       else ensureBought(c.name, c.cat);
     });
     const keepThumb = single && $('#useThumb') && $('#useThumb').checked && sourceFile;
     save(); closeSheet();
-    showPane(pickDest === 'buy' ? 'buy' : pickDest === 'have' ? 'have' : 'bought');
-    toast(chosen.length + (chosen.length === 1 ? ' item added' : ' items added'));
+    showPane(dest === 'buy' ? 'buy' : dest === 'have' ? 'have' : 'bought');
+    const where = dest === 'buy' ? ' → to buy' : dest === 'have' ? ' → in the house' : ' → recorded';
+    toast(chosen.length + (chosen.length === 1 ? ' item' : ' items') + where);
+    if (dest === 'have'){
+      const undated = chosen.map(c => findHave(c.name)).filter(h => h && !h.useBy && (SHELF_HINT[guessCat(h.name)] || 0) > 0 && (SHELF_HINT[guessCat(h.name)] || 0) <= 30);
+      if (undated.length) setTimeout(() => runUseByQueue(undated.map(h => h.id)), 700);
+    }
     if (keepThumb){
       try { const t = await thumbFromFile(sourceFile); const e = findBought(chosen[0].name);
         if (e){ e.thumb = t; e.mtime = now(); writeLocal(); renderAll(); queuePush(); } } catch (err){}
     }
   };
+  $('#goBuy').onclick = () => go('buy');
+  $('#goHave').onclick = () => go('have');
+  $('#goRec').onclick = () => go('record');
+}
+
+/* walk the perishables one after another, right after a shop */
+function runUseByQueue(ids){
+  const rest = ids.slice();
+  const step = () => {
+    const id = rest.shift();
+    if (!id){ closeSheet(); toast('All dated'); return; }
+    const h = state.have.find(x => x.id === id);
+    if (!h) return step();
+    openUseBy(id, rest.length, step);
+  };
+  step();
 }
 
 /* ---------------- pictures ---------------- */
@@ -1070,19 +1084,23 @@ document.addEventListener('paste', async e => {
 });
 
 /* ---------------- use-by ---------------- */
-function openUseBy(haveId){
+function openUseBy(haveId, remaining, next){
   const h = state.have.find(x => x.id === haveId);
   if (!h) return;
   const entry = findBought(h.name);
   const cat = entry ? entry.cat : guessCat(h.name);
   const hint = SHELF_HINT[cat] || 7;
+  const more = typeof remaining === 'number' && remaining > 0;
   openSheet('Use by — ' + h.name,
-    '<div class="quickdays" id="qd">' + [1,2,3,5,7,10,15,30,90].map(d => '<button data-d="' + d + '">' + d + 'd</button>').join('') + '</div>'
+    (more ? '<p class="eyebrow">' + (remaining + 1) + ' left to date</p>' : '')
+    + '<div class="quickdays" id="qd">' + [1,2,3,5,7,10,15,30,90].map(d => '<button data-d="' + d + '">' + d + 'd</button>').join('') + '</div>'
     + '<label class="fld"><span>Use by</span><input type="date" id="xDate" value="' + (h.useBy ? isoDate(new Date(h.useBy)) : '') + '"></label>'
-    + '<label class="fld"><span><input type="checkbox" id="xRemember" ' + (entry && entry.shelf ? 'checked' : '') + ' style="width:auto;min-height:auto;margin-right:8px;accent-color:var(--violet)"> Remember this shelf life</span>'
+    + '<label class="fld"><span><input type="checkbox" id="xRemember" ' + (!entry || entry.shelf || !h.useBy ? 'checked' : '') + ' style="width:auto;min-height:auto;margin-right:8px;accent-color:var(--violet)"> Remember this shelf life</span>'
     + '<em>Next time you buy ' + esc(h.name.toLowerCase()) + ', the countdown starts by itself.</em></label>'
     + '<p class="note">Typical for ' + esc(cat.toLowerCase()) + ' is about ' + hint + ' days.</p>',
-    (h.useBy ? '<button class="btn ghost" id="xClear">Clear</button>' : '') + '<button class="btn" id="xSave">Save</button>');
+    (next ? '<button class="btn ghost" id="xSkip">Skip</button>'
+          : (h.useBy ? '<button class="btn ghost" id="xClear">Clear</button>' : ''))
+    + '<button class="btn" id="xSave">' + (more ? 'Save &amp; next' : 'Save') + '</button>');
   $('#qd').addEventListener('click', ev => {
     const b = ev.target.closest('[data-d]');
     if (!b) return;
@@ -1099,8 +1117,11 @@ function openUseBy(haveId){
       entry.shelf = Math.max(1, Math.round((h.useBy - (h.added || now())) / DAY));
       entry.mtime = now();
     }
-    save(); closeSheet(); toast('Countdown set');
+    save();
+    if (next) next();
+    else { closeSheet(); toast('Countdown set'); }
   };
+  if ($('#xSkip')) $('#xSkip').onclick = () => { if (next) next(); else closeSheet(); };
   if ($('#xClear')) $('#xClear').onclick = () => { h.useBy = 0; h.mtime = now(); save(); closeSheet(); };
 }
 
@@ -1287,20 +1308,14 @@ async function onCode(code){
 /* ---------------- typed batch ---------------- */
 function typeMany(){
   openSheet('Type a few items',
-    '<div class="seg" id="typeSeg"><button data-dest="buy" class="on">To buy</button><button data-dest="have">I have it</button><button data-dest="record">Record only</button></div>'
-    + '<label class="fld"><span>One per line</span><textarea id="bulk" rows="8" placeholder="toor dal 1 kg&#10;dahi&#10;bhindi 500 g&#10;banana 6&#10;agarbatti"></textarea></label>'
-    + '<p class="note">A plain number means pieces — “banana 6” becomes 6 pcs. Units work either side: “1 kg atta” or “atta 1 kg”.</p>',
-    '<button class="btn ghost" id="bulkCancel">Cancel</button><button class="btn" id="bulkAdd">Add</button>');
-  let dest = 'buy';
-  $('#typeSeg').addEventListener('click', e => {
-    const b = e.target.closest('[data-dest]');
-    if (!b) return;
-    dest = b.dataset.dest;
-    $$('#typeSeg button').forEach(x => x.classList.toggle('on', x === b));
-  });
+    '<label class="fld"><span>One per line</span><textarea id="bulk" rows="8" placeholder="toor dal 1 kg&#10;dahi&#10;bhindi 500 g&#10;banana 6&#10;agarbatti"></textarea></label>'
+    + '<p class="note">A plain number means pieces — “banana 6” becomes 6 pcs. Units work either side: “1 kg atta” or “atta 1 kg”.</p>'
+    + '<p class="eyebrow" style="margin:18px 0 0">Where do these go?</p>',
+    '<button class="btn pickdest" id="tBuy">To buy</button>'
+    + '<button class="btn pickdest" id="tHave">I have it</button>'
+    + '<button class="btn pickdest ghost" id="tRec">Record only</button>');
   setTimeout(() => { const el = $('#bulk'); if (el) el.focus(); }, 250);
-  $('#bulkCancel').onclick = closeSheet;
-  $('#bulkAdd').onclick = () => {
+  const addAll = (dest) => {
     const lines = $('#bulk').value.split('\n').map(s => s.trim()).filter(Boolean);
     let n = 0;
     for (const line of lines){
@@ -1313,8 +1328,12 @@ function typeMany(){
     }
     save(); closeSheet();
     showPane(dest === 'buy' ? 'buy' : dest === 'have' ? 'have' : 'bought');
-    toast(n ? n + (n === 1 ? ' item added' : ' items added') : 'Nothing to add');
+    const where = dest === 'buy' ? ' \u2192 to buy' : dest === 'have' ? ' \u2192 in the house' : ' \u2192 recorded';
+    toast(n ? n + (n === 1 ? ' item' : ' items') + where : 'Nothing to add');
   };
+  $('#tBuy').onclick = () => addAll('buy');
+  $('#tHave').onclick = () => addAll('have');
+  $('#tRec').onclick = () => addAll('record');
 }
 
 /* ---------------- settings ---------------- */

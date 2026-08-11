@@ -1,11 +1,12 @@
 /* Restock service worker — app shell cached so the list opens without signal. */
-const CACHE = 'restock-v3';
+const CACHE = 'restock-v5';
 const SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
   './icon-192.png',
-  './icon-512.png'
+  './icon-512.png',
+  './icon-512-maskable.png'
 ];
 
 self.addEventListener('install', e => {
