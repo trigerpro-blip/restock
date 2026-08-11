@@ -19,6 +19,10 @@ Your sketch, working:
 
 **Things to buy** is the shopping list, grouped by aisle. Tick something and it moves into *Things I have* and gets logged in *Things I've bought* at the same moment. If it's perishable and has no date yet, the toast offers a **Use by** button right there.
 
+**Cook** looks at what's in the house, leans hardest on whatever expires first, and suggests four dishes. Three settings: *Only what I have* (the default — staples like salt and oil assumed), *A few extras ok* (at most two cheap additions per dish), *Anything goes*. Tap **Recipe** for the full method; **Add the extras** puts whatever's missing on the buy list. If the strict suggestions are dull, there's a one-tap "let it use a few extra ingredients" underneath.
+
+**Medicines** is a separate scratch list for the chemist — type "Dolo 650, 1 strip" and it splits the name from the strength. Anything you mark as a **regular refill** disappears when you get it and comes back as a countdown under *Regulars*. It's a reminder list only; there's no advice of any kind in it, by design.
+
 **Things I've bought** is the permanent record, newest first, exactly as you drew it. Each row has a small picture, when you last bought it, how many times, and its rhythm ("~9d"). Items currently in the house show **in stock** instead of a due tag, so you don't buy them twice. **+** puts anything back on the buy list.
 
 On a computer all three appear side by side, in the order you drew them. On a phone they're three tabs, opening on *Things I have*.
@@ -41,9 +45,42 @@ Free HTTPS hosting — needed, because the camera refuses to work over `file://`
 
 **aistudio.google.com/apikey** → Create API key → copy → in Restock, **gear** → paste → **Test the key** → Save. If it rejects `gemini-2.5-flash`, use `gemini-2.0-flash`.
 
-## 3. Sync (5 minutes)
+## 3. Sync — pick one (5 minutes)
 
-**github.com/settings/tokens** → *Tokens (classic)* → Generate → tick **only** `gist` → copy. In Restock: **gear** → paste the token → **Create a gist** → note the Gist ID → Save. On your computer, same token and same Gist ID.
+Two ways to store your data on GitHub. **Use the private repo** unless you have a reason not to.
+
+### A. Private repo + fine-grained token  ← recommended
+
+1. **github.com/new** → name it `restock-data` → tick **Private** → tick *Add a README* → Create.
+2. **github.com/settings/personal-access-tokens/new** (Fine-grained tokens)
+   - Expiration: pick a date you'll remember, or *No expiration*
+   - **Repository access → Only select repositories → `restock-data`**
+   - **Permissions → Repository permissions → Contents → Read and write**. Nothing else.
+   - Generate, copy (`github_pat_…`).
+3. In Restock: **gear → Sync → Private repo**, paste the token, put your username in *Owner* and `restock-data` in *Repo*. Leave file and branch as they are. **Test sync**, then **Save settings**.
+4. Same three values on your other device.
+
+### B. Secret gist + classic token
+
+1. **github.com/settings/tokens** → *Tokens (classic)* → Generate → tick **only** `gist`.
+2. In Restock: **gear → Sync → Secret gist**, paste the token, tap **Create a gist**, note the Gist ID, Save.
+3. Same token and ID on the other device.
+
+### Which is actually better
+
+| | Private repo | Secret gist |
+|---|---|---|
+| Who can read your data | Only someone signed in with access | **Anyone who gets the URL** — "secret" means unlisted, not private |
+| What the token can touch | That one repo, nothing else | **Every gist on your account**, read and write |
+| Token expiry | Enforced, your choice | Classic tokens can live forever |
+| If the token leaks | One repo of groceries | All your gists |
+| History | Every save is a commit — you can recover an older version | Gists keep revisions too |
+
+The repo wins on both counts that matter: your data actually requires authentication to read, and the token is scoped so narrowly that a leak costs you almost nothing. Fine-grained tokens simply cannot access gists, which is why option B needs the older, broader classic token.
+
+The gist route survives only because it's two fields instead of four, and the app can create the gist for itself. Both are free, both handle conflicts the same way, and you can switch between them any time — export a backup first, switch, then restore.
+
+**One caveat for the repo:** each save is a commit, so a busy day makes a few dozen commits. Harmless, and it means you can dig an old version out of the repo history if you ever wreck something.
 
 ---
 
@@ -93,5 +130,5 @@ Lost phone: revoke the token at github.com/settings/tokens and the key at aistud
 - **Live barcode scanning won't start on iPhone** — Safari can't do it in-page; *Photograph it* works everywhere.
 - **A web image won't save** — some sites block other pages from reading their pictures, so the link is kept instead and needs signal. Screenshot it and paste the screenshot for a proper offline copy.
 - **"sync error"** — token expired or lost its `gist` scope. Make a new one.
-- **New files don't show up** — close all tabs and reopen, or bump `CACHE = 'restock-v5'` in `sw.js`.
+- **New files don't show up** — close all tabs and reopen, or bump `CACHE = 'restock-v6'` in `sw.js`.
 - **Home-screen icon still the old one** — icons are cached hard. Remove the app from your home screen and add it again after the new files are live.

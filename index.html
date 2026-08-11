@@ -47,6 +47,9 @@ header{position:sticky;top:0;z-index:20;background:rgba(239,242,234,.94);backdro
 .icon-btn svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .addbtn{background:var(--violet);color:#fff;border-radius:11px;height:38px;padding:0 14px;display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;flex:none}
 .addbtn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round}
+.deskbar{display:none;gap:3px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:3px}
+.deskbar button{padding:8px 13px;border-radius:9px;font-size:13.5px;color:var(--ink-2);font-weight:500}
+.deskbar button.on{background:var(--violet);color:#fff}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex:none}
 .dot.warn{background:var(--amber)} .dot.err{background:var(--red)} .dot.off{background:#B6C0B8}
 .dot.busy{background:var(--violet);animation:pulse 1s infinite}
@@ -60,9 +63,9 @@ main{flex:1;padding:14px 12px 118px}
 .pane-title{display:none}
 
 nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:8px 8px calc(env(safe-area-inset-bottom) + 8px)}
-.nav-inner{max-width:640px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
-.tab{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border-radius:12px;color:var(--ink-2);font-size:12px;font-weight:500}
-.tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.nav-inner{max-width:640px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:2px}
+.tab{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px;border-radius:12px;color:var(--ink-2);font-size:10.5px;font-weight:500;white-space:nowrap}
+.tab svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .tab.on{color:var(--violet);background:var(--violet-soft)}
 .tab .count{font-family:var(--mono);font-size:10px}
 
@@ -201,6 +204,21 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:20px 0 16px}
 .dropzone{border:1.5px dashed var(--line);border-radius:14px;padding:18px;text-align:center;color:var(--ink-2);font-size:13.5px;background:#fff;line-height:1.5}
 .dropzone.hot{border-color:var(--violet);background:var(--violet-soft)}
 
+.idea{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;box-shadow:var(--shadow);margin-bottom:11px}
+.idea h4{margin:0 0 5px;font-size:16px;font-weight:700;letter-spacing:-.01em}
+.idea p{margin:0 0 10px;font-size:13.5px;color:var(--ink-2);line-height:1.45}
+.uses{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:11px}
+.u{font-family:var(--mono);font-size:10.5px;padding:3px 7px;border-radius:6px;background:var(--green-soft);color:var(--green)}
+.u.x{background:var(--amber-soft);color:var(--amber)}
+.u.t{background:var(--paper);color:var(--ink-2)}
+.idea .split .btn{font-size:13px}
+.recipe h3{margin:18px 0 8px;font-size:13px;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);font-weight:500}
+.recipe ol{margin:0;padding-left:20px}
+.recipe ol li{margin-bottom:11px;line-height:1.5}
+.recipe ul{margin:0;padding-left:18px}
+.recipe ul li{margin-bottom:6px;font-size:14.5px}
+.recipe ul li.miss{color:var(--amber)}
+.med-sec{margin-bottom:18px}
 #toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 84px);transform:translate(-50%,20px);background:var(--ink);color:#fff;border-radius:12px;padding:11px 14px;z-index:60;display:flex;align-items:center;gap:14px;font-size:14px;max-width:calc(100% - 28px);opacity:0;pointer-events:none;transition:all .2s;box-shadow:0 10px 30px -10px rgba(0,0,0,.5)}
 #toast.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
 #toast span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -211,7 +229,12 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:20px 0 16px}
 @media (min-width:1000px){
   main{padding:18px 16px 40px}
   .cols{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:18px;align-items:start}
-  .pane{display:block!important;animation:none}
+  .pane.core{display:block;animation:none}
+  body[data-view="cook"] .cols, body[data-view="meds"] .cols{display:block}
+  body[data-view="cook"] .pane.core, body[data-view="meds"] .pane.core{display:none}
+  .pane.solo{display:none}
+  body[data-view="cook"] #p-cook, body[data-view="meds"] #p-meds{display:block;max-width:760px;margin:0 auto}
+  .deskbar{display:flex}
   .pane-title{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:0 0 11px;padding-bottom:8px;border-bottom:2px solid var(--ink)}
   .pane-title h2{margin:0;font-size:16px;font-weight:700;letter-spacing:-.01em}
   .pane-title span{font-family:var(--mono);font-size:11px;color:var(--ink-2);text-transform:uppercase;letter-spacing:.07em}
@@ -227,6 +250,11 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:20px 0 16px}
       <div class="wordmark">Restock <i id="hdrCount"></i></div>
       <button class="sync" id="syncBtn" aria-label="Sync now"><i class="dot off" id="syncDot"></i><span id="syncTxt">local</span></button>
       <button class="addbtn" id="addBtn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add</button>
+      <div class="deskbar" id="deskbar">
+        <button data-go="have" class="on">Shelves</button>
+        <button data-go="cook">Cook</button>
+        <button data-go="meds">Medicines</button>
+      </div>
       <button class="icon-btn" id="setBtn" aria-label="Settings">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.6 1.6 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.6 1.6 0 00-1.8-.3 1.6 1.6 0 00-1 1.5V21a2 2 0 11-4 0v-.1A1.6 1.6 0 008 19.4a1.6 1.6 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.6 1.6 0 00.3-1.8 1.6 1.6 0 00-1.5-1H2a2 2 0 110-4h.1A1.6 1.6 0 004.6 8a1.6 1.6 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.6 1.6 0 001.8.3H9a1.6 1.6 0 001-1.5V2a2 2 0 114 0v.1a1.6 1.6 0 001 1.5 1.6 1.6 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.6 1.6 0 00-.3 1.8V9a1.6 1.6 0 001.5 1H22a2 2 0 110 4h-.1a1.6 1.6 0 00-1.5 1z"/></svg>
       </button>
@@ -238,7 +266,7 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:20px 0 16px}
     <div class="cols">
 
       <!-- ===== BOUGHT (history) ===== -->
-      <section class="pane" id="p-bought">
+      <section class="pane core" id="p-bought">
         <div class="pane-title"><h2>Things I've bought</h2><span id="boughtNum"></span></div>
         <div class="tools">
           <input type="search" id="bqSearch" placeholder="Search what you buy…" autocomplete="off">
@@ -253,14 +281,14 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:20px 0 16px}
       </section>
 
       <!-- ===== HAVE (home) ===== -->
-      <section class="pane on" id="p-have">
+      <section class="pane core on" id="p-have">
         <div class="pane-title"><h2>Things I have</h2><span>by use-by date</span></div>
         <div class="chips" id="haveChips"></div>
         <div id="haveBody"></div>
       </section>
 
       <!-- ===== BUY ===== -->
-      <section class="pane" id="p-buy">
+      <section class="pane core" id="p-buy">
         <div class="pane-title"><h2>Things to buy</h2><span id="buyNum"></span></div>
         <div class="quickadd">
           <input type="text" id="quickName" placeholder="banana 6, toor dal 1 kg…" list="knownItems" autocomplete="off" enterkeyhint="done">
@@ -270,22 +298,48 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:20px 0 16px}
         <div id="buyBody"></div>
       </section>
 
+      <!-- ===== COOK ===== -->
+      <section class="pane solo" id="p-cook">
+        <div class="pane-title"><h2>What can I cook?</h2><span>uses what expires first</span></div>
+        <div id="cookHead"></div>
+        <div id="cookBody"></div>
+      </section>
+
+      <!-- ===== MEDICINES ===== -->
+      <section class="pane solo" id="p-meds">
+        <div class="pane-title"><h2>Medicines to get</h2><span>a note to self</span></div>
+        <div class="quickadd">
+          <input type="text" id="medName" placeholder="Dolo 650, 1 strip…" autocomplete="off" enterkeyhint="done">
+          <button class="btn" id="medAdd" aria-label="Add">+</button>
+        </div>
+        <div id="medBody"></div>
+        <p class="note" style="margin-top:16px">A reminder list, nothing more — no dosing or medical advice here. Check with your doctor or pharmacist.</p>
+      </section>
+
     </div>
   </main>
 
   <nav>
     <div class="nav-inner">
       <button class="tab on" data-pane="have">
-        <svg viewBox="0 0 24 24"><path d="M4 8.5A2.5 2.5 0 016.5 6h11A2.5 2.5 0 0120 8.5v9a2.5 2.5 0 01-2.5 2.5h-11A2.5 2.5 0 014 17.5z"/><path d="M4 12h16M9 6V4.5M15 6V4.5M9.5 15.5h2"/></svg>
-        <span>I have <i class="count" id="haveCount"></i></span>
+        <svg viewBox="0 0 24 24"><path d="M4 8.5A2.5 2.5 0 016.5 6h11A2.5 2.5 0 0120 8.5v9a2.5 2.5 0 01-2.5 2.5h-11A2.5 2.5 0 014 17.5z"/><path d="M4 12h16M9 6V4.5M15 6V4.5"/></svg>
+        <span>Have <i class="count" id="haveCount"></i></span>
+      </button>
+      <button class="tab" data-pane="cook">
+        <svg viewBox="0 0 24 24"><path d="M5 11h14a0 0 0 010 0 7 7 0 01-7 7 7 7 0 01-7-7z"/><path d="M3 21h18M9 8c0-1.2-1-1.4-1-2.5S9 4 9 4M13 8c0-1.2-1-1.4-1-2.5S13 4 13 4M17 8c0-1.2-1-1.4-1-2.5S17 4 17 4"/></svg>
+        <span>Cook</span>
       </button>
       <button class="tab" data-pane="buy">
         <svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></svg>
         <span>To buy <i class="count" id="buyCount"></i></span>
       </button>
+      <button class="tab" data-pane="meds">
+        <svg viewBox="0 0 24 24"><rect x="2.5" y="8.5" width="19" height="7" rx="3.5"/><path d="M12 8.5v7"/><circle cx="7" cy="12" r="1"/></svg>
+        <span>Meds <i class="count" id="medCount"></i></span>
+      </button>
       <button class="tab" data-pane="bought">
         <svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 015.5 4H18a2 2 0 012 2v12a2 2 0 01-2 2H5.5A1.5 1.5 0 014 18.5z"/><path d="M8 4v16M11.5 9h5M11.5 13h3"/></svg>
-        <span>Bought <i class="count" id="boughtCount"></i></span>
+        <span>Bought</span>
       </button>
     </div>
   </nav>
@@ -355,8 +409,9 @@ const CAT_RULES = [
 
 const UNITS = 'kg|kgs|kilo|kilos|g|gm|gms|gram|grams|mg|l|ltr|litre|liter|litres|liters|ml|dozen|dz|pack|packs|packet|packets|pkt|pc|pcs|piece|pieces|nos|no|bunch|bunches|bottle|bottles|tin|tins|box|boxes|bag|bags';
 
-let state = { have: [], buy: [], bought: [], tombs: [] };
-let conf  = { geminiKey: '', geminiModel: 'gemini-2.5-flash', ghToken: '', gistId: '', useOFF: true };
+let state = { have: [], buy: [], bought: [], meds: [], tombs: [] };
+let conf  = { geminiKey: '', geminiModel: 'gemini-2.5-flash', ghToken: '', gistId: '', useOFF: true,
+              backend: 'gist', repoOwner: '', repoName: '', repoBranch: 'main', repoPath: 'restock.json' };
 let pushTimer = null, undoTimer = null, lastUndo = null, pushing = false, lastPushed = '';
 let havePlace = 'All', pendingThumb = null, sizeWarned = false;
 
@@ -367,13 +422,14 @@ const uid = () => Math.random().toString(36).slice(2, 9) + now().toString(36).sl
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const norm = s => String(s || '').trim().toLowerCase().replace(/\s+/g, ' ');
 const days = ms => Math.max(0, Math.round((now() - ms) / DAY));
+const setTxt = (sel, v) => { const el = $(sel); if (el) el.textContent = v; };
 const titled = s => String(s || '').replace(/\s+/g, ' ').trim().replace(/^./, c => c.toUpperCase());
 const isoDate = d => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
 
 /* ---------------- persistence + migration ---------------- */
 function migrate(d){
   if (!d) return null;
-  if (Array.isArray(d.have) && Array.isArray(d.buy) && Array.isArray(d.bought)) return d;
+  if (Array.isArray(d.have) && Array.isArray(d.buy) && Array.isArray(d.bought)){ d.meds = d.meds || []; return d; }
   /* older two-stage shape: { list, index } */
   if (Array.isArray(d.list) || Array.isArray(d.index)){
     const bought = (d.index || []).map(e => ({
@@ -385,7 +441,7 @@ function migrate(d){
       id: uid(), name: e.name, qty: '', place: PLACE_OF[e.cat] || 'Pantry',
       useBy: e.expiry, added: e.last || now(), mtime: now()
     }));
-    return { have, buy: (d.list || []), bought, tombs: d.tombs || [] };
+    return { have, buy: (d.list || []), bought, meds: [], tombs: d.tombs || [] };
   }
   return null;
 }
@@ -394,7 +450,7 @@ function loadLocal(){
     const raw = localStorage.getItem(LKEY);
     if (raw){
       const m = migrate(JSON.parse(raw));
-      if (m) state = { have: m.have || [], buy: m.buy || [], bought: m.bought || [], tombs: m.tombs || [] };
+      if (m) state = { have: m.have || [], buy: m.buy || [], bought: m.bought || [], meds: m.meds || [], tombs: m.tombs || [] };
     }
     const c = localStorage.getItem(CKEY);
     if (c) conf = Object.assign(conf, JSON.parse(c));
@@ -405,7 +461,7 @@ function writeLocal(){
   catch (e){ toast('Storage is full — remove a few pictures'); }
 }
 function writeConf(){ try { localStorage.setItem(CKEY, JSON.stringify(conf)); } catch (e){} }
-function blank(){ return { have: [], buy: [], bought: [], tombs: [] }; }
+function blank(){ return { have: [], buy: [], bought: [], meds: [], tombs: [] }; }
 
 /* ---------------- merge ---------------- */
 function mergeArrays(a, b, dead){
@@ -426,23 +482,82 @@ function mergeState(local, remote){
     have: mergeArrays(local.have, remote.have, dead),
     buy: mergeArrays(local.buy, remote.buy, dead),
     bought: mergeArrays(local.bought, remote.bought, dead),
+    meds: mergeArrays(local.meds, remote.meds, dead),
     tombs: Array.from(dead, ([id, t]) => ({ id, t }))
   };
 }
 
 /* ---------------- gist sync ---------------- */
-function gistReady(){ return !!(conf.ghToken && conf.gistId); }
+
 async function gh(path, opts){
   const r = await fetch('https://api.github.com' + path, Object.assign({
     headers: { 'Authorization': 'Bearer ' + conf.ghToken, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' }
   }, opts || {}));
-  if (!r.ok) throw new Error(
-    r.status === 401 ? 'GitHub rejected the token. Check it still has gist access.'
-    : r.status === 404 ? 'That gist ID was not found under this token.'
-    : r.status === 422 ? 'GitHub refused the data — it may be too large. Remove some pictures.'
-    : 'GitHub returned ' + r.status + '.');
+  if (!r.ok){
+    const e = new Error(
+      r.status === 401 ? 'GitHub rejected the token. Check it has not expired.'
+      : r.status === 403 ? 'The token is missing permission for that. Check its scope.'
+      : r.status === 404 ? (conf.backend === 'repo' ? 'Repo or file not found under this token.' : 'That gist ID was not found under this token.')
+      : r.status === 409 || r.status === 422 ? 'Save collided with another device — retrying.'
+      : 'GitHub returned ' + r.status + '.');
+    e.status = r.status;
+    throw e;
+  }
   return r.json();
 }
+
+/* base64 that survives thumbnails and non-Latin text */
+function b64enc(str){
+  const bytes = new TextEncoder().encode(str);
+  let bin = '';
+  const CH = 0x8000;
+  for (let i = 0; i < bytes.length; i += CH) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + CH));
+  return btoa(bin);
+}
+function b64dec(b64){
+  const bin = atob(String(b64).replace(/\s/g, ''));
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+
+/* ---- two interchangeable backends ---- */
+let repoSha = null;
+function repoPathURL(){
+  return '/repos/' + encodeURIComponent(conf.repoOwner) + '/' + encodeURIComponent(conf.repoName)
+       + '/contents/' + conf.repoPath.split('/').map(encodeURIComponent).join('/');
+}
+async function repoRead(){
+  try {
+    const j = await gh(repoPathURL() + '?ref=' + encodeURIComponent(conf.repoBranch || 'main'));
+    repoSha = j.sha;
+    return j.content ? b64dec(j.content) : '';
+  } catch (e){
+    if (e.status === 404){ repoSha = null; return ''; }   /* first run, file not created yet */
+    throw e;
+  }
+}
+async function repoWrite(payload){
+  const body = { message: 'restock ' + new Date().toISOString(), content: b64enc(payload), branch: conf.repoBranch || 'main' };
+  if (repoSha) body.sha = repoSha;
+  const j = await gh(repoPathURL(), { method: 'PUT', body: JSON.stringify(body) });
+  repoSha = j.content && j.content.sha;
+}
+async function gistRead(){
+  const g = await gh('/gists/' + conf.gistId);
+  const f = g.files && g.files[GIST_FILE];
+  if (!f) return '';
+  return f.truncated ? await (await fetch(f.raw_url)).text() : f.content;
+}
+async function gistWrite(payload){
+  await gh('/gists/' + conf.gistId, { method: 'PATCH', body: JSON.stringify({ files: { [GIST_FILE]: { content: payload } } }) });
+}
+function remoteReady(){
+  if (!conf.ghToken) return false;
+  return conf.backend === 'repo' ? !!(conf.repoOwner && conf.repoName) : !!conf.gistId;
+}
+const remoteRead  = () => conf.backend === 'repo' ? repoRead() : gistRead();
+const remoteWrite = p => conf.backend === 'repo' ? repoWrite(p) : gistWrite(p);
 async function createGist(){
   const g = await gh('/gists', { method: 'POST', body: JSON.stringify({
     description: 'Restock — grocery data', public: false,
@@ -450,14 +565,11 @@ async function createGist(){
   conf.gistId = g.id; writeConf(); return g.id;
 }
 async function pull(quiet){
-  if (!gistReady()){ setSync('off', 'local'); return; }
+  if (!remoteReady()){ setSync('off', 'local'); return; }
   if (!navigator.onLine){ setSync('warn', 'offline'); return; }
   setSync('busy', 'syncing');
   try {
-    const g = await gh('/gists/' + conf.gistId);
-    const f = g.files && g.files[GIST_FILE];
-    let text = '';
-    if (f) text = f.truncated ? await (await fetch(f.raw_url)).text() : f.content;
+    const text = await remoteRead();
     const remote = text ? JSON.parse(text) : blank();
     const before = JSON.stringify(state);
     state = mergeState(state, remote);
@@ -468,19 +580,27 @@ async function pull(quiet){
     if (after !== lastPushed) queuePush();
   } catch (e){ setSync('err', 'sync error'); if (!quiet) toast(e.message); }
 }
-function queuePush(){ if (!gistReady()) return; clearTimeout(pushTimer); pushTimer = setTimeout(push, 1500); }
-async function push(){
-  if (!gistReady() || pushing) return;
+function queuePush(){ if (!remoteReady()) return; clearTimeout(pushTimer); pushTimer = setTimeout(push, 1500); }
+async function push(retry){
+  if (!remoteReady() || pushing) return;
   if (!navigator.onLine){ setSync('warn', 'offline'); return; }
   const payload = JSON.stringify(state);
   if (payload === lastPushed){ setSync('ok', 'synced'); return; }
   if (payload.length > 900000 && !sizeWarned){ sizeWarned = true; toast('Data is getting large — trim a few pictures'); }
   pushing = true; setSync('busy', 'saving');
-  try { await gh('/gists/' + conf.gistId, { method: 'PATCH', body: JSON.stringify({ files: { [GIST_FILE]: { content: payload } } }) });
+  try {
+    await remoteWrite(payload);
     lastPushed = payload; setSync('ok', 'synced');
-  } catch (e){ setSync('err', 'sync error'); } finally { pushing = false; }
-}
-function setSync(kind, txt){
+  } catch (e){
+    /* another device wrote first: pull, merge, try once more */
+    if (!retry && (e.status === 409 || e.status === 422)){
+      pushing = false;
+      await pull(true);
+      return push(true);
+    }
+    setSync('err', 'sync error');
+  } finally { pushing = false; }
+}function setSync(kind, txt){
   $('#syncDot').className = 'dot' + (kind === 'ok' ? '' : ' ' + kind);
   $('#syncTxt').textContent = txt;
 }
@@ -686,20 +806,20 @@ function thumbHTML(nameOrEntry, big){
 }
 
 /* ---------------- rendering ---------------- */
-function renderAll(){ renderHave(); renderBuy(); renderBought(); renderKnown(); renderWarnings(); }
+function renderAll(){ renderHave(); renderBuy(); renderBought(); renderMeds(); renderCook(); renderKnown(); renderWarnings(); }
 
 function renderWarnings(){
   let h = '';
-  if (!gistReady()) h += '<div class="banner">Sync is off — this stays on this device only. <button data-open-settings>Set it up</button></div>';
+  if (!remoteReady()) h += '<div class="banner">Sync is off — this stays on this device only. <button data-open-settings>Set it up</button></div>';
   if (!conf.geminiKey) h += '<div class="banner">Reading photos needs a Gemini key. Typing works without one. <button data-open-settings>Add a key</button></div>';
   $('#warnBox').innerHTML = h;
 }
 
 function renderHave(){
   const n = state.have.length;
-  $('#haveCount').textContent = n ? n : '';
+  setTxt('#haveCount', n ? n : '');
   const expiring = state.have.filter(h => { const x = expState(h); return x && x.left <= 2; }).length;
-  $('#hdrCount').textContent = expiring ? expiring + ' need using' : (state.buy.length ? state.buy.length + ' to buy' : '');
+  setTxt('#hdrCount', expiring ? expiring + ' need using' : (state.buy.length ? state.buy.length + ' to buy' : ''));
 
   const counts = { All: n };
   PLACES.forEach(p => counts[p] = state.have.filter(h => h.place === p).length);
@@ -741,8 +861,8 @@ function renderHave(){
 
 function renderBuy(){
   const n = state.buy.length;
-  $('#buyCount').textContent = n ? n : '';
-  $('#buyNum').textContent = n ? n + ' items' : '';
+  setTxt('#buyCount', n ? n : '');
+  setTxt('#buyNum', n ? n + ' items' : '');
   const body = $('#buyBody');
   if (!n){
     body.innerHTML = '<div class="empty"><strong>Nothing to buy.</strong>Tap + on anything in your bought record, or type it above.</div>';
@@ -771,8 +891,8 @@ function renderBuy(){
 
 function renderBought(){
   const total = state.bought.length;
-  $('#boughtCount').textContent = total ? total : '';
-  $('#boughtNum').textContent = total ? total + ' items' : '';
+  setTxt('#boughtCount', total ? total : '');
+  setTxt('#boughtNum', total ? total + ' items' : '');
   const q = norm($('#bqSearch').value), sort = $('#bqSort').value;
   let items = state.bought.filter(i => !q || norm(i.name).includes(q));
   const rank = { due: 0, soon: 1, ok: 2, new: 3 };
@@ -1336,6 +1456,266 @@ function typeMany(){
   $('#tRec').onclick = () => addAll('record');
 }
 
+
+/* ================= MEDICINES ================= */
+function parseMed(line){
+  let t = String(line || '').trim();
+  if (!t) return null;
+  let dose = '';
+  const m = t.match(/^(.*?)[,\u2013\u2014-]\s*(.+)$/);
+  if (m){ t = m[1].trim(); dose = m[2].trim(); }
+  const st = t.match(/^(.*?)\s+(\d+\s*(?:mg|mcg|ml|g|iu)\b.*)$/i);
+  if (st){ t = st[1].trim(); dose = (st[2] + (dose ? ' \u00b7 ' + dose : '')).trim(); }
+  return { name: titled(t), dose };
+}
+function addMed(line){
+  const p = parseMed(line);
+  if (!p) return null;
+  const dupe = state.meds.find(m => norm(m.name) === norm(p.name));
+  if (dupe){ dupe.active = true; dupe.dose = p.dose || dupe.dose; dupe.mtime = now(); return dupe; }
+  const m = { id: uid(), name: p.name, dose: p.dose, note: '', active: true,
+              regular: false, everyDays: 0, nextDue: 0, lastGot: 0, mtime: now() };
+  state.meds.unshift(m);
+  return m;
+}
+function gotMed(id){
+  const m = state.meds.find(x => x.id === id);
+  if (!m) return;
+  m.lastGot = now();
+  if (m.regular && m.everyDays > 0){
+    m.active = false; m.nextDue = now() + m.everyDays * DAY; m.mtime = now();
+    save(); toast(m.name + ' \u2014 back in ' + m.everyDays + ' days');
+  } else {
+    state.meds = state.meds.filter(x => x.id !== id);
+    state.tombs.push({ id, t: now() });
+    save(); toast(m.name + ' \u2014 got it');
+  }
+}
+function renderMeds(){
+  const active = state.meds.filter(m => m.active);
+  const repeats = state.meds.filter(m => !m.active && m.regular);
+  setTxt('#medCount', active.length ? active.length : '');
+  const body = $('#medBody');
+  if (!state.meds.length){
+    body.innerHTML = '<div class="empty"><strong>Nothing noted.</strong>Jot down anything you need from the chemist \u2014 “Dolo 650, 1 strip”.</div>';
+    return;
+  }
+  let html = '';
+  if (active.length){
+    html += '<div class="med-sec"><h4 class="eyebrow">To get</h4><div class="rows">';
+    for (const m of active){
+      html += '<div class="r">'
+        + '<button class="tick" data-medgot="' + m.id + '" aria-label="Got ' + esc(m.name) + '"></button>'
+        + '<div class="body"><b>' + esc(m.name) + '</b>'
+          + (m.dose || m.note ? '<div class="meta"><span>' + esc([m.dose, m.note].filter(Boolean).join(' \u00b7 ')) + '</span></div>' : '')
+        + '</div>'
+        + '<button class="mini" data-medit="' + m.id + '" aria-label="Edit">&#8230;</button>'
+        + '<button class="kill" data-meddel="' + m.id + '" aria-label="Remove">&times;</button>'
+        + '</div>';
+    }
+    html += '</div></div>';
+  }
+  if (repeats.length){
+    repeats.sort((a, b) => (a.nextDue || 0) - (b.nextDue || 0));
+    html += '<div class="med-sec"><h4 class="eyebrow">Regulars</h4><div class="rows">';
+    for (const m of repeats){
+      const left = Math.ceil((m.nextDue - now()) / DAY);
+      const lvl = left <= 0 ? 'exp-gone' : left <= 3 ? 'exp-soon' : 'exp-ok';
+      html += '<div class="r">'
+        + '<div class="body"><b>' + esc(m.name) + '</b><div class="meta">'
+          + (m.dose ? '<span>' + esc(m.dose) + '</span>' : '')
+          + '<span class="tag ' + lvl + '">' + (left <= 0 ? 'due now' : 'in ' + left + 'd') + '</span>'
+          + '<span>every ' + m.everyDays + 'd</span>'
+        + '</div></div>'
+        + '<button class="mini" data-medit="' + m.id + '" aria-label="Edit">&#8230;</button>'
+        + '<button class="mini plus" data-medback="' + m.id + '" aria-label="Add to list">+</button>'
+        + '</div>';
+    }
+    html += '</div></div>';
+  }
+  body.innerHTML = html;
+}
+function editMed(id){
+  const m = state.meds.find(x => x.id === id);
+  if (!m) return;
+  openSheet('Edit \u2014 ' + m.name,
+    '<label class="fld"><span>Name</span><input type="text" id="mName" value="' + esc(m.name) + '"></label>'
+    + '<label class="fld"><span>Strength or pack</span><input type="text" id="mDose" value="' + esc(m.dose || '') + '" placeholder="650 mg \u00b7 1 strip"></label>'
+    + '<label class="fld"><span>Note</span><input type="text" id="mNote" value="' + esc(m.note || '') + '" placeholder="for amma, morning"></label>'
+    + '<label class="fld"><span><input type="checkbox" id="mReg" ' + (m.regular ? 'checked' : '') + ' style="width:auto;min-height:auto;margin-right:8px;accent-color:var(--violet)"> A regular refill</span></label>'
+    + '<label class="fld"><span>Repeat every (days)</span><input type="number" id="mEvery" min="1" max="365" value="' + (m.everyDays || '') + '" placeholder="30"></label>',
+    '<button class="btn ghost" id="mDel">Delete</button><button class="btn" id="mSave">Save</button>');
+  $('#mSave').onclick = () => {
+    const nm = titled($('#mName').value);
+    if (nm) m.name = nm;
+    m.dose = $('#mDose').value.trim();
+    m.note = $('#mNote').value.trim();
+    m.regular = $('#mReg').checked;
+    const e = parseInt($('#mEvery').value, 10);
+    m.everyDays = e > 0 ? e : 0;
+    if (m.regular && !m.everyDays) m.everyDays = 30;
+    m.mtime = now();
+    save(); closeSheet(); toast('Saved');
+  };
+  $('#mDel').onclick = () => {
+    state.meds = state.meds.filter(x => x.id !== id);
+    state.tombs.push({ id, t: now() });
+    save(); closeSheet(); toast('Deleted');
+  };
+}
+
+/* ================= COOK ================= */
+const COOKKEY = 'restock:cook:v1';
+let cookState = { strict: 'strict', meal: 'Any', ideas: [], ts: 0 };
+function loadCook(){ try { const c = localStorage.getItem(COOKKEY); if (c) cookState = Object.assign(cookState, JSON.parse(c)); } catch (e){} }
+function saveCook(){ try { localStorage.setItem(COOKKEY, JSON.stringify(cookState)); } catch (e){} }
+
+function haveForCooking(){
+  return state.have.map(h => {
+    const x = expState(h);
+    return { name: h.name, qty: h.qty || '', left: x ? x.left : null, label: x ? x.label : '' };
+  }).sort((a, b) => (a.left == null ? 9999 : a.left) - (b.left == null ? 9999 : b.left));
+}
+
+function renderCook(){
+  const items = haveForCooking();
+  const head = $('#cookHead');
+  if (!conf.geminiKey){
+    head.innerHTML = '<div class="banner">Cooking ideas need a Gemini key. <button data-open-settings>Add one</button></div>';
+  } else if (!items.length){
+    head.innerHTML = '';
+    $('#cookBody').innerHTML = '<div class="empty"><strong>Nothing in the house yet.</strong>Add what you have and this will suggest dishes around whatever is closest to expiring.</div>';
+    return;
+  } else {
+    const urgent = items.filter(i => i.left != null && i.left <= 5).slice(0, 4);
+    head.innerHTML =
+      (urgent.length ? '<p class="note" style="margin-bottom:12px"><b>Using up first:</b> '
+        + urgent.map(i => esc(i.name) + ' (' + i.label + ')').join(', ') + '</p>' : '')
+      + '<div class="chips">'
+        + [['strict','Only what I have'],['few','A few extras ok'],['open','Anything goes']]
+            .map(([k, l]) => '<button class="chip' + (cookState.strict === k ? ' on' : '') + '" data-strict="' + k + '">' + l + '</button>').join('')
+      + '</div>'
+      + '<div class="chips">'
+        + ['Any','Breakfast','Lunch','Dinner','Snack']
+            .map(m => '<button class="chip' + (cookState.meal === m ? ' on' : '') + '" data-meal="' + m + '">' + m + '</button>').join('')
+      + '</div>'
+      + '<button class="btn" id="cookGo" style="width:100%;margin-bottom:16px">'
+        + (cookState.ideas.length ? 'Suggest again' : 'Suggest dishes') + '</button>';
+  }
+  const body = $('#cookBody');
+  if (!cookState.ideas.length){
+    body.innerHTML = conf.geminiKey && items.length
+      ? '<div class="empty">' + items.length + ' things in the house. Tap above and it will work out what they add up to.</div>' : '';
+    return;
+  }
+  let html = '<p class="eyebrow">' + cookState.ideas.length + ' ideas \u00b7 '
+    + (cookState.ts ? Math.max(1, Math.round((now() - cookState.ts) / 60000)) + ' min ago' : '') + '</p>';
+  cookState.ideas.forEach((idea, i) => {
+    html += '<div class="idea"><h4>' + esc(idea.title) + '</h4>'
+      + (idea.blurb ? '<p>' + esc(idea.blurb) + '</p>' : '')
+      + '<div class="uses">'
+        + (idea.uses || []).map(u => '<span class="u">' + esc(u) + '</span>').join('')
+        + (idea.extras || []).map(u => '<span class="u x">+ ' + esc(u) + '</span>').join('')
+        + (idea.minutes ? '<span class="u t">' + esc(idea.minutes) + ' min</span>' : '')
+      + '</div>'
+      + '<div class="split">'
+        + '<button class="btn ghost sm" data-recipe="' + i + '">Recipe</button>'
+        + ((idea.extras || []).length ? '<button class="btn ghost sm" data-needs="' + i + '">Add the extras</button>' : '')
+      + '</div></div>';
+  });
+  if (cookState.strict === 'strict')
+    html += '<p class="note" style="margin-top:4px">Stuck with these? <button class="btn quiet" id="relax" style="text-decoration:underline">Let it use a few extra ingredients</button></p>';
+  body.innerHTML = html;
+}
+
+async function askText(prompt){
+  if (!conf.geminiKey) throw new Error('No Gemini key saved yet.');
+  const url = 'https://generativelanguage.googleapis.com/v1beta/models/'
+    + encodeURIComponent(conf.geminiModel || 'gemini-2.5-flash') + ':generateContent?key=' + encodeURIComponent(conf.geminiKey);
+  const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: { temperature: 0.7, response_mime_type: 'application/json' } }) });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok){
+    const m = data && data.error && data.error.message ? data.error.message : 'Gemini returned ' + res.status;
+    if (res.status === 429) throw new Error('Free-tier limit reached for now. Try again in a minute.');
+    throw new Error(m);
+  }
+  const cand = data.candidates && data.candidates[0];
+  const text = cand && cand.content && cand.content.parts ? cand.content.parts.map(p => p.text || '').join('') : '';
+  const clean = text.replace(/```json/gi, '').replace(/```/g, '').trim();
+  const a = clean.indexOf('{'), b = clean.lastIndexOf('}');
+  if (a < 0 || b < 0) throw new Error('Nothing usable came back. Try again.');
+  return JSON.parse(clean.slice(a, b + 1));
+}
+
+async function suggestDishes(){
+  const items = haveForCooking();
+  if (!items.length) return;
+  const list = items.map(i => '- ' + i.name + (i.qty ? ' (' + i.qty + ')' : '')
+    + (i.left != null ? ' \u2014 ' + (i.left <= 0 ? 'must use now' : i.left + ' days left') : '')).join('\n');
+  const rule = cookState.strict === 'strict'
+      ? 'Use ONLY the items listed, plus basic staples every Indian kitchen has (salt, oil, water, common masalas). Do not require anything else.'
+    : cookState.strict === 'few'
+      ? 'Stay mainly within the list. At most 2 extra ingredients per dish, and they must be cheap and easy to buy locally. Put those in "extras".'
+      : 'Prefer the list but you may add ingredients freely. Put anything not on the list in "extras".';
+  const meal = cookState.meal === 'Any' ? '' : 'The dish should suit ' + cookState.meal.toLowerCase() + '.\n';
+
+  $('#cookBody').innerHTML = '<div class="thinking"><i class="spin"></i>Working out what these add up to\u2026</div>';
+  try {
+    const out = await askText(
+      'You are helping a home cook in India decide what to make from what is already in the house.\n\n'
+      + 'In the house right now:\n' + list + '\n\n'
+      + rule + '\n' + meal
+      + 'Give exactly 4 dishes. Rules:\n'
+      + '- Prioritise whatever must be used soonest. At least two dishes should centre on the items with the fewest days left.\n'
+      + '- Everyday home cooking, not restaurant showpieces. Indian dishes mostly, but not exclusively.\n'
+      + '- "uses" lists only item names taken from the list above, spelled exactly as given.\n'
+      + '- "extras" lists anything needed that is NOT on the list (empty array if none).\n'
+      + '- "blurb" is one plain sentence saying what it is and why it fits what needs using.\n'
+      + '- "minutes" is a number.\n\n'
+      + 'Return JSON only: {"ideas":[{"title":"","blurb":"","uses":[],"extras":[],"minutes":0}]}');
+    cookState.ideas = Array.isArray(out.ideas) ? out.ideas.slice(0, 4) : [];
+    cookState.ts = now();
+    saveCook(); renderCook();
+  } catch (e){
+    $('#cookBody').innerHTML = '<div class="err">' + esc(e.message) + '</div>';
+  }
+}
+
+async function showRecipe(i){
+  const idea = cookState.ideas[i];
+  if (!idea) return;
+  const items = haveForCooking().map(x => x.name);
+  openSheet(idea.title, '<div class="thinking"><i class="spin"></i>Writing it out\u2026</div>', '');
+  try {
+    const out = await askText(
+      'Write the full home recipe for "' + idea.title + '" for an Indian home cook.\n'
+      + 'They already have: ' + items.join(', ') + '.\n'
+      + 'Anything else needed must be listed with "have": false.\n'
+      + 'Keep it to what a normal kitchen can do. Metric amounts. Serves 2-3.\n\n'
+      + 'Return JSON only: {"title":"","serves":"","minutes":0,'
+      + '"ingredients":[{"item":"","amount":"","have":true}],"steps":[""],"tip":""}');
+    const ing = (out.ingredients || []).map(x =>
+      '<li' + (x.have === false ? ' class="miss"' : '') + '>' + esc(x.item) + (x.amount ? ' \u2014 ' + esc(x.amount) : '')
+      + (x.have === false ? ' <em>(need to buy)</em>' : '') + '</li>').join('');
+    const missing = (out.ingredients || []).filter(x => x.have === false).map(x => x.item);
+    $('#sheetBody').innerHTML = '<div class="recipe">'
+      + '<p class="note">' + esc(out.serves || 'Serves 2-3') + (out.minutes ? ' \u00b7 ' + out.minutes + ' min' : '') + '</p>'
+      + '<h3>Ingredients</h3><ul>' + ing + '</ul>'
+      + '<h3>Method</h3><ol>' + (out.steps || []).map(x => '<li>' + esc(x) + '</li>').join('') + '</ol>'
+      + (out.tip ? '<h3>Tip</h3><p class="note">' + esc(out.tip) + '</p>' : '')
+      + '</div>';
+    $('#sheetFoot').innerHTML = (missing.length ? '<button class="btn ghost" id="recBuy">Add ' + missing.length + ' to buy list</button>' : '')
+      + '<button class="btn" id="recDone">Close</button>';
+    $('#recDone').onclick = closeSheet;
+    if (missing.length) $('#recBuy').onclick = () => {
+      missing.forEach(n => { ensureBought(titled(n)); addToBuy(titled(n), ''); });
+      save(); closeSheet(); showPane('buy'); toast(missing.length + ' added to the buy list');
+    };
+  } catch (e){ sheetError(e.message, () => showRecipe(i)); }
+}
+
 /* ---------------- settings ---------------- */
 function dataSize(){ return (new Blob([JSON.stringify(state)]).size / 1024).toFixed(0) + ' KB'; }
 function openSettings(){
@@ -1346,25 +1726,56 @@ function openSettings(){
     + '<label class="fld"><span>Model</span><input type="text" id="sModel" value="' + esc(conf.geminiModel) + '" placeholder="gemini-2.5-flash"></label>'
     + '<div class="split"><button class="btn ghost sm" id="sTestKey">Test the key</button></div>'
     + '<hr class="sep"><p class="eyebrow">Sync</p>'
-    + '<label class="fld"><span>GitHub token</span><input type="password" id="sTok" value="' + esc(conf.ghToken) + '" placeholder="ghp_…" autocomplete="off"><em>Classic token, <b>gist</b> scope only.</em></label>'
-    + '<label class="fld"><span>Gist ID</span><input type="text" id="sGist" value="' + esc(conf.gistId) + '" placeholder="blank to create one" autocomplete="off"></label>'
+    + '<div class="seg" id="beSeg"><button data-be="repo"' + (conf.backend === 'repo' ? ' class="on"' : '') + '>Private repo</button>'
+      + '<button data-be="gist"' + (conf.backend !== 'repo' ? ' class="on"' : '') + '>Secret gist</button></div>'
+    + '<label class="fld"><span>GitHub token</span><input type="password" id="sTok" value="' + esc(conf.ghToken) + '" placeholder="github_pat_… or ghp_…" autocomplete="off"></label>'
+    + '<div id="beFields"></div>'
     + '<div class="split"><button class="btn ghost sm" id="sMakeGist">Create a gist</button><button class="btn ghost sm" id="sTestSync">Test sync</button></div>'
     + '<div id="sMsg" style="margin-top:14px"></div>'
     + '<hr class="sep"><p class="eyebrow">Data</p>'
     + '<label class="fld"><span><input type="checkbox" id="sOFF"' + (conf.useOFF ? ' checked' : '') + ' style="width:auto;min-height:auto;margin-right:8px;accent-color:var(--violet)"> Look barcodes up on Open Food Facts</span></label>'
-    + '<p class="note" style="margin-bottom:14px">' + state.have.length + ' in the house · ' + state.bought.length + ' in the record, ' + thumbs + ' with pictures · ' + dataSize() + ' total.</p>'
+    + '<p class="note" style="margin-bottom:14px">' + state.have.length + ' in the house · ' + state.bought.length + ' in the record, ' + thumbs + ' with pictures · ' + state.meds.length + ' medicines · ' + dataSize() + ' total.</p>'
     + '<div class="split"><button class="btn ghost sm" id="sExport">Export backup</button><button class="btn ghost sm" id="sImport">Restore</button></div>'
     + '<div class="split" style="margin-top:10px"><button class="btn ghost sm" id="sWipe">Clear this device</button></div>',
     '<button class="btn" id="sSave">Save settings</button>');
   const msg = t => { $('#sMsg').innerHTML = t; };
+  const drawFields = () => {
+    const repo = conf.backend === 'repo';
+    $('#beFields').innerHTML = repo
+      ? '<label class="fld"><span>Owner (your username)</span><input type="text" id="sOwner" value="' + esc(conf.repoOwner) + '" placeholder="yourname" autocomplete="off"></label>'
+        + '<label class="fld"><span>Private repo name</span><input type="text" id="sRepo" value="' + esc(conf.repoName) + '" placeholder="restock-data" autocomplete="off">'
+        + '<em>Make it on github.com first, ticked <b>Private</b>, with a README so it is not empty.</em></label>'
+        + '<label class="fld"><span>File · branch</span><div class="split"><input type="text" id="sPath" value="' + esc(conf.repoPath) + '" placeholder="restock.json"><input type="text" id="sBranch" value="' + esc(conf.repoBranch) + '" placeholder="main"></div></label>'
+      : '<label class="fld"><span>Gist ID</span><input type="text" id="sGist" value="' + esc(conf.gistId) + '" placeholder="blank to create one" autocomplete="off">'
+        + '<em>A secret gist is unlisted, not private \u2014 anyone with the link can read it.</em></label>';
+    const mk = $('#sMakeGist');
+    if (mk) mk.style.display = repo ? 'none' : '';
+  };
+  drawFields();
+  const readFields = () => {
+    conf.ghToken = $('#sTok').value.trim();
+    if (conf.backend === 'repo'){
+      if ($('#sOwner')) conf.repoOwner = $('#sOwner').value.trim();
+      if ($('#sRepo')) conf.repoName = $('#sRepo').value.trim();
+      if ($('#sPath')) conf.repoPath = $('#sPath').value.trim() || 'restock.json';
+      if ($('#sBranch')) conf.repoBranch = $('#sBranch').value.trim() || 'main';
+    } else if ($('#sGist')) conf.gistId = $('#sGist').value.trim();
+  };
+  $('#beSeg').addEventListener('click', e => {
+    const b = e.target.closest('[data-be]');
+    if (!b) return;
+    readFields();
+    conf.backend = b.dataset.be;
+    $$('#beSeg button').forEach(x => x.classList.toggle('on', x === b));
+    drawFields();
+  });
   $('#sSave').onclick = () => {
     conf.geminiKey = $('#sKey').value.trim();
     conf.geminiModel = $('#sModel').value.trim() || 'gemini-2.5-flash';
-    conf.ghToken = $('#sTok').value.trim();
-    conf.gistId = $('#sGist').value.trim();
+    readFields();
     conf.useOFF = $('#sOFF').checked;
     writeConf(); renderWarnings(); closeSheet(); toast('Settings saved');
-    if (gistReady()) pull(false); else setSync('off', 'local');
+    if (remoteReady()) pull(false); else setSync('off', 'local');
   };
   $('#sTestKey').onclick = async () => {
     conf.geminiKey = $('#sKey').value.trim();
@@ -1377,7 +1788,7 @@ function openSettings(){
     catch (e){ msg('<div class="err">' + esc(e.message) + '</div>'); }
   };
   $('#sMakeGist').onclick = async () => {
-    conf.ghToken = $('#sTok').value.trim();
+    conf.backend = 'gist'; conf.ghToken = $('#sTok').value.trim();
     if (!conf.ghToken) return msg('<div class="err">Paste a GitHub token first.</div>');
     msg('<div class="thinking"><i class="spin"></i>Creating a private gist…</div>');
     try { const id = await createGist(); $('#sGist').value = id;
@@ -1385,11 +1796,13 @@ function openSettings(){
     } catch (e){ msg('<div class="err">' + esc(e.message) + '</div>'); }
   };
   $('#sTestSync').onclick = async () => {
-    conf.ghToken = $('#sTok').value.trim(); conf.gistId = $('#sGist').value.trim();
-    if (!gistReady()) return msg('<div class="err">Both a token and a gist ID are needed.</div>');
+    readFields();
+    if (!remoteReady()) return msg('<div class="err">Fill in the fields above first.</div>');
     msg('<div class="thinking"><i class="spin"></i>Talking to GitHub…</div>');
-    try { await gh('/gists/' + conf.gistId); writeConf(); msg('<div class="ok-note">Sync is working.</div>'); }
-    catch (e){ msg('<div class="err">' + esc(e.message) + '</div>'); }
+    try {
+      await remoteRead(); writeConf();
+      msg('<div class="ok-note">Sync is working' + (conf.backend === 'repo' ? ' \u2014 the file will be created on the first save.' : '.') + '</div>');
+    } catch (e){ msg('<div class="err">' + esc(e.message) + '</div>'); }
   };
   $('#sExport').onclick = exportData;
   $('#sImport').onclick = () => $('#fileImport').click();
@@ -1422,15 +1835,58 @@ function importData(file){
 }
 
 /* ---------------- events ---------------- */
+const CORE = ['have','buy','bought'];
 function showPane(v){
   $$('.pane').forEach(s => s.classList.toggle('on', s.id === 'p-' + v));
   $$('.tab').forEach(t => t.classList.toggle('on', t.dataset.pane === v));
+  document.body.dataset.view = CORE.includes(v) ? 'shelves' : v;
+  $$('#deskbar button').forEach(b => b.classList.toggle('on',
+    (b.dataset.go === 'have' && CORE.includes(v)) || b.dataset.go === v));
+  if (v === 'cook') renderCook();
   window.scrollTo(0, 0);
 }
 $$('.tab').forEach(t => t.onclick = () => showPane(t.dataset.pane));
+$('#deskbar').addEventListener('click', e => { const b = e.target.closest('[data-go]'); if (b) showPane(b.dataset.go); });
+
+$('#medAdd').onclick = () => {
+  const el = $('#medName');
+  if (!el.value.trim()) return el.focus();
+  addMed(el.value.trim());
+  el.value = ''; save(); el.focus();
+};
+$('#medName').addEventListener('keydown', e => { if (e.key === 'Enter') $('#medAdd').click(); });
+$('#medBody').addEventListener('click', e => {
+  const g = e.target.closest('[data-medgot]');
+  if (g){ g.classList.add('on'); g.closest('.r').classList.add('going'); const id = g.dataset.medgot; return setTimeout(() => gotMed(id), 240); }
+  const ed = e.target.closest('[data-medit]');
+  if (ed) return editMed(ed.dataset.medit);
+  const bk = e.target.closest('[data-medback]');
+  if (bk){ const m = state.meds.find(x => x.id === bk.dataset.medback); if (m){ m.active = true; m.mtime = now(); save(); toast(m.name + ' back on the list'); } return; }
+  const dl = e.target.closest('[data-meddel]');
+  if (dl){ const id = dl.dataset.meddel; state.meds = state.meds.filter(x => x.id !== id); state.tombs.push({ id, t: now() }); save(); }
+});
+
+$('#cookHead').addEventListener('click', e => {
+  const st = e.target.closest('[data-strict]');
+  if (st){ cookState.strict = st.dataset.strict; saveCook(); renderCook(); return; }
+  const ml = e.target.closest('[data-meal]');
+  if (ml){ cookState.meal = ml.dataset.meal; saveCook(); renderCook(); return; }
+  if (e.target.closest('#cookGo')) suggestDishes();
+});
+$('#cookBody').addEventListener('click', e => {
+  const r = e.target.closest('[data-recipe]');
+  if (r) return showRecipe(+r.dataset.recipe);
+  const n = e.target.closest('[data-needs]');
+  if (n){
+    const idea = cookState.ideas[+n.dataset.needs];
+    (idea.extras || []).forEach(x => { ensureBought(titled(x)); addToBuy(titled(x), ''); });
+    save(); showPane('buy'); return toast((idea.extras || []).length + ' added to the buy list');
+  }
+  if (e.target.closest('#relax')){ cookState.strict = 'few'; saveCook(); renderCook(); suggestDishes(); }
+});
 $('#addBtn').onclick = openAdd;
 $('#setBtn').onclick = openSettings;
-$('#syncBtn').onclick = () => { if (gistReady()) pull(false); else openSettings(); };
+$('#syncBtn').onclick = () => { if (remoteReady()) pull(false); else openSettings(); };
 
 $('#quickAdd').onclick = () => {
   const el = $('#quickName');
@@ -1543,9 +1999,11 @@ window.addEventListener('offline', () => setSync('warn', 'offline'));
 /* ---------------- boot ---------------- */
 (function boot(){
   loadLocal();
+  loadCook();
+  document.body.dataset.view = 'shelves';
   renderAll();
-  if (gistReady()) pull(true); else setSync('off', 'local');
-  setInterval(() => { if (!document.hidden && gistReady()) pull(true); }, 30000);
+  if (remoteReady()) pull(true); else setSync('off', 'local');
+  setInterval(() => { if (!document.hidden && remoteReady()) pull(true); }, 30000);
   setInterval(() => { renderHave(); renderBought(); }, 3600000);
   if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
 })();
