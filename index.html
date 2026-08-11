@@ -21,6 +21,7 @@
   --amber:#C97A06; --amber-soft:#FBEFD8;
   --green:#2E7D5B; --green-soft:#E1F0E7;
   --red:#B3261E; --red-soft:#FBE9E7;
+  --blue:#2C6E8F; --blue-soft:#E1EEF4;
   --shadow:0 1px 0 rgba(22,33,28,.05), 0 6px 18px -12px rgba(22,33,28,.35);
   --r:14px;
   --display:"Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -34,37 +35,40 @@ button{cursor:pointer;border:none;background:none}
 :focus-visible{outline:2.5px solid var(--violet);outline-offset:2px;border-radius:6px}
 img{display:block}
 
-.app{max-width:720px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column}
-header{position:sticky;top:0;z-index:20;background:rgba(239,242,234,.93);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line);padding:calc(env(safe-area-inset-top) + 12px) 14px 10px}
-.head-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.wordmark{font-weight:700;letter-spacing:-.02em;font-size:20px;display:flex;align-items:baseline;gap:8px}
-.wordmark span{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--ink-2);letter-spacing:.08em;text-transform:uppercase}
-.head-acts{display:flex;align-items:center;gap:2px}
-.sync{font-family:var(--mono);font-size:11px;color:var(--ink-2);display:flex;align-items:center;gap:6px;padding:7px 9px;border-radius:9px}
+.app{max-width:1200px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column}
+header{position:sticky;top:0;z-index:20;background:rgba(239,242,234,.94);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line);padding:calc(env(safe-area-inset-top) + 11px) 12px 9px}
+.head-row{display:flex;align-items:center;gap:8px}
+.wordmark{font-weight:700;letter-spacing:-.02em;font-size:19px;flex:1;min-width:0;display:flex;align-items:baseline;gap:8px}
+.wordmark i{font-style:normal;font-family:var(--mono);font-size:10.5px;font-weight:500;color:var(--ink-2);letter-spacing:.07em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sync{font-family:var(--mono);font-size:11px;color:var(--ink-2);display:flex;align-items:center;gap:6px;padding:7px 8px;border-radius:9px;flex:none}
 .sync:hover{background:#0000000a}
-.icon-btn{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--ink-2)}
+.icon-btn{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--ink-2);flex:none}
 .icon-btn:hover{background:#0000000a}
 .icon-btn svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.addbtn{background:var(--violet);color:#fff;border-radius:11px;height:38px;padding:0 14px;display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;flex:none}
+.addbtn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex:none}
 .dot.warn{background:var(--amber)} .dot.err{background:var(--red)} .dot.off{background:#B6C0B8}
 .dot.busy{background:var(--violet);animation:pulse 1s infinite}
 @keyframes pulse{50%{opacity:.25}}
 
-main{flex:1;padding:16px 14px 122px}
-.view{display:none}
-.view.on{display:block;animation:fade .18s ease-out}
+main{flex:1;padding:14px 12px 118px}
+.cols{display:block}
+.pane{display:none}
+.pane.on{display:block;animation:fade .18s ease-out}
 @keyframes fade{from{opacity:0;transform:translateY(4px)}}
+.pane-title{display:none}
 
 nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:8px 8px calc(env(safe-area-inset-bottom) + 8px)}
-.nav-inner{max-width:720px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.nav-inner{max-width:640px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
 .tab{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border-radius:12px;color:var(--ink-2);font-size:12px;font-weight:500}
 .tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .tab.on{color:var(--violet);background:var(--violet-soft)}
 .tab .count{font-family:var(--mono);font-size:10px}
 
 .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin:0 0 8px}
-.empty{text-align:center;padding:38px 20px;color:var(--ink-2)}
-.empty strong{display:block;color:var(--ink);font-size:17px;margin-bottom:6px}
+.empty{text-align:center;padding:34px 18px;color:var(--ink-2);font-size:14px}
+.empty strong{display:block;color:var(--ink);font-size:16.5px;margin-bottom:6px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--violet);color:#fff;font-weight:500;padding:13px 18px;border-radius:12px;min-height:46px;text-align:center}
 .btn:active{transform:translateY(1px)}
 .btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
@@ -77,84 +81,82 @@ label.fld{display:block;margin-bottom:14px}
 label.fld > span{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
 label.fld > em{display:block;font-style:normal;font-size:12.5px;color:var(--ink-2);margin-top:6px;line-height:1.4}
 
-.quickadd{display:flex;gap:8px;margin-bottom:16px}
-.quickadd input{flex:1}
-.quickadd .btn{flex:none;width:52px;padding:0;font-size:22px;font-weight:400}
+.tools{display:flex;gap:8px;margin-bottom:11px}
+.tools input{flex:1}
+.tools select{width:auto;flex:none;padding-right:30px}
+.chips{display:flex;gap:7px;margin-bottom:13px;flex-wrap:wrap}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;padding:7px 11px;border-radius:99px;border:1px solid var(--line);background:#fff;color:var(--ink-2)}
+.chip.on{background:var(--violet);border-color:var(--violet);color:#fff}
+.chip b{font-weight:600}
 .rows{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
-.aisle{margin-bottom:20px}
-.aisle h3{margin:0 0 8px;font-size:12px;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);display:flex;justify-content:space-between}
-.row{display:flex;align-items:center;gap:11px;padding:10px 12px 10px 14px;border-bottom:1px solid var(--line)}
-.row:last-child{border-bottom:none}
-.row.going{opacity:0;transform:translateX(28px);transition:all .25s ease-in}
+
+/* generic row */
+.r{display:flex;align-items:center;gap:11px;padding:11px 11px 11px 13px;border-bottom:1px solid var(--line)}
+.r:last-child{border-bottom:none}
+.r.going{opacity:0;transform:translateX(30px);transition:all .25s ease-in}
+.r .body{flex:1;min-width:0}
+.r .body b{font-weight:500;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.meta{font-family:var(--mono);font-size:11px;color:var(--ink-2);display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:3px}
+.num{font-family:var(--mono);font-size:11px;color:var(--ink-2);width:17px;text-align:right;flex:none}
 .tick{width:26px;height:26px;flex:none;border:2px solid var(--line);border-radius:50%;position:relative;background:#fff}
 .tick:hover{border-color:var(--violet)}
 .tick.on{background:var(--violet);border-color:var(--violet)}
 .tick.on::after{content:"";position:absolute;inset:0;background:no-repeat center/13px url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'><path d='M20 6L9 17l-5-5'/></svg>")}
-.row .name{flex:1;min-width:0}
-.row .name b{font-weight:500;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.row .name small{color:var(--ink-2);font-family:var(--mono);font-size:11px}
 .qty{font-family:var(--mono);font-size:12px;color:var(--ink-2);background:var(--paper);border-radius:7px;padding:3px 7px;flex:none;white-space:nowrap}
-.kill{flex:none;width:32px;height:32px;border-radius:8px;color:#A9B4AC;font-size:19px;line-height:1}
+.kill{flex:none;width:31px;height:31px;border-radius:8px;color:#A9B4AC;font-size:19px;line-height:1;display:flex;align-items:center;justify-content:center}
 .kill:hover{background:#0000000a;color:var(--red)}
+.mini{width:35px;height:31px;border-radius:9px;border:1px solid var(--line);background:#fff;font-size:16px;line-height:1;color:var(--ink-2);display:flex;align-items:center;justify-content:center;flex:none}
+.mini.plus{border-color:var(--violet);color:var(--violet)}
+.mini.on{background:var(--violet);color:#fff;border-color:var(--violet)}
+.acts{display:flex;gap:6px;flex:none}
 
-/* thumbnails */
-.thumb{width:44px;height:44px;border-radius:11px;flex:none;object-fit:cover;background:var(--paper);border:1px solid var(--line)}
-.thumb.big{width:64px;height:64px;border-radius:14px}
-.mono-tile{width:44px;height:44px;border-radius:11px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:17px;color:#fff;letter-spacing:-.02em;border:1px solid rgba(0,0,0,.06)}
-.mono-tile.big{width:64px;height:64px;border-radius:14px;font-size:24px}
-.thumb-wrap{position:relative;flex:none}
-.thumb-wrap .cam{position:absolute;right:-4px;bottom:-4px;width:20px;height:20px;border-radius:50%;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--ink-2);line-height:1}
-
-/* capture cards */
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.cap{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 14px;text-align:left;display:flex;flex-direction:column;gap:8px;min-height:130px;box-shadow:var(--shadow);position:relative;overflow:hidden}
-.cap:active{transform:translateY(1px)}
-.cap svg{width:26px;height:26px;stroke:var(--violet);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.cap b{font-weight:500;font-size:15px}
-.cap small{color:var(--ink-2);font-size:12.5px;line-height:1.3}
-.cap::after{content:"";position:absolute;right:-30px;top:-30px;width:80px;height:80px;border-radius:50%;background:var(--violet-soft);opacity:.55}
-.cap > *{position:relative;z-index:1}
-.cap.wide{grid-column:1 / -1;min-height:0;flex-direction:row;align-items:center;gap:14px}
-.cap.wide .txt{display:flex;flex-direction:column;gap:3px}
-
-/* index */
-.tools{display:flex;gap:8px;margin-bottom:12px}
-.tools input{flex:1}
-.tools select{width:auto;flex:none;padding-right:30px}
-.chips{display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap}
-.chip{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;padding:7px 11px;border-radius:99px;border:1px solid var(--line);background:#fff;color:var(--ink-2)}
-.chip.on{background:var(--violet);border-color:var(--violet);color:#fff}
-.chip b{font-weight:600}
-.ix{padding:12px 12px 12px 14px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center}
-.ix:last-child{border-bottom:none}
-.ix-main{flex:1;min-width:0}
-.ix-top{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
-.ix-top b{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
-.tag{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:2px 6px;border-radius:5px;flex:none}
-.tag.due{background:var(--violet-soft);color:var(--violet)}
-.tag.soon{background:var(--amber-soft);color:var(--amber)}
-.tag.ok{background:var(--green-soft);color:var(--green)}
-.tag.new{background:var(--paper);color:var(--ink-2)}
+/* tags */
+.tag{font-family:var(--mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;padding:2px 6px;border-radius:5px;flex:none;white-space:nowrap}
 .tag.exp-ok{background:var(--green-soft);color:var(--green)}
 .tag.exp-soon{background:var(--amber-soft);color:var(--amber)}
 .tag.exp-gone{background:var(--red-soft);color:var(--red)}
 .tag.add-exp{background:transparent;color:var(--ink-2);border:1px dashed var(--line)}
-.meter{height:5px;border-radius:3px;background:var(--paper);margin:7px 0 5px;overflow:hidden;border:1px solid var(--line)}
-.meter i{display:block;height:100%;background:var(--green);transition:width .4s ease}
-.meter i.soon{background:var(--amber)}
-.meter i.due{background:var(--violet)}
-.meter.unknown{background:repeating-linear-gradient(45deg,#fff,#fff 4px,var(--paper) 4px,var(--paper) 8px)}
-.ix-stats{font-family:var(--mono);font-size:11px;color:var(--ink-2);display:flex;gap:9px;flex-wrap:wrap}
-.ix-acts{display:flex;flex-direction:column;gap:6px;flex:none}
-.mini{width:36px;height:32px;border-radius:9px;border:1px solid var(--line);background:#fff;font-size:17px;line-height:1;color:var(--ink-2);display:flex;align-items:center;justify-content:center}
-.mini.plus{border-color:var(--violet);color:var(--violet)}
-.mini.on{background:var(--violet);color:#fff;border-color:var(--violet)}
-.data{margin-top:24px;display:flex;gap:8px;flex-wrap:wrap}
+.tag.place{background:var(--blue-soft);color:var(--blue)}
+.tag.due{background:var(--violet-soft);color:var(--violet)}
+.tag.soon{background:var(--amber-soft);color:var(--amber)}
+.tag.ok{background:var(--green-soft);color:var(--green)}
+.tag.new{background:var(--paper);color:var(--ink-2)}
+.tag.have{background:var(--green-soft);color:var(--green)}
+.bar{height:4px;border-radius:3px;background:var(--paper);overflow:hidden;border:1px solid var(--line);margin-top:6px}
+.bar i{display:block;height:100%;background:var(--green)}
+.bar i.soon{background:var(--amber)} .bar i.gone{background:var(--red)} .bar i.due{background:var(--violet)}
+.bar.unknown{background:repeating-linear-gradient(45deg,#fff,#fff 4px,var(--paper) 4px,var(--paper) 8px)}
+
+/* thumbs */
+.thumb{width:42px;height:42px;border-radius:11px;flex:none;object-fit:cover;background:var(--paper);border:1px solid var(--line)}
+.thumb.big{width:64px;height:64px;border-radius:14px}
+.mono-tile{width:42px;height:42px;border-radius:11px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:#fff;border:1px solid rgba(0,0,0,.06)}
+.mono-tile.big{width:64px;height:64px;border-radius:14px;font-size:24px}
+.thumb-wrap{position:relative;flex:none}
+.thumb-wrap .cam{position:absolute;right:-4px;bottom:-4px;width:19px;height:19px;border-radius:50%;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--ink-2);line-height:1}
+
+.quickadd{display:flex;gap:8px;margin-bottom:14px}
+.quickadd input{flex:1}
+.quickadd .btn{flex:none;width:52px;padding:0;font-size:22px;font-weight:400}
+.aisle{margin-bottom:16px}
+.aisle h4{margin:0 0 7px;font-size:11px;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);display:flex;justify-content:space-between;font-weight:500}
+
+/* capture grid */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.cap{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:15px 13px;text-align:left;display:flex;flex-direction:column;gap:7px;min-height:120px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.cap:active{transform:translateY(1px)}
+.cap svg{width:25px;height:25px;stroke:var(--violet);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.cap b{font-weight:500;font-size:14.5px}
+.cap small{color:var(--ink-2);font-size:12.5px;line-height:1.3}
+.cap::after{content:"";position:absolute;right:-30px;top:-30px;width:78px;height:78px;border-radius:50%;background:var(--violet-soft);opacity:.55}
+.cap > *{position:relative;z-index:1}
+.cap.wide{grid-column:1 / -1;min-height:0;flex-direction:row;align-items:center;gap:13px}
+.cap.wide .txt{display:flex;flex-direction:column;gap:2px}
 
 /* sheet */
 .scrim{position:fixed;inset:0;background:rgba(22,33,28,.42);z-index:40;opacity:0;pointer-events:none;transition:opacity .2s}
 .scrim.on{opacity:1;pointer-events:auto}
-.sheet{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--paper);border-radius:20px 20px 0 0;max-width:720px;margin:0 auto;max-height:92dvh;display:flex;flex-direction:column;transform:translateY(102%);transition:transform .26s cubic-bezier(.3,.8,.35,1);padding-bottom:env(safe-area-inset-bottom)}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--paper);border-radius:20px 20px 0 0;max-width:640px;margin:0 auto;max-height:92dvh;display:flex;flex-direction:column;transform:translateY(102%);transition:transform .26s cubic-bezier(.3,.8,.35,1);padding-bottom:env(safe-area-inset-bottom)}
 .sheet.on{transform:translateY(0)}
 .sheet-head{padding:14px 16px 10px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}
 .sheet-head h2{margin:0;font-size:17px;font-weight:700;letter-spacing:-.01em}
@@ -162,7 +164,9 @@ label.fld > em{display:block;font-style:normal;font-size:12.5px;color:var(--ink-
 .sheet-foot{padding:12px 16px 16px;border-top:1px solid var(--line);display:flex;gap:10px}
 .sheet-foot .btn{flex:1}
 .grip{width:38px;height:4px;border-radius:2px;background:var(--line);margin:8px auto 0}
-
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:14px}
+.seg button{padding:9px 6px;border-radius:9px;font-size:13px;color:var(--ink-2);font-weight:500}
+.seg button.on{background:var(--violet);color:#fff}
 .pick{display:flex;align-items:center;gap:11px;padding:10px 12px;background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:8px}
 .pick input[type=checkbox]{width:22px;height:22px;accent-color:var(--violet);flex:none}
 .pick .p-name{flex:1;min-width:0}
@@ -170,6 +174,9 @@ label.fld > em{display:block;font-style:normal;font-size:12.5px;color:var(--ink-
 .pick .p-name small{font-family:var(--mono);font-size:11px;color:var(--ink-2)}
 .pick input[type=text]{width:82px;flex:none;padding:8px 10px;min-height:38px;font-family:var(--mono);font-size:13px;text-align:center}
 .selrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.quickdays{display:flex;gap:7px;flex-wrap:wrap;margin:-6px 0 14px}
+.quickdays button{font-family:var(--mono);font-size:12px;padding:8px 11px;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink-2)}
+.quickdays button.on{background:var(--violet);border-color:var(--violet);color:#fff}
 
 #scanwrap{position:relative;border-radius:14px;overflow:hidden;background:#000;aspect-ratio:4/3}
 #scanwrap video,#scanwrap canvas{width:100%;height:100%;object-fit:cover}
@@ -184,120 +191,100 @@ label.fld > em{display:block;font-style:normal;font-size:12.5px;color:var(--ink-
 @keyframes spin{to{transform:rotate(360deg)}}
 .err{background:var(--red-soft);border:1px solid #F1CFCC;color:var(--red);border-radius:12px;padding:12px 14px;font-size:13.5px;line-height:1.45}
 .ok-note{background:var(--green-soft);border:1px solid #C3DFD0;color:var(--green);border-radius:12px;padding:12px 14px;font-size:13.5px}
-.shot{width:100%;max-height:160px;object-fit:cover;border-radius:12px;margin-bottom:14px;border:1px solid var(--line)}
-.banner{background:var(--amber-soft);border:1px solid #EAD9B4;color:#6B4A02;border-radius:12px;padding:11px 13px;font-size:13px;margin-bottom:14px;line-height:1.45}
+.shot{width:100%;max-height:150px;object-fit:cover;border-radius:12px;margin-bottom:14px;border:1px solid var(--line)}
+.banner{background:var(--amber-soft);border:1px solid #EAD9B4;color:#6B4A02;border-radius:12px;padding:11px 13px;font-size:13px;margin-bottom:13px;line-height:1.45}
 .banner button{text-decoration:underline;font-weight:500;color:inherit}
 .split{display:flex;gap:10px}
 .split > *{flex:1}
 hr.sep{border:none;border-top:1px solid var(--line);margin:20px 0 16px}
 .dropzone{border:1.5px dashed var(--line);border-radius:14px;padding:18px;text-align:center;color:var(--ink-2);font-size:13.5px;background:#fff;line-height:1.5}
 .dropzone.hot{border-color:var(--violet);background:var(--violet-soft)}
-.quickdays{display:flex;gap:7px;flex-wrap:wrap;margin:-6px 0 14px}
-.quickdays button{font-family:var(--mono);font-size:12px;padding:8px 11px;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink-2)}
-.quickdays button.on{background:var(--violet);border-color:var(--violet);color:#fff}
 
 #toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 84px);transform:translate(-50%,20px);background:var(--ink);color:#fff;border-radius:12px;padding:11px 14px;z-index:60;display:flex;align-items:center;gap:14px;font-size:14px;max-width:calc(100% - 28px);opacity:0;pointer-events:none;transition:all .2s;box-shadow:0 10px 30px -10px rgba(0,0,0,.5)}
 #toast.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
 #toast span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #toast button{color:#B9A8FF;font-weight:600;font-size:13px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;flex:none}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-@media (min-width:600px){.grid2{grid-template-columns:repeat(3,1fr)}main{padding-bottom:110px}}
+
+/* three columns, like the sketch */
+@media (min-width:1000px){
+  main{padding:18px 16px 40px}
+  .cols{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:18px;align-items:start}
+  .pane{display:block!important;animation:none}
+  .pane-title{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:0 0 11px;padding-bottom:8px;border-bottom:2px solid var(--ink)}
+  .pane-title h2{margin:0;font-size:16px;font-weight:700;letter-spacing:-.01em}
+  .pane-title span{font-family:var(--mono);font-size:11px;color:var(--ink-2);text-transform:uppercase;letter-spacing:.07em}
+  nav{display:none}
+  .grid2{grid-template-columns:repeat(3,1fr)}
+}
 </style>
 </head>
 <body>
 <div class="app">
   <header>
     <div class="head-row">
-      <div class="wordmark">Restock <span id="hdrCount">—</span></div>
-      <div class="head-acts">
-        <button class="sync" id="syncBtn" aria-label="Sync now"><i class="dot off" id="syncDot"></i><span id="syncTxt">local</span></button>
-        <button class="icon-btn" id="setBtn" aria-label="Settings">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.6 1.6 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.6 1.6 0 00-1.8-.3 1.6 1.6 0 00-1 1.5V21a2 2 0 11-4 0v-.1A1.6 1.6 0 008 19.4a1.6 1.6 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.6 1.6 0 00.3-1.8 1.6 1.6 0 00-1.5-1H2a2 2 0 110-4h.1A1.6 1.6 0 004.6 8a1.6 1.6 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.6 1.6 0 001.8.3H9a1.6 1.6 0 001-1.5V2a2 2 0 114 0v.1a1.6 1.6 0 001 1.5 1.6 1.6 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.6 1.6 0 00-.3 1.8V9a1.6 1.6 0 001.5 1H22a2 2 0 110 4h-.1a1.6 1.6 0 00-1.5 1z"/></svg>
-        </button>
-      </div>
+      <div class="wordmark">Restock <i id="hdrCount"></i></div>
+      <button class="sync" id="syncBtn" aria-label="Sync now"><i class="dot off" id="syncDot"></i><span id="syncTxt">local</span></button>
+      <button class="addbtn" id="addBtn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add</button>
+      <button class="icon-btn" id="setBtn" aria-label="Settings">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.6 1.6 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.6 1.6 0 00-1.8-.3 1.6 1.6 0 00-1 1.5V21a2 2 0 11-4 0v-.1A1.6 1.6 0 008 19.4a1.6 1.6 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.6 1.6 0 00.3-1.8 1.6 1.6 0 00-1.5-1H2a2 2 0 110-4h.1A1.6 1.6 0 004.6 8a1.6 1.6 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.6 1.6 0 001.8.3H9a1.6 1.6 0 001-1.5V2a2 2 0 114 0v.1a1.6 1.6 0 001 1.5 1.6 1.6 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.6 1.6 0 00-.3 1.8V9a1.6 1.6 0 001.5 1H22a2 2 0 110 4h-.1a1.6 1.6 0 00-1.5 1z"/></svg>
+      </button>
     </div>
   </header>
 
   <main>
-    <!-- ========== INDEX (home) ========== -->
-    <section class="view on" id="v-index">
-      <div id="warnBox"></div>
-      <div class="tools">
-        <input type="search" id="ixSearch" placeholder="Search everything you buy…" autocomplete="off">
-        <select id="ixSort" aria-label="Sort index">
-          <option value="due">Due first</option>
-          <option value="expiry">Expiring first</option>
-          <option value="az">A–Z</option>
-          <option value="often">Most bought</option>
-          <option value="recent">Recently bought</option>
-        </select>
-      </div>
-      <div class="chips" id="ixChips"></div>
-      <div id="ixBody"></div>
-      <div class="data">
-        <button class="btn ghost" id="btnExport">Export a backup</button>
-        <button class="btn ghost" id="btnImport">Restore from file</button>
-        <input type="file" id="fileImport" accept="application/json,.json" hidden>
-      </div>
-    </section>
+    <div id="warnBox"></div>
+    <div class="cols">
 
-    <!-- ========== ADD ========== -->
-    <section class="view" id="v-add">
-      <div id="addWarn"></div>
-      <p class="eyebrow">Capture</p>
-      <div class="grid2">
-        <button class="cap wide" id="capList">
-          <svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 015.5 4h9L20 9.5v9a1.5 1.5 0 01-1.5 1.5h-13A1.5 1.5 0 014 18.5z"/><path d="M14 4v5.5H20"/><path d="M8 13h7M8 16.5h4.5"/></svg>
-          <span class="txt"><b>Photo of your whole list</b><small>Handwritten, printed, or a screenshot — the lot in one go</small></span>
-        </button>
-        <button class="cap" id="capCamera">
-          <svg viewBox="0 0 24 24"><path d="M3 8.5A2.5 2.5 0 015.5 6h1.2a2 2 0 001.7-.9l.6-1a2 2 0 011.7-.9h2.6a2 2 0 011.7.9l.6 1a2 2 0 001.7.9h1.2A2.5 2.5 0 0121 8.5v8A2.5 2.5 0 0118.5 19h-13A2.5 2.5 0 013 16.5z"/><circle cx="12" cy="12.5" r="3.4"/></svg>
-          <b>Photo an item</b>
-          <small>Keeps the picture as its thumbnail</small>
-        </button>
-        <button class="cap" id="capPhoto">
-          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 15l4.5-4.5a2 2 0 012.8 0L15 15"/><path d="M14 13.5l1.6-1.6a2 2 0 012.8 0L21 15"/><circle cx="8.5" cy="8.5" r="1.4"/></svg>
-          <b>From gallery</b>
-          <small>Screenshots, saved photos, bills</small>
-        </button>
-        <button class="cap" id="capType">
-          <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h7"/></svg>
-          <b>Type a few</b>
-          <small>“banana 6”, “toor dal 1 kg”</small>
-        </button>
-        <button class="cap" id="capBarcode">
-          <svg viewBox="0 0 24 24"><path d="M3 7V5.5A1.5 1.5 0 014.5 4H6M18 4h1.5A1.5 1.5 0 0121 5.5V7M21 17v1.5a1.5 1.5 0 01-1.5 1.5H18M6 20H4.5A1.5 1.5 0 013 18.5V17"/><path d="M7 8v8M10 8v8M13 8v8M17 8v8"/></svg>
-          <b>Barcode</b>
-          <small>Hit and miss on loose goods</small>
-        </button>
-      </div>
-      <p class="note" style="margin-top:16px">You can also just paste — copy a screenshot anywhere and press paste on this page, and it gets read the same way.</p>
-    </section>
+      <!-- ===== BOUGHT (history) ===== -->
+      <section class="pane" id="p-bought">
+        <div class="pane-title"><h2>Things I've bought</h2><span id="boughtNum"></span></div>
+        <div class="tools">
+          <input type="search" id="bqSearch" placeholder="Search what you buy…" autocomplete="off">
+          <select id="bqSort" aria-label="Sort">
+            <option value="recent">Most recent</option>
+            <option value="due">Due first</option>
+            <option value="often">Most bought</option>
+            <option value="az">A–Z</option>
+          </select>
+        </div>
+        <div id="boughtBody"></div>
+      </section>
 
-    <!-- ========== TO BUY ========== -->
-    <section class="view" id="v-list">
-      <div class="quickadd">
-        <input type="text" id="quickName" placeholder="banana 6, toor dal 1 kg…" list="knownItems" autocomplete="off" enterkeyhint="done">
-        <datalist id="knownItems"></datalist>
-        <button class="btn" id="quickAdd" aria-label="Add to list">+</button>
-      </div>
-      <div id="listBody"></div>
-    </section>
+      <!-- ===== HAVE (home) ===== -->
+      <section class="pane on" id="p-have">
+        <div class="pane-title"><h2>Things I have</h2><span>by use-by date</span></div>
+        <div class="chips" id="haveChips"></div>
+        <div id="haveBody"></div>
+      </section>
+
+      <!-- ===== BUY ===== -->
+      <section class="pane" id="p-buy">
+        <div class="pane-title"><h2>Things to buy</h2><span id="buyNum"></span></div>
+        <div class="quickadd">
+          <input type="text" id="quickName" placeholder="banana 6, toor dal 1 kg…" list="knownItems" autocomplete="off" enterkeyhint="done">
+          <datalist id="knownItems"></datalist>
+          <button class="btn" id="quickAdd" aria-label="Add">+</button>
+        </div>
+        <div id="buyBody"></div>
+      </section>
+
+    </div>
   </main>
 
   <nav>
     <div class="nav-inner">
-      <button class="tab on" data-view="index">
-        <svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 015.5 4H18a2 2 0 012 2v12a2 2 0 01-2 2H5.5A1.5 1.5 0 014 18.5z"/><path d="M8 4v16M11.5 9h5M11.5 13h3"/></svg>
-        <span>Index <i class="count" id="ixCount"></i></span>
+      <button class="tab on" data-pane="have">
+        <svg viewBox="0 0 24 24"><path d="M4 8.5A2.5 2.5 0 016.5 6h11A2.5 2.5 0 0120 8.5v9a2.5 2.5 0 01-2.5 2.5h-11A2.5 2.5 0 014 17.5z"/><path d="M4 12h16M9 6V4.5M15 6V4.5M9.5 15.5h2"/></svg>
+        <span>I have <i class="count" id="haveCount"></i></span>
       </button>
-      <button class="tab" data-view="add">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
-        <span>Add</span>
-      </button>
-      <button class="tab" data-view="list">
+      <button class="tab" data-pane="buy">
         <svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></svg>
-        <span>To buy <i class="count" id="tabCount"></i></span>
+        <span>To buy <i class="count" id="buyCount"></i></span>
+      </button>
+      <button class="tab" data-pane="bought">
+        <svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 015.5 4H18a2 2 0 012 2v12a2 2 0 01-2 2H5.5A1.5 1.5 0 014 18.5z"/><path d="M8 4v16M11.5 9h5M11.5 13h3"/></svg>
+        <span>Bought <i class="count" id="boughtCount"></i></span>
       </button>
     </div>
   </nav>
@@ -319,9 +306,10 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:20px 0 16px}
 
 <script>
 /* ==========================================================
-   Restock — index of what you buy + a list of what to get
-   Local-first. Optional sync via a private GitHub Gist.
-   Photos read by Gemini. Thumbnails are 112px JPEGs (~3 KB).
+   Restock — three stages:
+     To buy  →(tick)→  Things I have  →(used up)→ gone
+                    ↘ recorded forever in Things I've bought
+   Local-first, optional private-gist sync, Gemini for photos.
    ========================================================== */
 
 const LKEY = 'restock:data:v1';
@@ -335,26 +323,30 @@ const CATS = [
   'Bread & bakery','Meat & fish','Snacks & namkeen','Tea, coffee & drinks','Frozen & ready',
   'Cleaning & household','Personal care','Puja & sundries','Other'
 ];
-
-/* typical shelf life, only used to prefill the expiry picker */
+const PLACES = ['Fridge','Freezer','Pantry','Elsewhere'];
+const PLACE_OF = {
+  'Vegetables & fruit':'Fridge','Dairy & eggs':'Fridge','Meat & fish':'Fridge','Frozen & ready':'Freezer',
+  'Bread & bakery':'Pantry','Atta, rice & dal':'Pantry','Masala & spices':'Pantry','Oils & ghee':'Pantry',
+  'Snacks & namkeen':'Pantry','Tea, coffee & drinks':'Pantry','Cleaning & household':'Elsewhere',
+  'Personal care':'Elsewhere','Puja & sundries':'Elsewhere','Other':'Pantry'
+};
 const SHELF_HINT = {
-  'Vegetables & fruit': 6, 'Dairy & eggs': 5, 'Meat & fish': 2, 'Bread & bakery': 4,
-  'Frozen & ready': 90, 'Atta, rice & dal': 120, 'Masala & spices': 240, 'Oils & ghee': 150,
-  'Snacks & namkeen': 45, 'Tea, coffee & drinks': 120, 'Cleaning & household': 0,
-  'Personal care': 0, 'Puja & sundries': 0, 'Other': 0
+  'Vegetables & fruit':6,'Dairy & eggs':5,'Meat & fish':2,'Bread & bakery':4,'Frozen & ready':90,
+  'Atta, rice & dal':120,'Masala & spices':240,'Oils & ghee':150,'Snacks & namkeen':45,
+  'Tea, coffee & drinks':120,'Cleaning & household':0,'Personal care':0,'Puja & sundries':0,'Other':0
 };
 
 const CAT_RULES = [
-  ['Vegetables & fruit', /\b(aloo|potato|potatoes|pyaz|onion|tamatar|tomato|bhindi|okra|lauki|tori|karela|baingan|brinjal|eggplant|gobi|cauliflower|cabbage|matar|peas|gajar|carrot|shimla|capsicum|mirchi|chilli|chili|adrak|ginger|lehsun|garlic|dhania patta|coriander|pudina|mint|methi|palak|spinach|saag|kaddu|pumpkin|kheera|cucumber|nimbu|lemon|lime|kela|banana|bananas|seb|apple|angoor|grapes|santra|orange|aam|mango|papita|papaya|anar|pomegranate|nariyal|coconut|drumstick|curry leaves|kadi patta|sprouts|beans|mushroom|broccoli|avocado|berry|berries|watermelon|tarbooj|guava|amrood|chikoo|sabzi|vegetable|vegetables|fruit|fruits)\b/],
+  ['Vegetables & fruit', /\b(aloo|potato|potatoes|pyaz|onion|tamatar|tomato|tomatoes|bhindi|okra|lauki|tori|karela|baingan|brinjal|eggplant|gobi|cauliflower|cabbage|matar|peas|gajar|carrot|shimla|capsicum|mirchi|chilli|chili|adrak|ginger|lehsun|garlic|dhania patta|coriander|pudina|mint|methi|palak|spinach|saag|kaddu|pumpkin|kheera|cucumber|nimbu|lemon|lime|kela|banana|bananas|seb|apple|angoor|grapes|santra|orange|aam|mango|papita|papaya|anar|pomegranate|nariyal|coconut|drumstick|curry leaves|kadi patta|sprouts|beans|mushroom|broccoli|avocado|berry|berries|watermelon|tarbooj|guava|amrood|chikoo|dragon fruit|sabzi|vegetable|vegetables|fruit|fruits)\b/],
   ['Atta, rice & dal', /\b(atta|maida|besan|suji|sooji|rava|rice|chawal|basmati|poha|daliya|dalia|ragi|bajra|jowar|quinoa|oats|dal|daal|toor|tur|arhar|moong|masoor|urad|chana|rajma|chhole|chole|lobia|sabudana|vermicelli|semiya|pasta|noodle|noodles|macaroni|flour|millet|idli rava|upma)\b/],
   ['Masala & spices', /\b(masala|haldi|turmeric|jeera|cumin|mirch|garam masala|hing|asafoetida|rai|sarson|mustard seed|methi dana|ajwain|elaichi|cardamom|laung|clove|dalchini|cinnamon|tej patta|bay leaf|kali mirch|pepper|saunf|fennel|kasuri|chaat masala|sambar|rasam|amchur|imli|tamarind|salt|namak|baking soda|baking powder|kesar|saffron|spice|gud|jaggery)\b/],
   ['Oils & ghee', /\b(oil|tel|ghee|butter|makhan|refined|coconut oil|sunflower|groundnut|sesame oil|olive oil|vanaspati|dalda)\b/],
-  ['Dairy & eggs', /\b(milk|doodh|dahi|curd|yoghurt|yogurt|paneer|cheese|cream|malai|lassi|buttermilk|chaas|khoya|amul|egg|eggs|ande|anda)\b/],
-  ['Bread & bakery', /\b(bread|pav|bun|roti|chapati|paratha|khakhra|rusk|toast|cake|pastry|biscuit|cookie|croissant|tortilla|pita|naan|kulcha)\b/],
+  ['Dairy & eggs', /\b(milk|doodh|dahi|curd|yoghurt|yogurt|paneer|cheese|cheese slice|cream|malai|lassi|buttermilk|chaas|khoya|amul|egg|eggs|ande|anda)\b/],
+  ['Bread & bakery', /\b(bread|pav|bun|roti|chapati|paratha|khakhra|rusk|toast|cake|pastry|biscuit|biscuits|cookie|croissant|tortilla|pita|naan|kulcha)\b/],
   ['Meat & fish', /\b(chicken|murgi|mutton|lamb|goat|keema|fish|machli|prawn|jhinga|shrimp|pomfret|rohu|surmai|crab|beef|pork|bacon|sausage|salami|tuna)\b/],
   ['Snacks & namkeen', /\b(namkeen|bhujia|sev|mixture|chips|kurkure|chocolate|toffee|candy|chikki|laddu|barfi|sweet|sweets|mithai|popcorn|nuts|badam|almond|kaju|cashew|akhrot|walnut|kishmish|raisin|pista|dates|khajur|makhana|peanut|peanuts|moongphali|papad|khari|granola)\b/],
-  ['Tea, coffee & drinks', /\b(tea|chai|chai patti|green tea|coffee|bru|nescafe|horlicks|bournvita|boost|complan|juice|soft drink|cola|pepsi|thums|sprite|soda|water|mineral water|energy drink|beer|wine|whisky|rum|kombucha|glucon|electral|ors)\b/],
-  ['Frozen & ready', /\b(frozen|ice cream|kulfi|french fries|nuggets|ready to eat|instant|maggi|cup noodles|momos|batter|idli batter|dosa batter)\b/],
+  ['Tea, coffee & drinks', /\b(tea|chai|chai patti|green tea|coffee|bru|nescafe|horlicks|bournvita|boost|complan|juice|storia|soft drink|cola|pepsi|thums|sprite|soda|water|mineral water|energy drink|beer|wine|whisky|rum|kombucha|glucon|electral|ors)\b/],
+  ['Frozen & ready', /\b(frozen|ice cream|kulfi|french fries|nuggets|ready to eat|instant|maggi|cup noodles|momos|batter|idli batter|dosa batter|frozen corn|sweet corn)\b/],
   ['Cleaning & household', /\b(detergent|surf|ariel|tide|rin|vim|dishwash|bartan|harpic|lizol|phenyl|colin|bleach|toilet cleaner|floor cleaner|scrub|sponge|jhadu|broom|pocha|mop|garbage bag|dustbin bag|trash bag|foil|cling|tissue|paper towel|napkin|matchbox|candle|battery|bulb|mosquito|all out|naphthalene|cylinder|water filter)\b/],
   ['Personal care', /\b(soap|sabun|shampoo|conditioner|toothpaste|colgate|toothbrush|floss|deodorant|deo|perfume|razor|blade|shaving|lotion|moisturis|sunscreen|talc|hair oil|sanitary|pad|whisper|stayfree|tampon|diaper|wipes|handwash|sanitizer|face wash|hair colour|mehendi|condom|dettol)\b/],
   ['Puja & sundries', /\b(agarbatti|incense|dhoop|camphor|kapoor|diya|batti|puja|pooja|kumkum|prasad|rakhi|kalava|matchstick)\b/]
@@ -362,12 +354,10 @@ const CAT_RULES = [
 
 const UNITS = 'kg|kgs|kilo|kilos|g|gm|gms|gram|grams|mg|l|ltr|litre|liter|litres|liters|ml|dozen|dz|pack|packs|packet|packets|pkt|pc|pcs|piece|pieces|nos|no|bunch|bunches|bottle|bottles|tin|tins|box|boxes|bag|bags';
 
-let state = { list: [], index: [], tombs: [] };
+let state = { have: [], buy: [], bought: [], tombs: [] };
 let conf  = { geminiKey: '', geminiModel: 'gemini-2.5-flash', ghToken: '', gistId: '', useOFF: true };
 let pushTimer = null, undoTimer = null, lastUndo = null, pushing = false, lastPushed = '';
-let ixFilter = 'all';
-let pendingThumb = null;   // { entryId } while a thumbnail is being chosen
-let sizeWarned = false;
+let havePlace = 'All', pendingThumb = null, sizeWarned = false;
 
 const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
@@ -377,14 +367,33 @@ const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp
 const norm = s => String(s || '').trim().toLowerCase().replace(/\s+/g, ' ');
 const days = ms => Math.max(0, Math.round((now() - ms) / DAY));
 const titled = s => String(s || '').replace(/\s+/g, ' ').trim().replace(/^./, c => c.toUpperCase());
+const isoDate = d => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
 
-/* ---------------- persistence ---------------- */
+/* ---------------- persistence + migration ---------------- */
+function migrate(d){
+  if (!d) return null;
+  if (Array.isArray(d.have) && Array.isArray(d.buy) && Array.isArray(d.bought)) return d;
+  /* older two-stage shape: { list, index } */
+  if (Array.isArray(d.list) || Array.isArray(d.index)){
+    const bought = (d.index || []).map(e => ({
+      id: e.id || uid(), name: e.name, cat: e.cat || 'Other', thumb: e.thumb || '',
+      count: e.count || 0, last: e.last || 0, gaps: e.gaps || [], codes: e.codes || [],
+      shelf: e.shelf || 0, place: PLACE_OF[e.cat] || 'Pantry', mtime: e.mtime || now()
+    }));
+    const have = (d.index || []).filter(e => e.expiry).map(e => ({
+      id: uid(), name: e.name, qty: '', place: PLACE_OF[e.cat] || 'Pantry',
+      useBy: e.expiry, added: e.last || now(), mtime: now()
+    }));
+    return { have, buy: (d.list || []), bought, tombs: d.tombs || [] };
+  }
+  return null;
+}
 function loadLocal(){
   try {
     const raw = localStorage.getItem(LKEY);
     if (raw){
-      const d = JSON.parse(raw);
-      if (d && Array.isArray(d.list)) state = { list: d.list, index: d.index || [], tombs: d.tombs || [] };
+      const m = migrate(JSON.parse(raw));
+      if (m) state = { have: m.have || [], buy: m.buy || [], bought: m.bought || [], tombs: m.tombs || [] };
     }
     const c = localStorage.getItem(CKEY);
     if (c) conf = Object.assign(conf, JSON.parse(c));
@@ -392,10 +401,10 @@ function loadLocal(){
 }
 function writeLocal(){
   try { localStorage.setItem(LKEY, JSON.stringify(state)); }
-  catch (e){ toast('Storage is full — try removing a few thumbnails'); }
+  catch (e){ toast('Storage is full — remove a few pictures'); }
 }
 function writeConf(){ try { localStorage.setItem(CKEY, JSON.stringify(conf)); } catch (e){} }
-function blank(){ return { list: [], index: [], tombs: [] }; }
+function blank(){ return { have: [], buy: [], bought: [], tombs: [] }; }
 
 /* ---------------- merge ---------------- */
 function mergeArrays(a, b, dead){
@@ -408,40 +417,37 @@ function mergeArrays(a, b, dead){
   return Array.from(map.values()).filter(it => !(dead.has(it.id) && dead.get(it.id) >= (it.mtime || 0)));
 }
 function mergeState(local, remote){
+  remote = migrate(remote) || blank();
   const tombs = [...(local.tombs||[]), ...(remote.tombs||[])].filter(t => t && now() - t.t < 30 * DAY);
   const dead = new Map();
   for (const t of tombs) dead.set(t.id, Math.max(dead.get(t.id) || 0, t.t));
   return {
-    list: mergeArrays(local.list, remote.list, dead),
-    index: mergeArrays(local.index, remote.index, dead),
+    have: mergeArrays(local.have, remote.have, dead),
+    buy: mergeArrays(local.buy, remote.buy, dead),
+    bought: mergeArrays(local.bought, remote.bought, dead),
     tombs: Array.from(dead, ([id, t]) => ({ id, t }))
   };
 }
 
 /* ---------------- gist sync ---------------- */
 function gistReady(){ return !!(conf.ghToken && conf.gistId); }
-
 async function gh(path, opts){
   const r = await fetch('https://api.github.com' + path, Object.assign({
     headers: { 'Authorization': 'Bearer ' + conf.ghToken, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' }
   }, opts || {}));
-  if (!r.ok){
-    throw new Error(r.status === 401 ? 'GitHub rejected the token. Check it still has gist access.'
-      : r.status === 404 ? 'That gist ID was not found under this token.'
-      : r.status === 422 ? 'GitHub refused the data — it may be too large. Try removing some thumbnails.'
-      : 'GitHub returned ' + r.status + '.');
-  }
+  if (!r.ok) throw new Error(
+    r.status === 401 ? 'GitHub rejected the token. Check it still has gist access.'
+    : r.status === 404 ? 'That gist ID was not found under this token.'
+    : r.status === 422 ? 'GitHub refused the data — it may be too large. Remove some pictures.'
+    : 'GitHub returned ' + r.status + '.');
   return r.json();
 }
-
 async function createGist(){
   const g = await gh('/gists', { method: 'POST', body: JSON.stringify({
     description: 'Restock — grocery data', public: false,
-    files: { [GIST_FILE]: { content: JSON.stringify(state) } }
-  })});
+    files: { [GIST_FILE]: { content: JSON.stringify(state) } } })});
   conf.gistId = g.id; writeConf(); return g.id;
 }
-
 async function pull(quiet){
   if (!gistReady()){ setSync('off', 'local'); return; }
   if (!navigator.onLine){ setSync('warn', 'offline'); return; }
@@ -456,13 +462,10 @@ async function pull(quiet){
     state = mergeState(state, remote);
     const after = JSON.stringify(state);
     if (before !== after){ writeLocal(); renderAll(); }
-    lastPushed = JSON.stringify(remote);
+    lastPushed = JSON.stringify(migrate(remote) || blank());
     setSync('ok', 'synced');
     if (after !== lastPushed) queuePush();
-  } catch (e){
-    setSync('err', 'sync error');
-    if (!quiet) toast(e.message);
-  }
+  } catch (e){ setSync('err', 'sync error'); if (!quiet) toast(e.message); }
 }
 function queuePush(){ if (!gistReady()) return; clearTimeout(pushTimer); pushTimer = setTimeout(push, 1500); }
 async function push(){
@@ -470,12 +473,11 @@ async function push(){
   if (!navigator.onLine){ setSync('warn', 'offline'); return; }
   const payload = JSON.stringify(state);
   if (payload === lastPushed){ setSync('ok', 'synced'); return; }
-  if (payload.length > 900000 && !sizeWarned){ sizeWarned = true; toast('Data is getting large — trim a few thumbnails'); }
+  if (payload.length > 900000 && !sizeWarned){ sizeWarned = true; toast('Data is getting large — trim a few pictures'); }
   pushing = true; setSync('busy', 'saving');
   try { await gh('/gists/' + conf.gistId, { method: 'PATCH', body: JSON.stringify({ files: { [GIST_FILE]: { content: payload } } }) });
     lastPushed = payload; setSync('ok', 'synced');
-  } catch (e){ setSync('err', 'sync error'); }
-  finally { pushing = false; }
+  } catch (e){ setSync('err', 'sync error'); } finally { pushing = false; }
 }
 function setSync(kind, txt){
   $('#syncDot').className = 'dot' + (kind === 'ok' ? '' : ' ' + kind);
@@ -483,8 +485,8 @@ function setSync(kind, txt){
 }
 
 /* ---------------- quantities ---------------- */
-function tidyQty(numStr, unit){
-  const n = String(numStr).replace(/\s+/g, '');
+function tidyQty(n0, unit){
+  const n = String(n0).replace(/\s+/g, '');
   if (!unit) return n + ' pcs';
   let u = unit.toLowerCase();
   if (/^(kgs?|kilos?)$/.test(u)) u = 'kg';
@@ -496,116 +498,130 @@ function tidyQty(numStr, unit){
   else if (/^(pcs?|pieces?|nos?)$/.test(u)) u = 'pcs';
   return n + ' ' + u;
 }
-
-/* "toor dal 1 kg" / "1 kg toor dal" / "banana 6" / "6 bananas" / "potatoes x4" */
-function parseLine(line){
-  let name = String(line || '').trim(), qty = '';
+function splitQty(line){
+  let name = String(line || '').replace(/\s*\+\s*(\d)/g, ' $1').trim(), qty = '';
   if (!name) return null;
   let m;
   const U = '(' + UNITS + ')';
   const N = '((?:\\d+\\s*\\/\\s*\\d+|\\d+(?:[.,]\\d+)?))';
-
-  if ((m = name.match(new RegExp('^(.*?)[\\s,]+' + N + '\\s*' + U + '\\.?$', 'i')))){
-    name = m[1]; qty = tidyQty(m[2], m[3]);
-  } else if ((m = name.match(new RegExp('^' + N + '\\s*' + U + '\\.?[\\s,]+(.+)$', 'i')))){
-    qty = tidyQty(m[1], m[2]); name = m[3];
-  } else if ((m = name.match(/^(.*?)\s*[x×]\s*(\d+)$/i))){
-    name = m[1]; qty = tidyQty(m[2], null);
-  } else if ((m = name.match(/^(.*?)[\s,]+(\d+)$/))){
-    name = m[1]; qty = tidyQty(m[2], null);
-  } else if ((m = name.match(/^(\d+)\s+(\D.+)$/))){
-    qty = tidyQty(m[1], null); name = m[2];
-  }
+  if ((m = name.match(new RegExp('^(.*?)[\\s,]+' + N + '\\s*' + U + '\\.?$', 'i')))){ name = m[1]; qty = tidyQty(m[2], m[3]); }
+  else if ((m = name.match(new RegExp('^' + N + '\\s*' + U + '\\.?[\\s,]+(.+)$', 'i')))){ qty = tidyQty(m[1], m[2]); name = m[3]; }
+  else if ((m = name.match(/^(.*?)\s*[x×]\s*(\d+)$/i))){ name = m[1]; qty = tidyQty(m[2], null); }
+  else if ((m = name.match(/^(.*?)[\s,]+(\d+)$/))){ name = m[1]; qty = tidyQty(m[2], null); }
+  else if ((m = name.match(/^(\d+)\s+(\D.+)$/))){ qty = tidyQty(m[1], null); name = m[2]; }
   name = name.replace(/[,\-–—]+$/, '').trim();
   if (!name) return null;
-  return addToList(name, qty);
+  return { name: titled(name), qty };
 }
 
-/* ---------------- items ---------------- */
-function findIndexItem(name){
-  const n = norm(name);
-  return state.index.find(i => norm(i.name) === n);
-}
+/* ---------------- records ---------------- */
 function guessCat(name){
   const n = ' ' + norm(name) + ' ';
   for (const [cat, re] of CAT_RULES) if (re.test(n)) return cat;
   return 'Other';
 }
+function findBought(name){ const n = norm(name); return state.bought.find(i => norm(i.name) === n); }
+function findHave(name){ const n = norm(name); return state.have.find(i => norm(i.name) === n); }
 
-function ensureIndexEntry(name, cat){
-  let e = findIndexItem(name);
+function ensureBought(name, cat){
+  let e = findBought(name);
   if (e) return e;
-  e = { id: uid(), name: titled(name), cat: cat || guessCat(name), count: 0, last: 0, gaps: [], codes: [], mtime: now() };
-  state.index.push(e);
+  const c = cat || guessCat(name);
+  e = { id: uid(), name: titled(name), cat: c, thumb: '', count: 0, last: 0, gaps: [], codes: [],
+        shelf: 0, place: PLACE_OF[c] || 'Pantry', mtime: now() };
+  state.bought.push(e);
   return e;
 }
 
-function addToList(name, qty, cat){
+function addToBuy(name, qty, cat){
   name = titled(name);
   if (!name) return null;
-  const dupe = state.list.find(i => norm(i.name) === norm(name));
+  const dupe = state.buy.find(i => norm(i.name) === norm(name));
   if (dupe){ dupe.qty = qty || dupe.qty; dupe.mtime = now(); return dupe; }
-  const known = findIndexItem(name);
-  const item = {
-    id: uid(), name: known ? known.name : name, qty: qty || '',
-    cat: cat || (known && known.cat) || guessCat(name), added: now(), mtime: now()
-  };
-  state.list.unshift(item);
+  const known = findBought(name);
+  const item = { id: uid(), name: known ? known.name : name, qty: qty || '',
+    cat: cat || (known && known.cat) || guessCat(name), added: now(), mtime: now() };
+  state.buy.unshift(item);
   return item;
 }
 
-function markBought(id){
-  const i = state.list.findIndex(x => x.id === id);
-  if (i < 0) return;
-  const item = state.list[i];
-  const snap = { item: JSON.parse(JSON.stringify(item)), entry: null, created: false };
-
-  let entry = findIndexItem(item.name);
-  if (entry) snap.entry = JSON.parse(JSON.stringify(entry));
-  else { entry = ensureIndexEntry(item.name, item.cat); snap.created = true; }
-
+/* the whole point: buying moves it into the house and into the record */
+function recordPurchase(name, qty, cat){
+  const entry = ensureBought(name, cat);
   if (entry.last){
     const gap = Math.round((now() - entry.last) / DAY);
     if (gap >= 1){ entry.gaps.push(gap); entry.gaps = entry.gaps.slice(-8); }
   }
   entry.count = (entry.count || 0) + 1;
   entry.last = now();
-  entry.cat = item.cat || entry.cat;
-  if (entry.shelf > 0) entry.expiry = now() + entry.shelf * DAY;   // countdown restarts itself
   entry.mtime = now();
 
-  state.list.splice(i, 1);
-  state.tombs.push({ id: item.id, t: now() });
-  lastUndo = snap;
-  save();
-  toast('Bought — ' + item.name, 'Undo', undoBuy);
-}
-
-function undoBuy(){
-  if (!lastUndo) return;
-  const { item, entry, created } = lastUndo;
-  item.mtime = now();
-  state.list.unshift(item);
-  state.tombs = state.tombs.filter(t => t.id !== item.id);
-  if (created) state.index = state.index.filter(x => norm(x.name) !== norm(item.name));
-  else if (entry){
-    const cur = state.index.find(x => x.id === entry.id);
-    if (cur) Object.assign(cur, entry, { mtime: now() });
+  const existing = findHave(entry.name);
+  if (existing){
+    existing.qty = qty || existing.qty;
+    existing.added = now();
+    if (entry.shelf > 0) existing.useBy = now() + entry.shelf * DAY;
+    existing.mtime = now();
+    return { entry, have: existing, madeHave: false };
   }
-  lastUndo = null; save(); toast('Put back on the list');
+  const h = { id: uid(), name: entry.name, qty: qty || '', place: entry.place || PLACE_OF[entry.cat] || 'Pantry',
+    useBy: entry.shelf > 0 ? now() + entry.shelf * DAY : 0, added: now(), mtime: now() };
+  state.have.unshift(h);
+  return { entry, have: h, madeHave: true };
 }
 
-function dropFromList(id){
-  const item = state.list.find(x => x.id === id);
-  state.list = state.list.filter(x => x.id !== id);
+function tickOffBuy(id){
+  const i = state.buy.findIndex(x => x.id === id);
+  if (i < 0) return;
+  const item = state.buy[i];
+  const before = findBought(item.name);
+  const snap = { item: JSON.parse(JSON.stringify(item)), entry: before ? JSON.parse(JSON.stringify(before)) : null };
+  const res = recordPurchase(item.name, item.qty, item.cat);
+  snap.createdEntry = !before;
+  snap.haveId = res.madeHave ? res.have.id : null;
+  snap.haveBefore = res.madeHave ? null : JSON.parse(JSON.stringify(res.have));
+  state.buy.splice(i, 1);
+  state.tombs.push({ id: item.id, t: now() });
+  lastUndo = { kind: 'buy', snap };
+  save();
+  const needsDate = !res.have.useBy && (SHELF_HINT[res.entry.cat] || 0) > 0 && (SHELF_HINT[res.entry.cat] || 0) <= 30;
+  if (needsDate) toast(item.name + ' → I have', 'Use by', () => openUseBy(res.have.id));
+  else toast(item.name + ' → I have', 'Undo', undoLast);
+}
+
+function undoLast(){
+  if (!lastUndo || lastUndo.kind !== 'buy') return;
+  const { item, entry, createdEntry, haveId, haveBefore } = lastUndo.snap;
+  item.mtime = now();
+  state.buy.unshift(item);
+  state.tombs = state.tombs.filter(t => t.id !== item.id);
+  if (haveId){ state.have = state.have.filter(h => h.id !== haveId); state.tombs.push({ id: haveId, t: now() }); }
+  else if (haveBefore){ const cur = state.have.find(h => h.id === haveBefore.id); if (cur) Object.assign(cur, haveBefore, { mtime: now() }); }
+  if (createdEntry) state.bought = state.bought.filter(b => norm(b.name) !== norm(item.name));
+  else if (entry){ const cur = state.bought.find(b => b.id === entry.id); if (cur) Object.assign(cur, entry, { mtime: now() }); }
+  lastUndo = null;
+  save(); toast('Put back on the buy list');
+}
+
+function usedUp(id){
+  const h = state.have.find(x => x.id === id);
+  if (!h) return;
+  state.have = state.have.filter(x => x.id !== id);
+  state.tombs.push({ id, t: now() });
+  save();
+  toast(h.name + ' — used up');
+}
+function dropFromBuy(id){
+  const item = state.buy.find(x => x.id === id);
+  state.buy = state.buy.filter(x => x.id !== id);
   state.tombs.push({ id, t: now() });
   save();
   if (item) toast('Removed ' + item.name);
 }
-function dropFromIndex(id){
-  state.index = state.index.filter(x => x.id !== id);
+function dropFromBought(id){
+  state.bought = state.bought.filter(x => x.id !== id);
   state.tombs.push({ id, t: now() });
-  save(); toast('Removed from your index');
+  save(); toast('Removed from the record');
 }
 
 function rhythm(entry){
@@ -615,115 +631,136 @@ function rhythm(entry){
   return g.length % 2 ? g[m] : Math.round((g[m - 1] + g[m]) / 2);
 }
 function dueState(entry){
-  const avg = rhythm(entry);
-  const since = entry.last ? days(entry.last) : null;
+  const avg = rhythm(entry), since = entry.last ? days(entry.last) : null;
   if (!avg || since == null) return { level: 'new', pct: 0, avg, since, label: since == null ? 'not bought yet' : 'bought once' };
   const ratio = since / avg, left = avg - since;
   if (ratio >= 1) return { level: 'due', pct: 100, avg, since, ratio, label: left === 0 ? 'due today' : Math.abs(left) + 'd overdue' };
   if (ratio >= .7) return { level: 'soon', pct: ratio * 100, avg, since, ratio, label: 'due in ' + left + 'd' };
   return { level: 'ok', pct: ratio * 100, avg, since, ratio, label: 'due in ' + left + 'd' };
 }
-
-/* expiry countdown */
-function expState(entry){
-  if (!entry.expiry) return null;
-  const left = Math.ceil((entry.expiry - now()) / DAY);
-  if (left < 0) return { level: 'exp-gone', left, label: 'expired ' + Math.abs(left) + 'd ago' };
-  if (left === 0) return { level: 'exp-gone', left, label: 'use today' };
-  if (left <= 2) return { level: 'exp-gone', left, label: left + 'd left' };
-  if (left <= 5) return { level: 'exp-soon', left, label: left + 'd left' };
-  return { level: 'exp-ok', left, label: left + 'd left' };
+function expState(h){
+  if (!h.useBy) return null;
+  const left = Math.ceil((h.useBy - now()) / DAY);
+  const span = Math.max(1, Math.round((h.useBy - (h.added || h.useBy - 7 * DAY)) / DAY));
+  const pct = Math.max(0, Math.min(100, (1 - left / span) * 100));
+  if (left < 0) return { level: 'exp-gone', bar: 'gone', left, pct: 100, label: 'expired ' + Math.abs(left) + 'd ago' };
+  if (left === 0) return { level: 'exp-gone', bar: 'gone', left, pct, label: 'use today' };
+  if (left <= 2) return { level: 'exp-gone', bar: 'gone', left, pct, label: left + 'd left' };
+  if (left <= 5) return { level: 'exp-soon', bar: 'soon', left, pct, label: left + 'd left' };
+  return { level: 'exp-ok', bar: '', left, pct, label: left + 'd left' };
 }
 
 function save(){ writeLocal(); renderAll(); queuePush(); }
 
 /* ---------------- thumbnails ---------------- */
 function fileToDataURL(file){
-  return new Promise((res, rej) => {
-    const r = new FileReader();
-    r.onload = () => res(r.result);
-    r.onerror = () => rej(new Error('That file could not be read.'));
-    r.readAsDataURL(file);
-  });
+  return new Promise((res, rej) => { const r = new FileReader();
+    r.onload = () => res(r.result); r.onerror = () => rej(new Error('That file could not be read.')); r.readAsDataURL(file); });
 }
 function loadImg(src){
-  return new Promise((res, rej) => {
-    const im = new Image();
-    im.crossOrigin = 'anonymous';
-    im.onload = () => res(im);
-    im.onerror = () => rej(new Error('That image could not be loaded.'));
-    im.src = src;
-  });
+  return new Promise((res, rej) => { const im = new Image(); im.crossOrigin = 'anonymous';
+    im.onload = () => res(im); im.onerror = () => rej(new Error('That image could not be loaded.')); im.src = src; });
 }
-/* square centre crop, 112px, ~3 KB */
 function squareThumb(img){
   const side = Math.min(img.width, img.height);
   const c = document.createElement('canvas');
   c.width = c.height = THUMB_PX;
-  const x = (img.width - side) / 2, y = (img.height - side) / 2;
-  c.getContext('2d').drawImage(img, x, y, side, side, 0, 0, THUMB_PX, THUMB_PX);
+  c.getContext('2d').drawImage(img, (img.width - side) / 2, (img.height - side) / 2, side, side, 0, 0, THUMB_PX, THUMB_PX);
   return c.toDataURL('image/jpeg', 0.6);
 }
 async function thumbFromFile(file){ return squareThumb(await loadImg(await fileToDataURL(file))); }
-async function thumbFromDataURL(d){ return squareThumb(await loadImg(d)); }
-async function thumbFromURL(url){
-  try { return squareThumb(await loadImg(url)); }                 // works when the host allows it
-  catch (e){ return url; }                                        // otherwise keep the link itself
-}
-
+async function thumbFromURL(url){ try { return squareThumb(await loadImg(url)); } catch (e){ return url; } }
 function setThumb(entryId, thumb){
-  const e = state.index.find(x => x.id === entryId);
+  const e = state.bought.find(x => x.id === entryId);
   if (!e) return;
-  e.thumb = thumb; e.mtime = now();
-  save(); toast('Picture saved');
+  e.thumb = thumb; e.mtime = now(); save(); toast('Picture saved');
 }
-
-function monoColour(name){
-  let h = 0;
-  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) % 360;
-  return 'hsl(' + h + ' 34% 52%)';
-}
-function thumbHTML(entry, big){
+function monoColour(name){ let h = 0; for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) % 360; return 'hsl(' + h + ' 34% 52%)'; }
+function thumbHTML(nameOrEntry, big){
+  const e = typeof nameOrEntry === 'string' ? findBought(nameOrEntry) : nameOrEntry;
+  const nm = typeof nameOrEntry === 'string' ? nameOrEntry : (nameOrEntry ? nameOrEntry.name : '?');
   const cls = big ? ' big' : '';
-  if (entry && entry.thumb) return '<img class="thumb' + cls + '" src="' + esc(entry.thumb) + '" alt="" loading="lazy">';
-  const n = entry ? entry.name : '?';
-  return '<div class="mono-tile' + cls + '" style="background:' + monoColour(n) + '">' + esc(n.trim().charAt(0).toUpperCase() || '?') + '</div>';
+  if (e && e.thumb) return '<img class="thumb' + cls + '" src="' + esc(e.thumb) + '" alt="" loading="lazy">';
+  return '<div class="mono-tile' + cls + '" style="background:' + monoColour(nm) + '">' + esc(nm.trim().charAt(0).toUpperCase() || '?') + '</div>';
 }
 
 /* ---------------- rendering ---------------- */
-function renderAll(){ renderIndexView(); renderList(); renderKnown(); renderWarnings(); }
+function renderAll(){ renderHave(); renderBuy(); renderBought(); renderKnown(); renderWarnings(); }
 
 function renderWarnings(){
-  $('#warnBox').innerHTML = gistReady() ? '' :
-    '<div class="banner">Sync is off — this stays on this device only. <button data-open-settings>Set it up</button></div>';
-  $('#addWarn').innerHTML = conf.geminiKey ? '' :
-    '<div class="banner">Reading photos needs a Gemini key. Typing works without one. <button data-open-settings>Add a key</button></div>';
+  let h = '';
+  if (!gistReady()) h += '<div class="banner">Sync is off — this stays on this device only. <button data-open-settings>Set it up</button></div>';
+  if (!conf.geminiKey) h += '<div class="banner">Reading photos needs a Gemini key. Typing works without one. <button data-open-settings>Add a key</button></div>';
+  $('#warnBox').innerHTML = h;
 }
 
-function renderList(){
-  const body = $('#listBody');
-  const n = state.list.length;
-  $('#tabCount').textContent = n ? n : '';
-  $('#hdrCount').textContent = n ? n + ' to buy' : 'nothing to buy';
+function renderHave(){
+  const n = state.have.length;
+  $('#haveCount').textContent = n ? n : '';
+  const expiring = state.have.filter(h => { const x = expState(h); return x && x.left <= 2; }).length;
+  $('#hdrCount').textContent = expiring ? expiring + ' need using' : (state.buy.length ? state.buy.length + ' to buy' : '');
+
+  const counts = { All: n };
+  PLACES.forEach(p => counts[p] = state.have.filter(h => h.place === p).length);
+  $('#haveChips').innerHTML = ['All', ...PLACES].filter(p => p === 'All' || counts[p])
+    .map(p => '<button class="chip' + (havePlace === p ? ' on' : '') + '" data-place="' + p + '">' + p + ' <b>' + counts[p] + '</b></button>').join('');
+
+  let items = state.have.filter(h => havePlace === 'All' || h.place === havePlace);
+  items.sort((a, b) => (a.useBy || Infinity) - (b.useBy || Infinity) || (b.added || 0) - (a.added || 0));
+
+  const body = $('#haveBody');
   if (!n){
-    body.innerHTML = '<div class="empty"><strong>Nothing to buy.</strong>Tap + on anything in your index, or type it above.</div>';
+    body.innerHTML = '<div class="empty"><strong>Nothing in the house yet.</strong>Tick something off the buy list and it lands here, with a use-by countdown.</div>';
+    return;
+  }
+  if (!items.length){ body.innerHTML = '<div class="empty">Nothing in ' + esc(havePlace) + '.</div>'; return; }
+
+  let html = '<div class="rows">';
+  items.forEach((h, i) => {
+    const x = expState(h);
+    html += '<div class="r" data-hid="' + h.id + '">'
+      + '<i class="num">' + (i + 1) + '</i>'
+      + '<button class="thumb-wrap" data-hthumb="' + esc(h.name) + '" aria-label="Picture for ' + esc(h.name) + '">' + thumbHTML(h.name) + '</button>'
+      + '<div class="body"><b>' + esc(h.name) + '</b>'
+        + '<div class="meta">'
+          + (h.qty ? '<span class="qty">' + esc(h.qty) + '</span>' : '')
+          + '<span class="tag place">' + esc(h.place || 'Pantry') + '</span>'
+          + (x ? '<span class="tag ' + x.level + '">' + esc(x.label) + '</span>'
+               : '<button class="tag add-exp" data-useby="' + h.id + '">+ use by</button>')
+        + '</div>'
+        + (x ? '<div class="bar"><i class="' + x.bar + '" style="width:' + x.pct.toFixed(0) + '%"></i></div>' : '')
+      + '</div>'
+      + '<div class="acts">'
+        + '<button class="mini" data-hedit="' + h.id + '" aria-label="Edit">&#8230;</button>'
+        + '<button class="mini plus" data-used="' + h.id + '" aria-label="Used up">&#10003;</button>'
+      + '</div></div>';
+  });
+  body.innerHTML = html + '</div>';
+}
+
+function renderBuy(){
+  const n = state.buy.length;
+  $('#buyCount').textContent = n ? n : '';
+  $('#buyNum').textContent = n ? n + ' items' : '';
+  const body = $('#buyBody');
+  if (!n){
+    body.innerHTML = '<div class="empty"><strong>Nothing to buy.</strong>Tap + on anything in your bought record, or type it above.</div>';
     return;
   }
   const groups = {};
-  for (const it of state.list) (groups[it.cat || 'Other'] ||= []).push(it);
+  for (const it of state.buy) (groups[it.cat || 'Other'] ||= []).push(it);
   let html = '';
   for (const cat of CATS){
     const items = groups[cat];
     if (!items) continue;
-    html += '<div class="aisle"><h3><span>' + esc(cat) + '</span><span>' + items.length + '</span></h3><div class="rows">';
+    html += '<div class="aisle"><h4><span>' + esc(cat) + '</span><span>' + items.length + '</span></h4><div class="rows">';
     for (const it of items){
-      const entry = findIndexItem(it.name);
-      html += '<div class="row" data-id="' + it.id + '">'
-        + '<button class="tick" data-buy="' + it.id + '" aria-label="Mark ' + esc(it.name) + ' as bought"></button>'
-        + thumbHTML(entry || { name: it.name })
-        + '<span class="name"><b>' + esc(it.name) + '</b></span>'
+      html += '<div class="r" data-id="' + it.id + '">'
+        + '<button class="tick" data-tick="' + it.id + '" aria-label="Bought ' + esc(it.name) + '"></button>'
+        + thumbHTML(it.name)
+        + '<div class="body"><b>' + esc(it.name) + '</b></div>'
         + (it.qty ? '<span class="qty">' + esc(it.qty) + '</span>' : '')
-        + '<button class="kill" data-del="' + it.id + '" aria-label="Remove ' + esc(it.name) + '">&times;</button>'
+        + '<button class="kill" data-buydel="' + it.id + '" aria-label="Remove">&times;</button>'
         + '</div>';
     }
     html += '</div></div>';
@@ -731,81 +768,60 @@ function renderList(){
   body.innerHTML = html;
 }
 
-function renderKnown(){
-  $('#knownItems').innerHTML = state.index.slice()
-    .sort((a, b) => (b.count || 0) - (a.count || 0)).slice(0, 90)
-    .map(i => '<option value="' + esc(i.name) + '">').join('');
-}
-
-function renderIndexView(){
-  $('#ixCount').textContent = state.index.length ? state.index.length : '';
-  const q = norm($('#ixSearch').value);
-  const sort = $('#ixSort').value;
-  const onList = new Set(state.list.map(i => norm(i.name)));
-
-  const dueCount = state.index.filter(i => dueState(i).level === 'due').length;
-  const expCount = state.index.filter(i => { const e = expState(i); return e && e.level !== 'exp-ok'; }).length;
-  $('#ixChips').innerHTML =
-      '<button class="chip' + (ixFilter === 'all' ? ' on' : '') + '" data-filter="all">All <b>' + state.index.length + '</b></button>'
-    + '<button class="chip' + (ixFilter === 'due' ? ' on' : '') + '" data-filter="due">Due <b>' + dueCount + '</b></button>'
-    + (expCount ? '<button class="chip' + (ixFilter === 'exp' ? ' on' : '') + '" data-filter="exp">Expiring <b>' + expCount + '</b></button>' : '')
-    + '<button class="chip' + (ixFilter === 'list' ? ' on' : '') + '" data-filter="list">On my list <b>' + state.list.length + '</b></button>';
-
-  let items = state.index.filter(i => !q || norm(i.name).includes(q));
-  if (ixFilter === 'due') items = items.filter(i => dueState(i).level === 'due');
-  if (ixFilter === 'exp') items = items.filter(i => { const e = expState(i); return e && e.level !== 'exp-ok'; });
-  if (ixFilter === 'list') items = items.filter(i => onList.has(norm(i.name)));
-
+function renderBought(){
+  const total = state.bought.length;
+  $('#boughtCount').textContent = total ? total : '';
+  $('#boughtNum').textContent = total ? total + ' items' : '';
+  const q = norm($('#bqSearch').value), sort = $('#bqSort').value;
+  let items = state.bought.filter(i => !q || norm(i.name).includes(q));
   const rank = { due: 0, soon: 1, ok: 2, new: 3 };
   items.sort((a, b) => {
     if (sort === 'az') return a.name.localeCompare(b.name);
     if (sort === 'often') return (b.count || 0) - (a.count || 0);
-    if (sort === 'recent') return (b.last || 0) - (a.last || 0);
-    if (sort === 'expiry'){
-      const A = a.expiry || Infinity, B = b.expiry || Infinity;
-      return A - B;
+    if (sort === 'due'){
+      const A = dueState(a), B = dueState(b);
+      if (rank[A.level] !== rank[B.level]) return rank[A.level] - rank[B.level];
+      return (B.ratio || 0) - (A.ratio || 0);
     }
-    const A = dueState(a), B = dueState(b);
-    if (rank[A.level] !== rank[B.level]) return rank[A.level] - rank[B.level];
-    return (B.ratio || 0) - (A.ratio || 0);
+    return (b.last || 0) - (a.last || 0);            /* most recently bought first */
   });
 
-  const body = $('#ixBody');
-  if (!state.index.length){
-    body.innerHTML = '<div class="empty"><strong>Your index is empty.</strong>Photograph a list, or type a few things. Anything you tick off as bought is recorded here for good.</div>';
+  const body = $('#boughtBody');
+  if (!total){
+    body.innerHTML = '<div class="empty"><strong>No record yet.</strong>Everything you tick off the buy list is kept here for good, newest first.</div>';
     return;
   }
   if (!items.length){ body.innerHTML = '<div class="empty">Nothing matches that.</div>'; return; }
 
+  const onBuy = new Set(state.buy.map(i => norm(i.name)));
+  const inHouse = new Set(state.have.map(i => norm(i.name)));
   let html = '<div class="rows">';
   for (const it of items){
-    const d = dueState(it), x = expState(it);
-    const here = onList.has(norm(it.name));
-    const perishable = (SHELF_HINT[it.cat] || 0) > 0 && (SHELF_HINT[it.cat] || 0) <= 30;
-    html += '<div class="ix">'
-      + '<button class="thumb-wrap" data-thumb="' + it.id + '" aria-label="Set a picture for ' + esc(it.name) + '">'
-        + thumbHTML(it) + '<span class="cam">' + (it.thumb ? '&#9998;' : '+') + '</span>'
-      + '</button>'
-      + '<div class="ix-main">'
-        + '<div class="ix-top"><b>' + esc(it.name) + '</b>'
-          + '<span class="tag ' + d.level + '">' + esc(d.label) + '</span>'
-          + (x ? '<span class="tag ' + x.level + '">' + esc(x.label) + '</span>'
-               : (perishable && it.last && days(it.last) <= 14 ? '<button class="tag add-exp" data-exp="' + it.id + '">+ expiry</button>' : ''))
-        + '</div>'
-        + '<div class="meter' + (d.level === 'new' ? ' unknown' : '') + '"><i class="' + d.level + '" style="width:' + Math.min(100, d.pct).toFixed(0) + '%"></i></div>'
-        + '<div class="ix-stats">'
-          + '<span>' + (it.count || 0) + '&times; bought</span>'
+    const d = dueState(it);
+    const queued = onBuy.has(norm(it.name));
+    html += '<div class="r">'
+      + '<button class="thumb-wrap" data-thumb="' + it.id + '" aria-label="Picture for ' + esc(it.name) + '">'
+        + thumbHTML(it) + '<span class="cam">' + (it.thumb ? '&#9998;' : '+') + '</span></button>'
+      + '<div class="body"><b>' + esc(it.name) + '</b>'
+        + '<div class="meta">'
           + '<span>' + (it.last ? days(it.last) + 'd ago' : 'never') + '</span>'
-          + (d.avg ? '<span>every ~' + d.avg + 'd</span>' : '')
+          + '<span>' + (it.count || 0) + '&times;</span>'
+          + (d.avg ? '<span>~' + d.avg + 'd</span>' : '')
+          + (inHouse.has(norm(it.name)) ? '<span class="tag have">in stock</span>' : '<span class="tag ' + d.level + '">' + esc(d.label) + '</span>')
         + '</div>'
       + '</div>'
-      + '<div class="ix-acts">'
-        + '<button class="mini plus' + (here ? ' on' : '') + '" data-ixadd="' + it.id + '" aria-label="Add ' + esc(it.name) + ' to list">' + (here ? '&#10003;' : '+') + '</button>'
-        + '<button class="mini" data-ixedit="' + it.id + '" aria-label="Edit ' + esc(it.name) + '">&#8230;</button>'
-      + '</div>'
-    + '</div>';
+      + '<div class="acts">'
+        + '<button class="mini" data-bedit="' + it.id + '" aria-label="Edit">&#8230;</button>'
+        + '<button class="mini plus' + (queued ? ' on' : '') + '" data-queue="' + it.id + '" aria-label="Add to buy list">' + (queued ? '&#10003;' : '+') + '</button>'
+      + '</div></div>';
   }
   body.innerHTML = html + '</div>';
+}
+
+function renderKnown(){
+  $('#knownItems').innerHTML = state.bought.slice()
+    .sort((a, b) => (b.count || 0) - (a.count || 0)).slice(0, 90)
+    .map(i => '<option value="' + esc(i.name) + '">').join('');
 }
 
 /* ---------------- toast + sheet ---------------- */
@@ -818,20 +834,17 @@ function toast(msg, actLabel, fn){
   t.classList.add('on');
   undoTimer = setTimeout(() => t.classList.remove('on'), actLabel ? 6000 : 2600);
 }
-
 let sheetCleanup = null;
 function openSheet(title, bodyHTML, footHTML, cleanup){
   if (sheetCleanup && cleanup !== sheetCleanup){ try { sheetCleanup(); } catch(e){} sheetCleanup = null; }
   $('#sheetTitle').textContent = title;
   $('#sheetBody').innerHTML = bodyHTML;
   $('#sheetFoot').innerHTML = footHTML || '';
-  $('#sheet').classList.add('on');
-  $('#scrim').classList.add('on');
+  $('#sheet').classList.add('on'); $('#scrim').classList.add('on');
   if (cleanup) sheetCleanup = cleanup;
 }
 function closeSheet(){
-  $('#sheet').classList.remove('on');
-  $('#scrim').classList.remove('on');
+  $('#sheet').classList.remove('on'); $('#scrim').classList.remove('on');
   pendingThumb = null;
   if (sheetCleanup){ try { sheetCleanup(); } catch(e){} sheetCleanup = null; }
   setTimeout(() => { if (!$('#sheet').classList.contains('on')) $('#sheetBody').innerHTML = ''; }, 300);
@@ -839,12 +852,29 @@ function closeSheet(){
 $('#scrim').onclick = closeSheet;
 $('#sheetX').onclick = closeSheet;
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
-
 function sheetError(msg, retry){
   $('#sheetBody').innerHTML = '<div class="err">' + esc(msg) + '</div>';
   $('#sheetFoot').innerHTML = (retry ? '<button class="btn ghost" id="retry">Try again</button>' : '') + '<button class="btn" id="okErr">Close</button>';
   $('#okErr').onclick = closeSheet;
   if (retry) $('#retry').onclick = retry;
+}
+
+/* ---------------- add sheet ---------------- */
+function openAdd(){
+  openSheet('Add things',
+    '<div class="grid2">'
+    + '<button class="cap wide" id="capList"><svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 015.5 4h9L20 9.5v9a1.5 1.5 0 01-1.5 1.5h-13A1.5 1.5 0 014 18.5z"/><path d="M14 4v5.5H20"/><path d="M8 13h7M8 16.5h4.5"/></svg><span class="txt"><b>Photo of a whole list</b><small>Handwritten, printed, a screenshot, or a fridge shelf</small></span></button>'
+    + '<button class="cap" id="capCamera"><svg viewBox="0 0 24 24"><path d="M3 8.5A2.5 2.5 0 015.5 6h1.2a2 2 0 001.7-.9l.6-1a2 2 0 011.7-.9h2.6a2 2 0 011.7.9l.6 1a2 2 0 001.7.9h1.2A2.5 2.5 0 0121 8.5v8A2.5 2.5 0 0118.5 19h-13A2.5 2.5 0 013 16.5z"/><circle cx="12" cy="12.5" r="3.4"/></svg><b>Photo an item</b><small>Keeps it as the picture</small></button>'
+    + '<button class="cap" id="capPhoto"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 15l4.5-4.5a2 2 0 012.8 0L15 15"/><circle cx="8.5" cy="8.5" r="1.4"/></svg><b>From gallery</b><small>Screenshots, bills</small></button>'
+    + '<button class="cap" id="capType"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h7"/></svg><b>Type a few</b><small>“banana 6”</small></button>'
+    + '<button class="cap" id="capBarcode"><svg viewBox="0 0 24 24"><path d="M3 7V5.5A1.5 1.5 0 014.5 4H6M18 4h1.5A1.5 1.5 0 0121 5.5V7M21 17v1.5a1.5 1.5 0 01-1.5 1.5H18M6 20H4.5A1.5 1.5 0 013 18.5V17"/><path d="M7 8v8M10 8v8M13 8v8M17 8v8"/></svg><b>Barcode</b><small>Packaged goods only</small></button>'
+    + '</div>'
+    + '<p class="note" style="margin-top:14px">You can also copy a screenshot anywhere and just paste it into this page.</p>', '');
+  $('#capList').onclick = () => { const i = $('#inCamera'); i.dataset.kind = 'photo'; delete i.dataset.code; i.click(); };
+  $('#capCamera').onclick = () => { const i = $('#inCamera'); i.dataset.kind = 'photo'; delete i.dataset.code; i.click(); };
+  $('#capPhoto').onclick = () => $('#inPhoto').click();
+  $('#capType').onclick = typeMany;
+  $('#capBarcode').onclick = startScan;
 }
 
 /* ---------------- vision ---------------- */
@@ -853,46 +883,38 @@ function shrink(file, max){
     let w = img.width, h = img.height;
     const s = Math.min(1, max / Math.max(w, h));
     w = Math.round(w * s); h = Math.round(h * s);
-    const c = document.createElement('canvas');
-    c.width = w; c.height = h;
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
     c.getContext('2d').drawImage(img, 0, 0, w, h);
     return c.toDataURL('image/jpeg', 0.82).split(',')[1];
   });
 }
-
 function visionPrompt(kind){
-  const known = state.index.slice().sort((a,b)=>(b.count||0)-(a.count||0)).slice(0,90).map(i => i.name);
-  return 'This is a grocery capture from a shopper in India. It may be a product, a kitchen or fridge shelf, a handwritten or printed list, a kirana bill, a recipe, or a screenshot of a message.\n\n'
-    + 'List every distinct item the person plausibly wants to buy.\n'
+  const known = state.bought.slice().sort((a,b)=>(b.count||0)-(a.count||0)).slice(0,90).map(i => i.name);
+  return 'This is a grocery capture from a shopper in India. It may be a product, a fridge or kitchen shelf, a handwritten or printed list, a kirana bill, a recipe, or a screenshot of a message.\n\n'
+    + 'List every distinct grocery item in it.\n'
     + '- Use short everyday Indian shopping names ("toor dal", "curd", "atta"), not full pack titles. Keep a brand only when it is the identity of the thing.\n'
-    + '- Skip prices, totals, GST, shop names and anything not buyable.\n'
-    + '- For a shelf or fridge photo, list only what looks empty, nearly empty or opened.\n'
-    + '- qty: metric and short — "1 kg", "500 g", "1 L", "6 pcs", "1 dozen", or "" if not stated. A bare number of things is pieces, e.g. six bananas is "6 pcs".\n'
+    + '- Skip prices, totals, GST, shop names and anything not a grocery item.\n'
+    + '- qty: metric and short — "1 kg", "500 g", "1 L", "6 pcs", "1 dozen", or "" if not stated. A bare count of things is pieces.\n'
     + '- category must be exactly one of: ' + CATS.join(', ') + '.\n'
     + (known.length ? '- Reuse these existing names verbatim when the item matches one: ' + known.join(', ') + '.\n' : '')
     + (kind === 'barcode' ? '- The image is a product label or barcode. Identify the one product and return its barcode digits as "code" if legible.\n' : '')
     + '\nReturn JSON only: {"items":[{"name":"","qty":"","category":""' + (kind === 'barcode' ? ',"code":""' : '') + '}]}\n'
     + 'If nothing is readable, return {"items":[]}.';
 }
-
 async function askGemini(b64, kind){
   if (!conf.geminiKey) throw new Error('No Gemini key saved yet. Open settings and paste one — it is free from Google AI Studio.');
   const url = 'https://generativelanguage.googleapis.com/v1beta/models/'
-    + encodeURIComponent(conf.geminiModel || 'gemini-2.5-flash')
-    + ':generateContent?key=' + encodeURIComponent(conf.geminiKey);
-  const res = await fetch(url, {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    + encodeURIComponent(conf.geminiModel || 'gemini-2.5-flash') + ':generateContent?key=' + encodeURIComponent(conf.geminiKey);
+  const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       contents: [{ parts: [ { inline_data: { mime_type: 'image/jpeg', data: b64 } }, { text: visionPrompt(kind) } ] }],
-      generationConfig: { temperature: 0.2, response_mime_type: 'application/json' }
-    })
-  });
+      generationConfig: { temperature: 0.2, response_mime_type: 'application/json' } }) });
   const data = await res.json().catch(() => ({}));
   if (!res.ok){
     const m = data && data.error && data.error.message ? data.error.message : 'Gemini returned ' + res.status;
     if (res.status === 400 && /API key/i.test(m)) throw new Error('That Gemini key was rejected. Check it in settings.');
     if (res.status === 429) throw new Error('Free-tier limit reached for now. Wait a minute, or type the items in.');
-    if (res.status === 404) throw new Error('Model "' + conf.geminiModel + '" not found for this key. Try gemini-2.5-flash or gemini-2.0-flash in settings.');
+    if (res.status === 404) throw new Error('Model "' + conf.geminiModel + '" not found for this key. Try gemini-2.5-flash or gemini-2.0-flash.');
     throw new Error(m);
   }
   const cand = data.candidates && data.candidates[0];
@@ -903,7 +925,6 @@ async function askGemini(b64, kind){
   const parsed = JSON.parse(clean.slice(s, e + 1));
   return Array.isArray(parsed.items) ? parsed.items : [];
 }
-
 async function readImage(file, kind, onDone){
   openSheet('Reading the image', '<div class="thinking"><i class="spin"></i>Opening the picture…</div>', '');
   let b64;
@@ -917,96 +938,90 @@ async function readImage(file, kind, onDone){
   } catch (e){ sheetError(e.message, () => readImage(file, kind, onDone)); }
 }
 
+let pickDest = 'buy';
 function showPicker(items, b64, sourceFile){
-  if (!items.length) return sheetError('No items found in that image. A closer, brighter shot of the list usually does it.');
+  if (!items.length) return sheetError('No items found in that image. A closer, brighter shot usually does it.');
+  pickDest = 'buy';
   const single = items.length === 1;
   let html = (b64 ? '<img class="shot" src="data:image/jpeg;base64,' + b64 + '" alt="">' : '')
-    + '<div class="selrow"><p class="eyebrow" style="margin:0">Found ' + items.length + '</p>'
-    + '<button class="btn quiet" id="selAll">Untick all</button></div>';
+    + '<p class="eyebrow">Where do these go?</p>'
+    + '<div class="seg" id="destSeg">'
+      + '<button data-dest="buy" class="on">To buy</button>'
+      + '<button data-dest="have">I have it</button>'
+      + '<button data-dest="record">Record only</button>'
+    + '</div>'
+    + '<div class="selrow"><p class="eyebrow" style="margin:0">Found ' + items.length + '</p><button class="btn quiet" id="selAll">Untick all</button></div>';
   items.forEach((it, i) => {
     const cat = CATS.includes(it.category) ? it.category : guessCat(it.name);
-    html += '<label class="pick">'
-      + '<input type="checkbox" checked data-i="' + i + '">'
+    html += '<label class="pick"><input type="checkbox" checked data-i="' + i + '">'
       + '<span class="p-name"><b>' + esc(titled(it.name) || 'Item') + '</b><small>' + esc(cat) + '</small></span>'
-      + '<input type="text" value="' + esc(it.qty || '') + '" placeholder="qty" data-q="' + i + '">'
-      + '</label>';
+      + '<input type="text" value="' + esc(it.qty || '') + '" placeholder="qty" data-q="' + i + '"></label>';
   });
-  if (single && b64){
-    html += '<label class="pick" style="margin-top:12px"><input type="checkbox" id="useThumb" checked>'
-      + '<span class="p-name"><b>Use this photo as its picture</b><small>112px thumbnail, about 3 KB</small></span></label>';
-  }
-  html += '<p class="note" style="margin-top:12px">“Add to list” also records them in your index. “Index only” just remembers them for later.</p>';
+  if (single && b64) html += '<label class="pick" style="margin-top:12px"><input type="checkbox" id="useThumb" checked>'
+    + '<span class="p-name"><b>Use this photo as its picture</b><small>112px, about 3 KB</small></span></label>';
 
-  openSheet('Confirm', html,
-    '<button class="btn ghost" id="pickIdx">Index only</button><button class="btn" id="pickAdd">Add to list</button>');
+  openSheet('Confirm', html, '<button class="btn ghost" id="pickCancel">Cancel</button><button class="btn" id="pickGo">Add</button>');
 
+  $('#destSeg').addEventListener('click', e => {
+    const b = e.target.closest('[data-dest]');
+    if (!b) return;
+    pickDest = b.dataset.dest;
+    $$('#destSeg button').forEach(x => x.classList.toggle('on', x === b));
+  });
   let allOn = true;
   $('#selAll').onclick = () => {
     allOn = !allOn;
     $$('#sheetBody input[type=checkbox][data-i]').forEach(cb => cb.checked = allOn);
     $('#selAll').textContent = allOn ? 'Untick all' : 'Tick all';
   };
-
-  const gather = () => {
-    const out = [];
+  $('#pickCancel').onclick = closeSheet;
+  $('#pickGo').onclick = async () => {
+    const chosen = [];
     $$('#sheetBody input[type=checkbox][data-i]').forEach(cb => {
       if (!cb.checked) return;
       const i = +cb.dataset.i;
       const q = $('#sheetBody input[data-q="' + i + '"]');
       const it = items[i];
-      out.push({ name: titled(it.name), qty: q ? q.value.trim() : '', cat: CATS.includes(it.category) ? it.category : guessCat(it.name) });
+      chosen.push({ name: titled(it.name), qty: q ? q.value.trim() : '', cat: CATS.includes(it.category) ? it.category : guessCat(it.name) });
     });
-    return out;
-  };
-
-  const attachThumb = async (name) => {
-    const box = $('#useThumb');
-    if (!box || !box.checked || !sourceFile) return;
-    try {
-      const t = await thumbFromFile(sourceFile);
-      const e = findIndexItem(name);
-      if (e){ e.thumb = t; e.mtime = now(); writeLocal(); renderAll(); queuePush(); }
-    } catch (err){}
-  };
-
-  $('#pickAdd').onclick = async () => {
-    const chosen = gather();
-    chosen.forEach(c => { ensureIndexEntry(c.name, c.cat); addToList(c.name, c.qty, c.cat); });
-    save(); closeSheet(); showView('list');
-    toast(chosen.length === 1 ? 'Added 1 item' : 'Added ' + chosen.length + ' items');
-    if (chosen.length === 1) attachThumb(chosen[0].name);
-  };
-  $('#pickIdx').onclick = async () => {
-    const chosen = gather();
-    chosen.forEach(c => ensureIndexEntry(c.name, c.cat));
-    save(); closeSheet(); showView('index');
-    toast(chosen.length === 1 ? 'Saved to index' : chosen.length + ' saved to index');
-    if (chosen.length === 1) attachThumb(chosen[0].name);
+    if (!chosen.length) return closeSheet();
+    chosen.forEach(c => {
+      if (pickDest === 'buy'){ ensureBought(c.name, c.cat); addToBuy(c.name, c.qty, c.cat); }
+      else if (pickDest === 'have') recordPurchase(c.name, c.qty, c.cat);
+      else ensureBought(c.name, c.cat);
+    });
+    const keepThumb = single && $('#useThumb') && $('#useThumb').checked && sourceFile;
+    save(); closeSheet();
+    showPane(pickDest === 'buy' ? 'buy' : pickDest === 'have' ? 'have' : 'bought');
+    toast(chosen.length + (chosen.length === 1 ? ' item added' : ' items added'));
+    if (keepThumb){
+      try { const t = await thumbFromFile(sourceFile); const e = findBought(chosen[0].name);
+        if (e){ e.thumb = t; e.mtime = now(); writeLocal(); renderAll(); queuePush(); } } catch (err){}
+    }
   };
 }
 
-/* ---------------- pictures for an item ---------------- */
+/* ---------------- pictures ---------------- */
 function openThumbPicker(entryId){
-  const e = state.index.find(x => x.id === entryId);
+  const e = state.bought.find(x => x.id === entryId);
   if (!e) return;
   pendingThumb = { entryId };
   openSheet('Picture for ' + e.name,
     '<div style="display:flex;gap:14px;align-items:center;margin-bottom:16px">' + thumbHTML(e, true)
-    + '<div class="note">Stored as a 112px square, roughly 3 KB. It syncs with everything else.</div></div>'
+    + '<div class="note">A 112px square, roughly 3 KB. It syncs with everything else.</div></div>'
     + '<div class="split" style="margin-bottom:10px"><button class="btn ghost sm" id="tCam">Take a photo</button><button class="btn ghost sm" id="tFile">Choose a file</button></div>'
     + '<div class="split" style="margin-bottom:14px"><button class="btn ghost sm" id="tSearch">Search the web</button><button class="btn ghost sm" id="tClip">Paste from clipboard</button></div>'
-    + '<div class="dropzone" id="tDrop">Or paste here — copy any image, then press <b>Ctrl/⌘ V</b>.<br>Dragging a picture in works too.</div>'
+    + '<div class="dropzone" id="tDrop">Or paste here — copy any image, then <b>Ctrl/⌘ V</b>. Dragging one in works too.</div>'
     + '<label class="fld" style="margin-top:14px"><span>Or an image link</span><input type="text" id="tURL" placeholder="https://…" autocomplete="off"></label>'
     + '<div id="tMsg"></div>',
     (e.thumb ? '<button class="btn ghost" id="tDel">Remove picture</button>' : '') + '<button class="btn" id="tDone">Done</button>');
-
   $('#tDone').onclick = closeSheet;
   if ($('#tDel')) $('#tDel').onclick = () => { e.thumb = ''; e.mtime = now(); save(); closeSheet(); toast('Picture removed'); };
   $('#tCam').onclick = () => { $('#inThumb').setAttribute('capture', 'environment'); $('#inThumb').click(); };
   $('#tFile').onclick = () => { $('#inThumb').removeAttribute('capture'); $('#inThumb').click(); };
   $('#tSearch').onclick = () => {
     window.open('https://www.google.com/search?tbm=isch&q=' + encodeURIComponent(e.name), '_blank', 'noopener');
-    $('#tMsg').innerHTML = '<div class="ok-note" style="margin-top:12px">Long-press a picture there → <b>Copy image</b>, come back, and paste it below.</div>';
+    $('#tMsg').innerHTML = '<div class="ok-note" style="margin-top:12px">Long-press a picture there → <b>Copy image</b>, come back, and paste it in.</div>';
   };
   $('#tClip').onclick = async () => {
     try {
@@ -1014,24 +1029,17 @@ function openThumbPicker(entryId){
       const items = await navigator.clipboard.read();
       for (const item of items){
         const type = item.types.find(t => t.startsWith('image/'));
-        if (type){
-          const blob = await item.getType(type);
-          const t = await thumbFromFile(blob);
-          setThumb(entryId, t); closeSheet(); return;
-        }
+        if (type){ const blob = await item.getType(type); setThumb(entryId, await thumbFromFile(blob)); closeSheet(); return; }
       }
       throw new Error('No picture found on the clipboard.');
     } catch (err){ $('#tMsg').innerHTML = '<div class="err" style="margin-top:12px">' + esc(err.message) + '</div>'; }
   };
-  const url = $('#tURL');
-  url.addEventListener('change', async () => {
-    const v = url.value.trim();
+  $('#tURL').addEventListener('change', async ev => {
+    const v = ev.target.value.trim();
     if (!/^https?:\/\//i.test(v)) return;
     $('#tMsg').innerHTML = '<div class="thinking"><i class="spin"></i>Fetching…</div>';
-    const t = await thumbFromURL(v);
-    setThumb(entryId, t); closeSheet();
+    setThumb(entryId, await thumbFromURL(v)); closeSheet();
   });
-
   const dz = $('#tDrop');
   ['dragenter','dragover'].forEach(ev => dz.addEventListener(ev, e2 => { e2.preventDefault(); dz.classList.add('hot'); }));
   ['dragleave','drop'].forEach(ev => dz.addEventListener(ev, e2 => { e2.preventDefault(); dz.classList.remove('hot'); }));
@@ -1043,7 +1051,6 @@ function openThumbPicker(entryId){
   });
 }
 
-/* paste anywhere: a picture for the open item, otherwise read it as a list */
 document.addEventListener('paste', async e => {
   const items = e.clipboardData && e.clipboardData.items;
   if (!items) return;
@@ -1052,57 +1059,102 @@ document.addEventListener('paste', async e => {
   if (!file){
     if (pendingThumb){
       const txt = e.clipboardData.getData('text');
-      if (txt && /^https?:\/\//i.test(txt.trim())){
-        e.preventDefault();
-        const id = pendingThumb.entryId;
-        setThumb(id, await thumbFromURL(txt.trim())); closeSheet();
-      }
+      if (txt && /^https?:\/\//i.test(txt.trim())){ e.preventDefault(); const id = pendingThumb.entryId;
+        setThumb(id, await thumbFromURL(txt.trim())); closeSheet(); }
     }
     return;
   }
   e.preventDefault();
-  if (pendingThumb){
-    const id = pendingThumb.entryId;
-    setThumb(id, await thumbFromFile(file)); closeSheet(); return;
-  }
+  if (pendingThumb){ const id = pendingThumb.entryId; setThumb(id, await thumbFromFile(file)); closeSheet(); return; }
   readImage(file, 'photo');
 });
 
-/* ---------------- expiry ---------------- */
-function openExpiry(entryId){
-  const e = state.index.find(x => x.id === entryId);
-  if (!e) return;
-  const hint = SHELF_HINT[e.cat] || 7;
-  const cur = e.expiry ? new Date(e.expiry) : null;
-  const iso = d => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
-  openSheet('Expiry for ' + e.name,
-    '<div class="quickdays" id="qd">'
-      + [2,3,5,7,10,15,30].map(d => '<button data-d="' + d + '">' + d + ' days</button>').join('')
-    + '</div>'
-    + '<label class="fld"><span>Use by</span><input type="date" id="xDate" value="' + (cur ? iso(cur) : '') + '"></label>'
-    + '<label class="fld"><span><input type="checkbox" id="xRemember"' + (e.shelf ? ' checked' : '') + ' style="width:auto;min-height:auto;margin-right:8px;accent-color:var(--violet)"> Remember this shelf life</span>'
-    + '<em>Next time you tick this off as bought, the countdown restarts on its own — no need to set it again.</em></label>'
-    + '<p class="note">Typical for ' + esc(e.cat.toLowerCase()) + ' is around ' + hint + ' days.</p>',
-    (e.expiry ? '<button class="btn ghost" id="xClear">Clear</button>' : '') + '<button class="btn" id="xSave">Save</button>');
-
+/* ---------------- use-by ---------------- */
+function openUseBy(haveId){
+  const h = state.have.find(x => x.id === haveId);
+  if (!h) return;
+  const entry = findBought(h.name);
+  const cat = entry ? entry.cat : guessCat(h.name);
+  const hint = SHELF_HINT[cat] || 7;
+  openSheet('Use by — ' + h.name,
+    '<div class="quickdays" id="qd">' + [1,2,3,5,7,10,15,30,90].map(d => '<button data-d="' + d + '">' + d + 'd</button>').join('') + '</div>'
+    + '<label class="fld"><span>Use by</span><input type="date" id="xDate" value="' + (h.useBy ? isoDate(new Date(h.useBy)) : '') + '"></label>'
+    + '<label class="fld"><span><input type="checkbox" id="xRemember" ' + (entry && entry.shelf ? 'checked' : '') + ' style="width:auto;min-height:auto;margin-right:8px;accent-color:var(--violet)"> Remember this shelf life</span>'
+    + '<em>Next time you buy ' + esc(h.name.toLowerCase()) + ', the countdown starts by itself.</em></label>'
+    + '<p class="note">Typical for ' + esc(cat.toLowerCase()) + ' is about ' + hint + ' days.</p>',
+    (h.useBy ? '<button class="btn ghost" id="xClear">Clear</button>' : '') + '<button class="btn" id="xSave">Save</button>');
   $('#qd').addEventListener('click', ev => {
     const b = ev.target.closest('[data-d]');
     if (!b) return;
     $$('#qd button').forEach(x => x.classList.remove('on'));
     b.classList.add('on');
-    const d = new Date(now() + (+b.dataset.d) * DAY);
-    $('#xDate').value = iso(d);
+    $('#xDate').value = isoDate(new Date(now() + (+b.dataset.d) * DAY));
   });
   $('#xSave').onclick = () => {
     const v = $('#xDate').value;
-    if (!v){ toast('Pick a date first'); return; }
-    const d = new Date(v + 'T12:00:00');
-    e.expiry = d.getTime();
-    e.shelf = $('#xRemember').checked ? Math.max(1, Math.round((e.expiry - (e.last || now())) / DAY)) : 0;
-    e.mtime = now();
+    if (!v) return toast('Pick a date first');
+    h.useBy = new Date(v + 'T12:00:00').getTime();
+    h.mtime = now();
+    if ($('#xRemember').checked && entry){
+      entry.shelf = Math.max(1, Math.round((h.useBy - (h.added || now())) / DAY));
+      entry.mtime = now();
+    }
     save(); closeSheet(); toast('Countdown set');
   };
-  if ($('#xClear')) $('#xClear').onclick = () => { e.expiry = 0; e.shelf = 0; e.mtime = now(); save(); closeSheet(); };
+  if ($('#xClear')) $('#xClear').onclick = () => { h.useBy = 0; h.mtime = now(); save(); closeSheet(); };
+}
+
+function editHave(id){
+  const h = state.have.find(x => x.id === id);
+  if (!h) return;
+  openSheet('Edit — ' + h.name,
+    '<label class="fld"><span>Name</span><input type="text" id="hName" value="' + esc(h.name) + '"></label>'
+    + '<label class="fld"><span>Quantity</span><input type="text" id="hQty" value="' + esc(h.qty || '') + '" placeholder="1 kg, 6 pcs…"></label>'
+    + '<label class="fld"><span>Where</span><select id="hPlace">' + PLACES.map(p => '<option' + (p === h.place ? ' selected' : '') + '>' + p + '</option>').join('') + '</select></label>'
+    + '<div class="split"><button class="btn ghost sm" id="hUseBy">Use-by date</button><button class="btn ghost sm" id="hBuy">Add to buy list</button></div>',
+    '<button class="btn ghost" id="hDel">Used up</button><button class="btn" id="hSave">Save</button>');
+  $('#hUseBy').onclick = () => openUseBy(id);
+  $('#hBuy').onclick = () => { addToBuy(h.name, h.qty); save(); closeSheet(); toast('Added to the buy list'); };
+  $('#hSave').onclick = () => {
+    const nm = titled($('#hName').value);
+    if (nm) h.name = nm;
+    h.qty = $('#hQty').value.trim();
+    h.place = $('#hPlace').value;
+    h.mtime = now();
+    save(); closeSheet(); toast('Saved');
+  };
+  $('#hDel').onclick = () => { usedUp(id); closeSheet(); };
+}
+
+function editBought(id){
+  const it = state.bought.find(x => x.id === id);
+  if (!it) return;
+  const d = dueState(it);
+  openSheet('Edit — ' + it.name,
+    '<label class="fld"><span>Name</span><input type="text" id="eName" value="' + esc(it.name) + '"></label>'
+    + '<label class="fld"><span>Aisle</span><select id="eCat">' + CATS.map(c => '<option' + (c === it.cat ? ' selected' : '') + '>' + c + '</option>').join('') + '</select></label>'
+    + '<label class="fld"><span>Usually kept in</span><select id="ePlace">' + PLACES.map(p => '<option' + (p === it.place ? ' selected' : '') + '>' + p + '</option>').join('') + '</select></label>'
+    + '<label class="fld"><span>Buy roughly every (days)</span><input type="number" id="eGap" min="1" max="365" value="' + (d.avg || '') + '" placeholder="learned from your habits"></label>'
+    + '<label class="fld"><span>Keeps for (days)</span><input type="number" id="eShelf" min="1" max="730" value="' + (it.shelf || '') + '" placeholder="sets the countdown automatically"></label>'
+    + '<div class="split"><button class="btn ghost sm" id="ePic">Picture</button><button class="btn ghost sm" id="eBuy">Add to buy list</button></div>'
+    + '<p class="note" style="margin-top:12px">Bought ' + (it.count || 0) + ' times' + (it.last ? ', last ' + days(it.last) + ' days ago' : '')
+    + (it.codes && it.codes.length ? '. ' + it.codes.length + ' barcode(s) saved' : '') + '.</p>',
+    '<button class="btn ghost" id="eDel">Delete</button><button class="btn" id="eSave">Save</button>');
+  $('#ePic').onclick = () => openThumbPicker(id);
+  $('#eBuy').onclick = () => { addToBuy(it.name, '', it.cat); save(); closeSheet(); toast('Added to the buy list'); };
+  $('#eSave').onclick = () => {
+    const nm = titled($('#eName').value);
+    if (nm) it.name = nm;
+    it.cat = $('#eCat').value;
+    it.place = $('#ePlace').value;
+    const g = parseInt($('#eGap').value, 10);
+    if (g > 0) it.gaps = [g];
+    const s = parseInt($('#eShelf').value, 10);
+    it.shelf = s > 0 ? s : 0;
+    it.mtime = now();
+    save(); closeSheet(); toast('Saved');
+  };
+  $('#eDel').onclick = () => { dropFromBought(id); closeSheet(); };
 }
 
 /* ---------------- barcode ---------------- */
@@ -1111,10 +1163,8 @@ function stopScan(){ if (scanStop){ try { scanStop(); } catch(e){} scanStop = nu
 function loadScript(src){
   return new Promise((res, rej) => {
     if (document.querySelector('script[data-src="' + src + '"]')) return res();
-    const s = document.createElement('script');
-    s.src = src; s.dataset.src = src;
-    s.onload = () => res();
-    s.onerror = () => rej(new Error('Scanner library could not load. Photograph the label instead.'));
+    const s = document.createElement('script'); s.src = src; s.dataset.src = src;
+    s.onload = () => res(); s.onerror = () => rej(new Error('Scanner library could not load. Photograph the label instead.'));
     document.head.appendChild(s);
   });
 }
@@ -1134,8 +1184,7 @@ async function nativeScan(){
   catch (e){ return sheetError('The camera was blocked. Allow camera access for this site, or photograph the label instead.'); }
   const vid = $('#scanvid');
   if (!vid){ stream.getTracks().forEach(t => t.stop()); return; }
-  vid.srcObject = stream;
-  await vid.play().catch(() => {});
+  vid.srcObject = stream; await vid.play().catch(() => {});
   let detector;
   try { detector = new window.BarcodeDetector({ formats: ['ean_13','ean_8','upc_a','upc_e','code_128','code_39','itf'] }); }
   catch (e){ detector = new window.BarcodeDetector(); }
@@ -1143,10 +1192,8 @@ async function nativeScan(){
   scanStop = () => { alive = false; stream.getTracks().forEach(t => t.stop()); };
   const tick = async () => {
     if (!alive || !document.body.contains(vid)) return;
-    try {
-      const codes = await detector.detect(vid);
-      if (codes && codes.length && codes[0].rawValue){ stopScan(); return onCode(String(codes[0].rawValue)); }
-    } catch (e){}
+    try { const codes = await detector.detect(vid);
+      if (codes && codes.length && codes[0].rawValue){ stopScan(); return onCode(String(codes[0].rawValue)); } } catch (e){}
     setTimeout(tick, 200);
   };
   tick();
@@ -1204,8 +1251,8 @@ function catFromTags(tags, name){
   return guessCat(name);
 }
 async function onCode(code){
-  const hit = state.index.find(i => (i.codes || []).includes(code));
-  if (hit){ addToList(hit.name, '', hit.cat); save(); closeSheet(); showView('list'); return toast('Added ' + hit.name); }
+  const hit = state.bought.find(i => (i.codes || []).includes(code));
+  if (hit){ addToBuy(hit.name, '', hit.cat); save(); closeSheet(); showPane('buy'); return toast('Added ' + hit.name + ' to the buy list'); }
   openSheet('Barcode ' + code, '<div class="thinking"><i class="spin"></i>Looking it up…</div>', '');
   const found = await lookupOFF(code);
   const cat = found ? catFromTags(found.tags, found.name) : 'Other';
@@ -1215,81 +1262,65 @@ async function onCode(code){
     + '<label class="fld"><span>What is it?</span><input type="text" id="bname" list="knownItems" value="' + esc(found ? found.name : '') + '" placeholder="e.g. toor dal" autocomplete="off"></label>'
     + '<label class="fld"><span>Quantity</span><input type="text" id="bqty" value="' + esc(found ? found.qty : '') + '" placeholder="1 kg"></label>'
     + '<label class="fld"><span>Aisle</span><select id="bcat">' + CATS.map(c => '<option' + (c === cat ? ' selected' : '') + '>' + c + '</option>').join('') + '</select></label>',
-    '<button class="btn ghost" id="bphoto">Read the label</button><button class="btn" id="bsave">Save &amp; add</button>');
+    '<button class="btn ghost" id="bhave">I have it</button><button class="btn" id="bbuy">To buy list</button>');
   setTimeout(() => { const el = $('#bname'); if (el && !found) el.focus(); }, 250);
-  $('#bphoto').onclick = () => { const i = $('#inCamera'); i.dataset.kind = 'barcode'; i.dataset.code = code; i.click(); };
-  $('#bsave').onclick = async () => {
+  const finish = async (dest) => {
     const name = titled($('#bname').value);
     if (!name){ $('#bname').focus(); return; }
-    const entry = saveCoded(name, $('#bcat').value, code, $('#bqty').value.trim());
-    if (found && found.img && entry && !entry.thumb){
+    const c = $('#bcat').value, qty = $('#bqty').value.trim();
+    const entry = ensureBought(name, c);
+    entry.codes = Array.from(new Set([...(entry.codes || []), String(code)]));
+    entry.cat = c; entry.mtime = now();
+    if (dest === 'have') recordPurchase(name, qty, c); else addToBuy(name, qty, c);
+    save(); closeSheet(); showPane(dest === 'have' ? 'have' : 'buy');
+    toast(name + ' — barcode saved');
+    if (found && found.img && !entry.thumb){
       const t = await thumbFromURL(found.img);
-      const live = state.index.find(x => x.id === entry.id);
+      const live = state.bought.find(x => x.id === entry.id);
       if (live){ live.thumb = t; live.mtime = now(); writeLocal(); renderAll(); queuePush(); }
     }
   };
-}
-function saveCoded(name, cat, code, qty){
-  const entry = ensureIndexEntry(name, cat);
-  if (code) entry.codes = Array.from(new Set([...(entry.codes || []), String(code)]));
-  entry.cat = cat || entry.cat; entry.mtime = now();
-  addToList(name, qty || '', entry.cat);
-  save(); closeSheet(); showView('list');
-  toast('Added ' + name + (code ? ' — barcode saved' : ''));
-  return entry;
+  $('#bbuy').onclick = () => finish('buy');
+  $('#bhave').onclick = () => finish('have');
 }
 
 /* ---------------- typed batch ---------------- */
 function typeMany(){
   openSheet('Type a few items',
-    '<label class="fld"><span>One per line</span><textarea id="bulk" rows="8" placeholder="toor dal 1 kg&#10;dahi&#10;bhindi 500 g&#10;banana 6&#10;agarbatti"></textarea></label>'
-    + '<p class="note">A plain number means pieces — “banana 6” becomes 6 pcs, “potatoes 4” becomes 4 pcs. Units work either side: “1 kg atta” or “atta 1 kg”.</p>',
-    '<button class="btn ghost" id="bulkCancel">Cancel</button><button class="btn" id="bulkAdd">Add to list</button>');
+    '<div class="seg" id="typeSeg"><button data-dest="buy" class="on">To buy</button><button data-dest="have">I have it</button><button data-dest="record">Record only</button></div>'
+    + '<label class="fld"><span>One per line</span><textarea id="bulk" rows="8" placeholder="toor dal 1 kg&#10;dahi&#10;bhindi 500 g&#10;banana 6&#10;agarbatti"></textarea></label>'
+    + '<p class="note">A plain number means pieces — “banana 6” becomes 6 pcs. Units work either side: “1 kg atta” or “atta 1 kg”.</p>',
+    '<button class="btn ghost" id="bulkCancel">Cancel</button><button class="btn" id="bulkAdd">Add</button>');
+  let dest = 'buy';
+  $('#typeSeg').addEventListener('click', e => {
+    const b = e.target.closest('[data-dest]');
+    if (!b) return;
+    dest = b.dataset.dest;
+    $$('#typeSeg button').forEach(x => x.classList.toggle('on', x === b));
+  });
   setTimeout(() => { const el = $('#bulk'); if (el) el.focus(); }, 250);
   $('#bulkCancel').onclick = closeSheet;
   $('#bulkAdd').onclick = () => {
     const lines = $('#bulk').value.split('\n').map(s => s.trim()).filter(Boolean);
     let n = 0;
-    for (const line of lines){ const it = parseLine(line); if (it){ ensureIndexEntry(it.name, it.cat); n++; } }
-    save(); closeSheet(); showView('list');
-    toast(n ? (n === 1 ? 'Added 1 item' : 'Added ' + n + ' items') : 'Nothing to add');
+    for (const line of lines){
+      const p = splitQty(line);
+      if (!p) continue;
+      if (dest === 'buy'){ ensureBought(p.name); addToBuy(p.name, p.qty); }
+      else if (dest === 'have') recordPurchase(p.name, p.qty);
+      else ensureBought(p.name);
+      n++;
+    }
+    save(); closeSheet();
+    showPane(dest === 'buy' ? 'buy' : dest === 'have' ? 'have' : 'bought');
+    toast(n ? n + (n === 1 ? ' item added' : ' items added') : 'Nothing to add');
   };
-}
-
-/* ---------------- index editing ---------------- */
-function editIndexItem(id){
-  const it = state.index.find(x => x.id === id);
-  if (!it) return;
-  const d = dueState(it);
-  openSheet('Edit item',
-    '<label class="fld"><span>Name</span><input type="text" id="ename" value="' + esc(it.name) + '"></label>'
-    + '<label class="fld"><span>Aisle</span><select id="ecat">' + CATS.map(c => '<option' + (c === it.cat ? ' selected' : '') + '>' + c + '</option>').join('') + '</select></label>'
-    + '<label class="fld"><span>Buy roughly every (days)</span><input type="number" id="egap" min="1" max="365" value="' + (d.avg || '') + '" placeholder="learned from your habits"></label>'
-    + '<div class="split" style="margin-bottom:14px"><button class="btn ghost sm" id="ePic">Picture</button><button class="btn ghost sm" id="eExp">Expiry</button></div>'
-    + '<p class="note">Bought ' + (it.count || 0) + ' times' + (it.last ? ', last ' + days(it.last) + ' days ago' : '')
-    + (it.codes && it.codes.length ? '. ' + it.codes.length + ' barcode(s) saved' : '') + '.</p>',
-    '<button class="btn ghost" id="edel">Delete</button><button class="btn" id="esave">Save</button>');
-  $('#ePic').onclick = () => openThumbPicker(id);
-  $('#eExp').onclick = () => openExpiry(id);
-  $('#esave').onclick = () => {
-    const name = titled($('#ename').value);
-    if (name) it.name = name;
-    it.cat = $('#ecat').value;
-    const g = parseInt($('#egap').value, 10);
-    if (g > 0) it.gaps = [g];
-    it.mtime = now();
-    save(); closeSheet(); toast('Saved');
-  };
-  $('#edel').onclick = () => { dropFromIndex(id); closeSheet(); };
 }
 
 /* ---------------- settings ---------------- */
-function dataSize(){
-  const bytes = new Blob([JSON.stringify(state)]).size;
-  return (bytes / 1024).toFixed(0) + ' KB';
-}
+function dataSize(){ return (new Blob([JSON.stringify(state)]).size / 1024).toFixed(0) + ' KB'; }
 function openSettings(){
-  const thumbs = state.index.filter(i => i.thumb).length;
+  const thumbs = state.bought.filter(i => i.thumb).length;
   openSheet('Settings',
     '<p class="eyebrow">Photo reading</p>'
     + '<label class="fld"><span>Gemini API key</span><input type="password" id="sKey" value="' + esc(conf.geminiKey) + '" placeholder="AIza…" autocomplete="off"><em>Free from Google AI Studio. Stored only in this browser.</em></label>'
@@ -1302,10 +1333,10 @@ function openSettings(){
     + '<div id="sMsg" style="margin-top:14px"></div>'
     + '<hr class="sep"><p class="eyebrow">Data</p>'
     + '<label class="fld"><span><input type="checkbox" id="sOFF"' + (conf.useOFF ? ' checked' : '') + ' style="width:auto;min-height:auto;margin-right:8px;accent-color:var(--violet)"> Look barcodes up on Open Food Facts</span></label>'
-    + '<p class="note" style="margin-bottom:14px">' + state.index.length + ' items in the index, ' + thumbs + ' with pictures. Total ' + dataSize() + '.</p>'
-    + '<div class="split"><button class="btn ghost sm" id="sExport">Export backup</button><button class="btn ghost sm" id="sWipe">Clear this device</button></div>',
+    + '<p class="note" style="margin-bottom:14px">' + state.have.length + ' in the house · ' + state.bought.length + ' in the record, ' + thumbs + ' with pictures · ' + dataSize() + ' total.</p>'
+    + '<div class="split"><button class="btn ghost sm" id="sExport">Export backup</button><button class="btn ghost sm" id="sImport">Restore</button></div>'
+    + '<div class="split" style="margin-top:10px"><button class="btn ghost sm" id="sWipe">Clear this device</button></div>',
     '<button class="btn" id="sSave">Save settings</button>');
-
   const msg = t => { $('#sMsg').innerHTML = t; };
   $('#sSave').onclick = () => {
     conf.geminiKey = $('#sKey').value.trim();
@@ -1342,8 +1373,9 @@ function openSettings(){
     catch (e){ msg('<div class="err">' + esc(e.message) + '</div>'); }
   };
   $('#sExport').onclick = exportData;
+  $('#sImport').onclick = () => $('#fileImport').click();
   $('#sWipe').onclick = () => {
-    msg('<div class="err">This clears the list and index on this device. Synced copies return on the next sync.<br><br><button class="btn sm" id="sWipeYes" style="background:var(--red)">Yes, clear it</button></div>');
+    msg('<div class="err">This clears everything on this device. Synced copies return on the next sync.<br><br><button class="btn sm" id="sWipeYes" style="background:var(--red)">Yes, clear it</button></div>');
     setTimeout(() => { const b = $('#sWipeYes'); if (b) b.onclick = () => { state = blank(); writeLocal(); renderAll(); closeSheet(); toast('Cleared'); }; }, 30);
   };
 }
@@ -1362,8 +1394,8 @@ function importData(file){
   const r = new FileReader();
   r.onload = () => {
     try {
-      const incoming = JSON.parse(r.result);
-      if (!incoming || !Array.isArray(incoming.list)) throw new Error('bad file');
+      const incoming = migrate(JSON.parse(r.result));
+      if (!incoming) throw new Error('bad file');
       state = mergeState(state, incoming); save(); toast('Backup merged in');
     } catch (e){ toast('That file is not a Restock backup'); }
   };
@@ -1371,73 +1403,78 @@ function importData(file){
 }
 
 /* ---------------- events ---------------- */
-function showView(v){
-  $$('.view').forEach(s => s.classList.toggle('on', s.id === 'v-' + v));
-  $$('.tab').forEach(t => t.classList.toggle('on', t.dataset.view === v));
+function showPane(v){
+  $$('.pane').forEach(s => s.classList.toggle('on', s.id === 'p-' + v));
+  $$('.tab').forEach(t => t.classList.toggle('on', t.dataset.pane === v));
   window.scrollTo(0, 0);
 }
-$$('.tab').forEach(t => t.onclick = () => showView(t.dataset.view));
+$$('.tab').forEach(t => t.onclick = () => showPane(t.dataset.pane));
+$('#addBtn').onclick = openAdd;
+$('#setBtn').onclick = openSettings;
+$('#syncBtn').onclick = () => { if (gistReady()) pull(false); else openSettings(); };
 
 $('#quickAdd').onclick = () => {
   const el = $('#quickName');
   if (!el.value.trim()) return el.focus();
-  const it = parseLine(el.value.trim());
-  if (it) ensureIndexEntry(it.name, it.cat);
+  const p = splitQty(el.value.trim());
+  if (p){ ensureBought(p.name); addToBuy(p.name, p.qty); }
   el.value = ''; save(); el.focus();
 };
 $('#quickName').addEventListener('keydown', e => { if (e.key === 'Enter') $('#quickAdd').click(); });
 
-$('#listBody').addEventListener('click', e => {
-  const buy = e.target.closest('[data-buy]');
-  if (buy){
-    buy.classList.add('on');
-    buy.closest('.row').classList.add('going');
-    const id = buy.dataset.buy;
-    setTimeout(() => markBought(id), 240);
+$('#buyBody').addEventListener('click', e => {
+  const tk = e.target.closest('[data-tick]');
+  if (tk){
+    tk.classList.add('on');
+    tk.closest('.r').classList.add('going');
+    const id = tk.dataset.tick;
+    setTimeout(() => tickOffBuy(id), 240);
     return;
   }
-  const del = e.target.closest('[data-del]');
-  if (del) dropFromList(del.dataset.del);
+  const del = e.target.closest('[data-buydel]');
+  if (del) dropFromBuy(del.dataset.buydel);
 });
 
-document.addEventListener('click', e => { if (e.target.closest('[data-open-settings]')) openSettings(); });
-
-$('#ixChips').addEventListener('click', e => {
-  const c = e.target.closest('[data-filter]');
+$('#haveBody').addEventListener('click', e => {
+  const ub = e.target.closest('[data-useby]');
+  if (ub) return openUseBy(ub.dataset.useby);
+  const ed = e.target.closest('[data-hedit]');
+  if (ed) return editHave(ed.dataset.hedit);
+  const th = e.target.closest('[data-hthumb]');
+  if (th){ const en = ensureBought(th.dataset.hthumb); writeLocal(); return openThumbPicker(en.id); }
+  const up = e.target.closest('[data-used]');
+  if (up){
+    up.closest('.r').classList.add('going');
+    const id = up.dataset.used;
+    setTimeout(() => usedUp(id), 240);
+  }
+});
+$('#haveChips').addEventListener('click', e => {
+  const c = e.target.closest('[data-place]');
   if (!c) return;
-  ixFilter = c.dataset.filter;
-  renderIndexView();
+  havePlace = c.dataset.place; renderHave();
 });
 
-$('#ixBody').addEventListener('click', e => {
+$('#boughtBody').addEventListener('click', e => {
   const th = e.target.closest('[data-thumb]');
   if (th) return openThumbPicker(th.dataset.thumb);
-  const xp = e.target.closest('[data-exp]');
-  if (xp) return openExpiry(xp.dataset.exp);
-  const add = e.target.closest('[data-ixadd]');
-  if (add){
-    const it = state.index.find(x => x.id === add.dataset.ixadd);
+  const ed = e.target.closest('[data-bedit]');
+  if (ed) return editBought(ed.dataset.bedit);
+  const tb = e.target.closest('[data-queue]');
+  if (tb){
+    const it = state.bought.find(x => x.id === tb.dataset.queue);
     if (!it) return;
-    if (state.list.some(l => norm(l.name) === norm(it.name))){
-      state.list.filter(l => norm(l.name) === norm(it.name)).forEach(g => state.tombs.push({ id: g.id, t: now() }));
-      state.list = state.list.filter(l => norm(l.name) !== norm(it.name));
-      save(); return toast('Taken off the list');
+    if (state.buy.some(l => norm(l.name) === norm(it.name))){
+      state.buy.filter(l => norm(l.name) === norm(it.name)).forEach(g => state.tombs.push({ id: g.id, t: now() }));
+      state.buy = state.buy.filter(l => norm(l.name) !== norm(it.name));
+      save(); return toast('Taken off the buy list');
     }
-    addToList(it.name, '', it.cat); save(); toast('Added ' + it.name);
-    return;
+    addToBuy(it.name, '', it.cat); save(); toast('Added ' + it.name + ' to the buy list');
   }
-  const ed = e.target.closest('[data-ixedit]');
-  if (ed) editIndexItem(ed.dataset.ixedit);
 });
-
-$('#ixSearch').addEventListener('input', renderIndexView);
-$('#ixSort').addEventListener('change', renderIndexView);
-
-$('#capList').onclick = () => { const i = $('#inCamera'); i.dataset.kind = 'photo'; delete i.dataset.code; i.click(); };
-$('#capCamera').onclick = () => { const i = $('#inCamera'); i.dataset.kind = 'photo'; delete i.dataset.code; i.click(); };
-$('#capPhoto').onclick = () => $('#inPhoto').click();
-$('#capBarcode').onclick = startScan;
-$('#capType').onclick = typeMany;
+$('#bqSearch').addEventListener('input', renderBought);
+$('#bqSort').addEventListener('change', renderBought);
+document.addEventListener('click', e => { if (e.target.closest('[data-open-settings]')) openSettings(); });
 
 function handleFile(input){
   const file = input.files && input.files[0];
@@ -1452,11 +1489,13 @@ function handleFile(input){
       const it = items[0];
       const code = pendingCode || it.code || '';
       const cat = CATS.includes(it.category) ? it.category : guessCat(it.name);
-      const entry = saveCoded(titled(it.name), cat, code ? String(code) : '', it.qty || '');
-      if (entry && !entry.thumb){
-        try { const t = await thumbFromFile(file); const live = state.index.find(x => x.id === entry.id);
-          if (live){ live.thumb = t; live.mtime = now(); writeLocal(); renderAll(); queuePush(); } } catch (e){}
-      }
+      const entry = ensureBought(titled(it.name), cat);
+      if (code) entry.codes = Array.from(new Set([...(entry.codes || []), String(code)]));
+      entry.mtime = now();
+      addToBuy(entry.name, it.qty || '', cat);
+      if (!entry.thumb){ try { entry.thumb = await thumbFromFile(file); } catch (e){} }
+      save(); closeSheet(); showPane('buy');
+      toast(entry.name + ' added' + (code ? ' — barcode saved' : ''));
     });
     return;
   }
@@ -1469,17 +1508,15 @@ $('#inThumb').addEventListener('change', async () => {
   $('#inThumb').value = '';
   if (!f || !pendingThumb) return;
   const id = pendingThumb.entryId;
-  try { setThumb(id, await thumbFromFile(f)); closeSheet(); }
-  catch (e){ toast('That picture could not be used'); }
+  try { setThumb(id, await thumbFromFile(f)); closeSheet(); } catch (e){ toast('That picture could not be used'); }
 });
 
-$('#btnExport').onclick = exportData;
-$('#btnImport').onclick = () => $('#fileImport').click();
-$('#fileImport').addEventListener('change', e => { const f = e.target.files[0]; if (f) importData(f); e.target.value = ''; });
-$('#setBtn').onclick = openSettings;
-$('#syncBtn').onclick = () => { if (gistReady()) pull(false); else openSettings(); };
+const fi = document.createElement('input');
+fi.type = 'file'; fi.accept = 'application/json,.json'; fi.id = 'fileImport'; fi.hidden = true;
+document.body.appendChild(fi);
+fi.addEventListener('change', e => { const f = e.target.files[0]; if (f) importData(f); e.target.value = ''; });
 
-document.addEventListener('visibilitychange', () => { if (!document.hidden){ pull(true); renderIndexView(); } });
+document.addEventListener('visibilitychange', () => { if (!document.hidden){ pull(true); renderHave(); } });
 window.addEventListener('focus', () => pull(true));
 window.addEventListener('online', () => pull(true));
 window.addEventListener('offline', () => setSync('warn', 'offline'));
@@ -1490,7 +1527,7 @@ window.addEventListener('offline', () => setSync('warn', 'offline'));
   renderAll();
   if (gistReady()) pull(true); else setSync('off', 'local');
   setInterval(() => { if (!document.hidden && gistReady()) pull(true); }, 30000);
-  setInterval(renderIndexView, 3600000);   // countdowns tick over on their own
+  setInterval(() => { renderHave(); renderBought(); }, 3600000);
   if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
 })();
 </script>
